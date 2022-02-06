@@ -3,10 +3,9 @@
 # TODO
 1. Let users record a video
 2. Display the video on the screen
-3. Adding the progress bar for time
-4. Let users manipulate the parameters 
+3. Let users manipulate the parameters 
    (e.g., image smoothing, brightness, contrast, etc.)
-5. Show the adjustments on the video 
+4. Show the adjustments on the video 
 
 # appendix
 ### robots.txt
