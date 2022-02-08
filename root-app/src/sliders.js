@@ -12,10 +12,9 @@ const Sliders = ({setContrast,setBrightness,setSaturate}) => {
     }
     return (
     <div>
-        <Slider defaultValue={50} aria-label="contrast" valueLabelDisplay="auto" onChange={handleChangeContrast}/>
-        <Slider defaultValue={50} aria-label="brightness" valueLabelDisplay="auto" onChange={handleChangeBrightness}/>
-        <Slider defaultValue={50} aria-label="saturate" valueLabelDisplay="auto" onChange={handleChangeSaturate}/>
-        <Slider defaultValue={50} aria-label="Default" valueLabelDisplay="auto" />
+        <Slider min={0} max={300} defaultValue={100} aria-label="contrast" valueLabelDisplay="auto" onChange={handleChangeContrast}/>
+        <Slider min={0} max={300} defaultValue={100} aria-label="brightness" valueLabelDisplay="auto" onChange={handleChangeBrightness}/>
+        <Slider min={0} max={300} defaultValue={100} aria-label="saturate" valueLabelDisplay="auto" onChange={handleChangeSaturate}/>
     </div>
     );
 };

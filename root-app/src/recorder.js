@@ -6,7 +6,7 @@ const Recorder = ({contrast,brightness,saturate}) => {
     const [imgSrc, setImgSrc] = React.useState(null);
 
     const filters = {
-        filter: ('contrast(' + contrast + '%)', 'brightness(' + brightness + '%)', 'saturate(' + saturate + '%)')
+        filter: `contrast(${contrast}%) brightness(${brightness}%) saturate(${saturate}%)`
     };
 
     const capture = React.useCallback(() => { 
