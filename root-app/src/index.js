@@ -14,14 +14,14 @@ const App = () => {
   return (
   <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
-        <Grid item xs={6}>
-        <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate}/>
+      <Grid item xs={6}>
+        <Recorder contrast={contrast} brightness={brightness} saturate={saturate}/>
         </Grid>
         <Grid item xs={6}>
           <h1>First</h1>
         </Grid>
         <Grid item xs={6}>
-        <Recorder contrast={contrast} brightness={brightness} saturate={saturate}/>
+        <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate}/>
         </Grid>
         <Grid item xs={6}>
         <h1>Second</h1>
