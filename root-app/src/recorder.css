@@ -1,0 +1,9 @@
+.webcam-container {
+  position: relative;
+}
+
+.overlay-container {
+  position: absolute;
+  top: 75%;
+  left: 35%;
+}

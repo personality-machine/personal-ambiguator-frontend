@@ -1,11 +1,28 @@
 import React from 'react';
 import Webcam from 'react-webcam';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
+import StopCircleIcon from '@mui/icons-material/StopCircle';
+import './recorder.css';
+import { style } from '@mui/system';
 
 const Recorder = ({setImgSrc,setVideoSrc}) => {
     const webcamRef = React.useRef(null); // persistent reference cause no rerendering
     const mediaRecorderRef = React.useRef(null);
     const [capturing, setCapturing] = React.useState(false);
     const [recordedChunks, setRecordedChunks] = React.useState([]);
+
+    const style = {
+      recordButton: {
+        width: 86, height: 86,
+        padding: 0,
+      },
+      recordIcon: {
+        width: 86, height: 86,
+        color: '#0059b3'
+      },
+    }
 
     const handleDataAvailable = React.useCallback(
       ({ data }) => {
@@ -50,6 +67,7 @@ const Recorder = ({setImgSrc,setVideoSrc}) => {
 
     return (
     <div>
+      <div className="webcam-container">
       <Webcam
         width="auto"
         mirrored
@@ -57,11 +75,14 @@ const Recorder = ({setImgSrc,setVideoSrc}) => {
         ref={webcamRef}
         screenshotFormat="image/jpeg"
       />
-      <button onClick={capture}>Capture photo</button>
+      <div className="overlay-container">
       {capturing ? 
-      (<button onClick={handleStopCaptureClick}>Stop capture video</button>) 
-      : (<button onClick={handleStartCaptureClick}>Start capture video</button>)}
-      <button onClick={handleShowVideo}>Show video</button>
+      (<IconButton style={style.recordButton} variant='contained' aria-label="stop-video" onClick={handleStopCaptureClick}><StopCircleIcon style={style.recordIcon}/></IconButton>)
+      : (<IconButton style={style.recordButton} variant='contained' aria-label="start-video" onClick={handleStartCaptureClick}><PlayCircleFilledIcon style={style.recordIcon}/></IconButton>)}
+      </div>
+      </div>
+      <Button onClick={capture}>Capture photo</Button>
+      <Button onClick={handleShowVideo}>Show video</Button>
     </div>
     );
 };
