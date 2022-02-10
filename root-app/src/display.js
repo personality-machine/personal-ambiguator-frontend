@@ -7,8 +7,13 @@ const Display = ({contrast,brightness,saturate,imgSrc,videoSrc}) => {
 
     return (
         <div>
-        {imgSrc && (<img src={imgSrc} alt="" style={filters}/>)}
-        {videoSrc && (<video controls width="auto" style={filters}> <source src={videoSrc} type="video/webm"></source></video>)}
+          {imgSrc &&
+          (<img src={imgSrc} alt="" style={filters} width="100%"/>)}
+          {videoSrc &&
+          (<video controls width="100%" mirrored style={filters}>
+            <source src={videoSrc} type="video/webm"></source>
+          </video>)
+          }
         </div>
     );
 }

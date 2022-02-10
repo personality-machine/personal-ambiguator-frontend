@@ -1,4 +1,6 @@
 import React from 'react';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import Webcam from 'react-webcam';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
@@ -14,8 +16,8 @@ const Recorder = ({setImgSrc,setVideoSrc}) => {
 
     const style = {
       recordButton: {
-        width: 86, height: 86,
-        padding: 0,
+        width: '20%', height: '20%',
+        //padding: 0,
       },
       recordIcon: {
         width: 86, height: 86,
@@ -63,24 +65,40 @@ const Recorder = ({setImgSrc,setVideoSrc}) => {
     }, [webcamRef, setImgSrc]);
 
     return (
-    <div>
-      <div className="webcam-container">
-      <Webcam
-        width="auto"
-        audio={false}
-        mirrored
-        ref={webcamRef}
-        screenshotFormat="image/jpeg"
-      />
-      <div className="overlay-container">
-      {capturing ? 
-      (<IconButton style={style.recordButton} variant='contained' aria-label="stop-video" onClick={handleStopCaptureClick}><StopCircleIcon style={style.recordIcon}/></IconButton>)
-      : (<IconButton style={style.recordButton} variant='contained' aria-label="start-video" onClick={handleStartCaptureClick}><PlayCircleFilledIcon style={style.recordIcon}/></IconButton>)}
-      </div>
-      </div>
+    <Box sx={{ flexGrow:1 }}>
+      <Grid className="webcam-container" container spacing={2} alignItems="centre">
+        <Grid item xs={12}>
+          <Webcam
+            width='100%'
+            mirrored
+            audio={false}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+          />
+        </Grid>
+        <Grid className="overlay-container" item xs={12}>
+        {capturing ? 
+          (<IconButton
+            style={style.recordButton}
+            alignItem="center"
+            variant='contained'
+            aria-label="stop-video"
+            onClick={handleStopCaptureClick}>
+            <StopCircleIcon style={style.recordIcon}/>
+          </IconButton>)
+        : (<IconButton
+            style={style.recordButton}
+            align="center"
+            variant="outlined"
+            aria-label="start-video"
+            onClick={handleStartCaptureClick}>
+            <PlayCircleFilledIcon style={style.recordIcon}/>
+        </IconButton>)}
+        </Grid>
+      </Grid>
       <Button onClick={capture}>Capture photo</Button>
       <Button onClick={handleShowVideo}>Show video</Button>
-    </div>
+    </Box>
     );
 };
 
