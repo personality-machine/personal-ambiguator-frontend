@@ -5,7 +5,6 @@ import IconButton from '@mui/material/IconButton';
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import './recorder.css';
-import { style } from '@mui/system';
 
 const Recorder = ({setImgSrc,setVideoSrc}) => {
     const webcamRef = React.useRef(null); // persistent reference cause no rerendering
@@ -33,14 +32,15 @@ const Recorder = ({setImgSrc,setVideoSrc}) => {
       [setRecordedChunks]
     );
 
-    const handleShowVideo = React.useCallback(() => {
-      if (recordedChunks.length && mediaRecorderRef.current.state === "inactive"){
+    const handleShowVideo = React.useEffect(() => {
+      console.log(recordedChunks.length);
+      if (recordedChunks.length){
         const blob = new Blob(recordedChunks, {type: "video/webm"});
         const url = URL.createObjectURL(blob);
         setVideoSrc(url);
         setRecordedChunks([]);
       }
-    }, [recordedChunks])
+    }, [recordedChunks, setVideoSrc])
 
     const handleStartCaptureClick = React.useCallback(() => {
       setCapturing(true);
@@ -48,16 +48,13 @@ const Recorder = ({setImgSrc,setVideoSrc}) => {
       mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
         mimeType: "video/webm"
       });
-      mediaRecorderRef.current.addEventListener(
-        "dataavailable",
-        handleDataAvailable,
-      );
+      mediaRecorderRef.current.ondataavailable = handleDataAvailable;
       mediaRecorderRef.current.start();
-    }, [webcamRef, setCapturing, mediaRecorderRef, handleDataAvailable, handleShowVideo]);
+    }, [webcamRef, setCapturing, mediaRecorderRef, handleDataAvailable, setVideoSrc]);
 
     const handleStopCaptureClick = React.useCallback(() => {
-      mediaRecorderRef.current.stop();
       setCapturing(false);
+      mediaRecorderRef.current.stop();
     }, [mediaRecorderRef, setCapturing]);
 
     const capture = React.useCallback(() => { 
@@ -70,8 +67,8 @@ const Recorder = ({setImgSrc,setVideoSrc}) => {
       <div className="webcam-container">
       <Webcam
         width="auto"
-        mirrored
         audio={false}
+        mirrored
         ref={webcamRef}
         screenshotFormat="image/jpeg"
       />
