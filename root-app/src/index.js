@@ -5,6 +5,7 @@ import Grid from '@mui/material/Grid';
 import Recorder from './recorder';
 import Sliders from  './sliders';
 import Display from './display';
+import Predict from './tensorflow_test';
 import './index.css';
 
 const App = () => {
