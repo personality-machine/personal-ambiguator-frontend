@@ -9,7 +9,7 @@ import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import './recorder.css';
 
-const Recorder = ({setImgSrc,setVideoSrc}) => {
+const Recorder = ({setImgSrc,setVideoSrc, setRecorded}) => {
     const webcamRef = React.useRef(null); // persistent reference cause no rerendering
     const mediaRecorderRef = React.useRef(null);
     const [capturing, setCapturing] = React.useState(false);
@@ -36,12 +36,12 @@ const Recorder = ({setImgSrc,setVideoSrc}) => {
     );
 
     const handleShowVideo = React.useEffect(() => {
-      console.log(recordedChunks.length);
       if (recordedChunks.length){
         const blob = new Blob(recordedChunks, {type: "video/webm"});
         const url = URL.createObjectURL(blob);
         setVideoSrc(url);
         setRecordedChunks([]);
+        setRecorded(true);
       }
     }, [recordedChunks, setVideoSrc])
 
@@ -70,7 +70,7 @@ const Recorder = ({setImgSrc,setVideoSrc}) => {
       <Grid className="webcam-container" container spacing={2} alignItems="center" justifyContent="center">
         <Grid item xs={12}>
           <Webcam
-            width='100%'
+            width='50%'
             mirrored
             audio={false}
             ref={webcamRef}
@@ -98,7 +98,6 @@ const Recorder = ({setImgSrc,setVideoSrc}) => {
         </Grid>
       </Grid>
       <Button onClick={capture}>Capture photo</Button>
-      <Button onClick={handleShowVideo}>Show video</Button>
     </Box>
     );
 };
