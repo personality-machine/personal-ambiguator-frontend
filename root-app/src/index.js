@@ -2,6 +2,7 @@ import React from 'react';
 import {render} from 'react-dom';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
 import Recorder from './recorder';
 import Sliders from  './sliders';
 import Display from './display';
@@ -15,12 +16,17 @@ const App = () => {
   const [videoSrc, setVideoSrc] = React.useState(null);
   const [recorded, setRecorded] = React.useState(false);
 
+  const handleRecordAgain = () => {
+    setRecorded(false);
+  }
+
   return (
   <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={3}>
         <Grid item xs={3}/>
         <Grid item xs={6}>
-          {recorded ? <Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} videoSrc={videoSrc}/> :
+          {recorded ? 
+          [<Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} videoSrc={videoSrc}/>, <Button onClick={handleRecordAgain}>Record Again</Button>] :
           <Recorder setImgSrc={setImgSrc} setVideoSrc={setVideoSrc} setRecorded={setRecorded} />}
         </Grid>
         {/*size 3 containers used for centering can be filled*/}
