@@ -20,7 +20,7 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
         //padding: 0,
       },
       recordIcon: {
-        width: '100%', height: '100%',
+        width: '50%', height: '50%',
         color: '#000000'
       },
       normalButton: {
@@ -80,7 +80,7 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
             screenshotFormat="image/jpeg"
           />
         </Grid>
-        <Grid item className="overlay-container" xs={4} justifyContent="center">
+        <Grid item className="overlay-container" xs={12} justifyContent="center">
         {capturing ? 
           (<IconButton
             style={style.recordButton}

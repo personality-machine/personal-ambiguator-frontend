@@ -4,6 +4,8 @@
 
 .overlay-container {
   position: absolute;
-  top: 75%;
-  left: 35%;
+  top: 60%;
+  left: 5%;
+  width: 90%;
+  height: 90%;
 }
