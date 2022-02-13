@@ -31,12 +31,11 @@ const App = () => {
         </Grid>
         {/*size 3 containers used for centering can be filled*/}
         <Grid item xs={3}/>
-        <Grid item xs={6}>
-          <h1>Hello</h1>
-        </Grid>
+        <Grid item xs={3}/>
         <Grid item xs={6}>
         <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate}/>
         </Grid>
+        <Grid item xs={3}/>
         <Grid item xs={12}>
           <h1>Hello</h1>
         </Grid>
