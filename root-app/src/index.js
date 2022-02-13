@@ -14,27 +14,26 @@ const App = () => {
   const [saturate, setSaturate] = React.useState(100);
   const [imgSrc, setImgSrc] = React.useState(null);
   const [videoSrc, setVideoSrc] = React.useState(null);
-  const [recorded, setRecorded] = React.useState(false);
+  const [recordVideo, setRecordVideo] = React.useState(false);
+  const [capturePhoto, setCapturePhoto] = React.useState(false);
 
   const handleRecordAgain = () => {
-    setRecorded(false);
+    setRecordVideo(false);
+    setCapturePhoto(false);
   }
 
   return (
   <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={3}>
+      <Grid container spacing={2}>
         <Grid item xs={3}/>
         <Grid item xs={6}>
-          {recorded ? 
-          [<Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} videoSrc={videoSrc}/>, <Button onClick={handleRecordAgain}>Record Again</Button>] :
-          <Recorder setImgSrc={setImgSrc} setVideoSrc={setVideoSrc} setRecorded={setRecorded} />}
+          {recordVideo || capturePhoto ? 
+          [<Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} videoSrc={videoSrc} recordVideo={recordVideo} capturePhoto={capturePhoto}/>, 
+            <Button onClick={handleRecordAgain}>Record Again</Button>, 
+            <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate}/>] :
+          <Recorder setImgSrc={setImgSrc} setVideoSrc={setVideoSrc} setRecordVideo={setRecordVideo} setCapturePhoto={setCapturePhoto}/>}
         </Grid>
         {/*size 3 containers used for centering can be filled*/}
-        <Grid item xs={3}/>
-        <Grid item xs={3}/>
-        <Grid item xs={6}>
-        <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate}/>
-        </Grid>
         <Grid item xs={3}/>
         <Grid item xs={12}>
           <h1>Hello</h1>

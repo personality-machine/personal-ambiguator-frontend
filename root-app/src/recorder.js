@@ -4,12 +4,11 @@ import Box from '@mui/material/Box';
 import Webcam from 'react-webcam';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import './recorder.css';
 
-const Recorder = ({setImgSrc,setVideoSrc, setRecorded}) => {
+const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
     const webcamRef = React.useRef(null); // persistent reference cause no rerendering
     const mediaRecorderRef = React.useRef(null);
     const [capturing, setCapturing] = React.useState(false);
@@ -41,7 +40,7 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecorded}) => {
         const url = URL.createObjectURL(blob);
         setVideoSrc(url);
         setRecordedChunks([]);
-        setRecorded(true);
+        setRecordVideo(true);
       }
     }, [recordedChunks, setVideoSrc])
 
@@ -63,6 +62,7 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecorded}) => {
     const capture = React.useCallback(() => { 
         const imgSrc = webcamRef.current.getScreenshot();
         setImgSrc(imgSrc);
+        setCapturePhoto(true);
     }, [webcamRef, setImgSrc]);
 
     return (
