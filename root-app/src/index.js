@@ -13,18 +13,23 @@ const App = () => {
   const [saturate, setSaturate] = React.useState(100);
   const [imgSrc, setImgSrc] = React.useState(null);
   const [videoSrc, setVideoSrc] = React.useState(null);
+  const [recorded, setRecorded] = React.useState(false);
 
   return (
   <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-        <Recorder setImgSrc={setImgSrc} setVideoSrc={setVideoSrc}/>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          {recorded ? <Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} videoSrc={videoSrc}/> :
+          <Recorder setImgSrc={setImgSrc} setVideoSrc={setVideoSrc} setRecorded={setRecorded} />}
         </Grid>
         <Grid item xs={6}>
-        <Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} videoSrc={videoSrc}/>
+          <h1>Hello</h1>
+        </Grid>
+        <Grid item xs={6}>
+        <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate}/>
         </Grid>
         <Grid item xs={12}>
-        <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate}/>
+          <h1>Hello</h1>
         </Grid>
       </Grid>
     </Box>
