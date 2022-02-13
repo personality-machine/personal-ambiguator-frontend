@@ -5,6 +5,7 @@ import Webcam from 'react-webcam';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import './recorder.css';
 
@@ -16,11 +17,11 @@ const Recorder = ({setImgSrc,setVideoSrc}) => {
 
     const style = {
       recordButton: {
-        width: '20%', height: '20%',
+        width: '50%', height: '50%',
         //padding: 0,
       },
       recordIcon: {
-        width: 86, height: 86,
+        width: '100%', height: '100%',
         color: '#0059b3'
       },
     }
@@ -66,7 +67,7 @@ const Recorder = ({setImgSrc,setVideoSrc}) => {
 
     return (
     <Box sx={{ flexGrow:1 }}>
-      <Grid className="webcam-container" container spacing={2} alignItems="centre">
+      <Grid className="webcam-container" container spacing={2} alignItems="center" justifyContent="center">
         <Grid item xs={12}>
           <Webcam
             width='100%'
@@ -76,7 +77,7 @@ const Recorder = ({setImgSrc,setVideoSrc}) => {
             screenshotFormat="image/jpeg"
           />
         </Grid>
-        <Grid className="overlay-container" item xs={12}>
+        <Grid className="overlay-container" container xs={4} alignItems="center" justifyContent="center">
         {capturing ? 
           (<IconButton
             style={style.recordButton}
@@ -92,7 +93,7 @@ const Recorder = ({setImgSrc,setVideoSrc}) => {
             variant="outlined"
             aria-label="start-video"
             onClick={handleStartCaptureClick}>
-            <PlayCircleFilledIcon style={style.recordIcon}/>
+            <RadioButtonCheckedIcon style={style.recordIcon}/>
         </IconButton>)}
         </Grid>
       </Grid>
