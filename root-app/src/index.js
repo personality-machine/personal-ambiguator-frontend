@@ -18,10 +18,13 @@ const App = () => {
   return (
   <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={3}>
-        <Grid item xs={12}>
+        <Grid item xs={3}/>
+        <Grid item xs={6}>
           {recorded ? <Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} videoSrc={videoSrc}/> :
           <Recorder setImgSrc={setImgSrc} setVideoSrc={setVideoSrc} setRecorded={setRecorded} />}
         </Grid>
+        {/*size 3 containers used for centering can be filled*/}
+        <Grid item xs={3}/>
         <Grid item xs={6}>
           <h1>Hello</h1>
         </Grid>

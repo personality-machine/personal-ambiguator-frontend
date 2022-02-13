@@ -68,9 +68,9 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecorded}) => {
     return (
     <Box sx={{ flexGrow:1 }}>
       <Grid className="webcam-container" container spacing={2} alignItems="center" justifyContent="center">
-        <Grid item xs={12}>
+        <Grid item xs={12} alignItems= "center" justifyContent="center">
           <Webcam
-            width='50%'
+            width='100%'
             mirrored
             audio={false}
             ref={webcamRef}
