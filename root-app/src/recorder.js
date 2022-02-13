@@ -37,16 +37,6 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
       [setRecordedChunks]
     );
 
-    const handleShowVideo = React.useEffect(() => {
-      if (recordedChunks.length){
-        const blob = new Blob(recordedChunks, {type: "video/webm"});
-        const url = URL.createObjectURL(blob);
-        setVideoSrc(url);
-        setRecordedChunks([]);
-        setRecordVideo(true);
-      }
-    }, [recordedChunks, setVideoSrc])
-
     const handleStartCaptureClick = React.useCallback(() => {
       setCapturing(true);
       setVideoSrc(null);
@@ -66,7 +56,17 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
         const imgSrc = webcamRef.current.getScreenshot();
         setImgSrc(imgSrc);
         setCapturePhoto(true);
-    }, [webcamRef, setImgSrc]);
+    }, [webcamRef, setImgSrc, setCapturePhoto]);
+
+    React.useEffect(() => {
+      if (recordedChunks.length){
+        const blob = new Blob(recordedChunks, {type: "video/webm"});
+        const url = URL.createObjectURL(blob);
+        setVideoSrc(url);
+        setRecordedChunks([]);
+        setRecordVideo(true);
+      }
+    }, [recordedChunks, setVideoSrc, setRecordVideo])
 
     return (
     <Box sx={{ flexGrow:1 }}>
