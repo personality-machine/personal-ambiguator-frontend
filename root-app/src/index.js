@@ -22,22 +22,25 @@ const App = () => {
     setCapturePhoto(false);
   }
 
+  const style = {
+    normalButton: {
+      color: '#000000'
+    }
+  }
+
   return (
   <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={2}>
+      <Grid container spacing={1}>
         <Grid item xs={3}/>
         <Grid item xs={6}>
           {recordVideo || capturePhoto ? 
           [<Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} videoSrc={videoSrc} recordVideo={recordVideo} capturePhoto={capturePhoto}/>, 
-            <Button onClick={handleRecordAgain}>Record Again</Button>, 
+            <Button style={style.normalButton} onClick={handleRecordAgain}>Record Again</Button>, 
             <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate}/>] :
           <Recorder setImgSrc={setImgSrc} setVideoSrc={setVideoSrc} setRecordVideo={setRecordVideo} setCapturePhoto={setCapturePhoto}/>}
         </Grid>
         {/*size 3 containers used for centering can be filled*/}
         <Grid item xs={3}/>
-        <Grid item xs={12}>
-          <h1>Hello</h1>
-        </Grid>
       </Grid>
     </Box>
   );

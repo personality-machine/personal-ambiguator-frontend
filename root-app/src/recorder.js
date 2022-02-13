@@ -21,8 +21,11 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
       },
       recordIcon: {
         width: '100%', height: '100%',
-        color: '#0059b3'
+        color: '#000000'
       },
+      normalButton: {
+        color: '#000000'
+      }
     }
 
     const handleDataAvailable = React.useCallback(
@@ -97,7 +100,7 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
         </IconButton>)}
         </Grid>
       </Grid>
-      <Button onClick={capture}>Capture photo</Button>
+      <Button onClick={capture} style={style.normalButton}>Capture photo</Button>
     </Box>
     );
 };
