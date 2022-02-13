@@ -20,6 +20,9 @@ const App = () => {
   const handleRecordAgain = () => {
     setRecordVideo(false);
     setCapturePhoto(false);
+    setContrast(100);
+    setBrightness(100);
+    setSaturate(100);
   }
 
   const style = {

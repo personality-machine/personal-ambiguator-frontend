@@ -71,7 +71,7 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
     return (
     <Box sx={{ flexGrow:1 }}>
       <Grid className="webcam-container" container spacing={2} alignItems="center" justifyContent="center">
-        <Grid item xs={12} alignItems= "center" justifyContent="center">
+        <Grid item xs={12} justifyContent="center">
           <Webcam
             width='100%'
             mirrored
@@ -80,11 +80,10 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
             screenshotFormat="image/jpeg"
           />
         </Grid>
-        <Grid className="overlay-container" container xs={4} alignItems="center" justifyContent="center">
+        <Grid item className="overlay-container" xs={4} justifyContent="center">
         {capturing ? 
           (<IconButton
             style={style.recordButton}
-            alignItem="center"
             variant='contained'
             aria-label="stop-video"
             onClick={handleStopCaptureClick}>
