@@ -42,6 +42,8 @@ const App = () => {
     }
   }
 
+   Predict(imgSrc).then(console.log);
+
   return (
   <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={3}>
