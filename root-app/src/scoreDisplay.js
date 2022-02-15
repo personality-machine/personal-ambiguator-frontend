@@ -1,8 +1,4 @@
 import React from 'react';
-import { useRef } from 'react';
-import { Bar, getElementAtEvent }  from 'react-chartjs-2';
-import { alpha, styled } from '@mui/material/styles';
-import faker from 'faker';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,26 +8,56 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { Bar } from 'react-chartjs-2';
 
-const ScoreDisplay = ({ocean}) => {
-  const chartRef = useRef();
-  const onClick = (event) => {
-    console.log(getElementAtEvent(chartRef.current, event));
-  }
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
+const ScoreDisplay = () => {
+  const options = {
+    indexAxis: 'y',
+    elements: {
+      bar: {
+        borderWidth: 2,
+      },
+    },
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom',
+      },
+      title: {
+        display: true,
+        text: 'Big 5 charts',
+      },
+    },
+  };
 
   const labels = ['Open', 'Contientious', 'Extroverted', 'Agreeable', 'Neurotic'];
 
   const data = {
     labels,
-    data: labels.map(() => faker.datatype.number({min: 0, max: 1000})),
-  }
+    datasets: [
+      {
+        label: 'original',
+        data: [1,1,2,3,4],
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+      {
+        label: 'after params',
+        data: [3,4,7,9,9],
+        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      }
+    ],
+  };
   
   return(
-    <Bar
-      ref={chartRef}
-      data={data}
-      onClick={onClick}
-    />
+    <Bar options={options} data={data} />
   );
 
 };

@@ -5,7 +5,6 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Recorder from './recorder';
 import Sliders from  './sliders';
-import Typography from '@mui/material/Typography';
 import Display from './display';
 import ScoreDisplay from './scoreDisplay';
 import './index.css';
@@ -46,14 +45,14 @@ const App = () => {
       <Grid container spacing={3}>
         {recordVideo || capturePhoto ? 
             <>
-              <Grid item xs={6}>
+              <Grid item xs={5}>
                 <Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} videoSrc={videoSrc} recordVideo={recordVideo} capturePhoto={capturePhoto}/> 
                 <Button style={style.normalButton} onClick={handleRecordAgain}>Record Again</Button> 
                 <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate}/>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={7}>
                 {/*<Typography variant="h2" style={style.typography}>Scores</Typography>*/}
-                <ScoreDisplay ocean={ocean}/>
+                <ScoreDisplay/>
               </Grid>
             </> :
             <>
