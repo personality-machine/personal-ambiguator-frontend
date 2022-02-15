@@ -1,4 +1,6 @@
 import Slider from '@mui/material/Slider';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 
 const Sliders = ({setContrast,setBrightness,setSaturate}) => {
     const handleChangeContrast = (event, newValue) => {
@@ -10,11 +12,32 @@ const Sliders = ({setContrast,setBrightness,setSaturate}) => {
     const handleChangeSaturate = (event, newValue) => {
         setSaturate(newValue);
     }
+
+    const style = {
+      color: '#000000',
+      fontFamily: 'courier new',
+    }
+
     return (
     <div>
-        <Slider marks step={10} min={0} max={300} defaultValue={100} aria-label="contrast" valueLabelDisplay="auto" onChange={handleChangeContrast}/>
-        <Slider marks step={10} min={0} max={300} defaultValue={100} aria-label="brightness" valueLabelDisplay="auto" onChange={handleChangeBrightness}/>
-        <Slider marks step={10} min={0} max={300} defaultValue={100} aria-label="saturate" valueLabelDisplay="auto" onChange={handleChangeSaturate}/>
+      <Stack spacing={2} direction="row">
+        <Typography gutterBottom style={style}>
+          Contrast..:
+        </Typography>
+        <Slider style={style} marks step={10} min={0} max={300} defaultValue={100} aria-label="contrast" valueLabelDisplay="auto" onChange={handleChangeContrast}/>
+        </Stack>
+        <Stack spacing={2} direction="row" >
+        <Typography gutterBottom style={style}>
+          Brightness:
+        </Typography>
+        <Slider style={style} marks step={10} min={0} max={300} defaultValue={100} aria-label="brightness" valueLabelDisplay="auto" onChange={handleChangeBrightness}/>
+        </Stack>
+        <Stack spacing={2} direction="row" >
+        <Typography gutterBottom style={style}>
+          Saturation:
+        </Typography>
+        <Slider style={style} marks step={10} min={0} max={300} defaultValue={100} aria-label="saturate" valueLabelDisplay="auto" onChange={handleChangeSaturate}/>
+      </Stack>
     </div>
     );
 };
