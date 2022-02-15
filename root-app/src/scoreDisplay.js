@@ -1,103 +1,64 @@
 import React from 'react';
-import Slider from '@mui/material/Slider';
-import Stack from '@mui/material/Stack';
-import { alpha, styled } from '@mui/material/styles';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
 
-const ScoreDisplay = ({ocean}) => {
-  const [isShown, setIsShown] = React.useState(false);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
+ChartJS.defaults.font.size = 20;
+const ScoreDisplay = () => {
+  const options = {
+    indexAxis: 'y',
+    elements: {
+      bar: {
+        borderWidth: 2,
+      },
+    },
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom',
+      },
+      title: {
+        display: true,
+        text: 'Big 5 charts',
+      },
+    },
+  };
 
-  const ResultSlider = styled(Slider)
-  `
-  width: 18px;
-  color: #5bb2c5;
-  thumb {
-    color: #5bb2c500;
-  }
+  const labels = ['Open', 'Contientious', 'Extroverted', 'Agreeable', 'Neurotic'];
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'original',
+        data: [1,1,2,3,4],
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+      {
+        label: 'after params',
+        data: [3,4,7,9,9],
+        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      }
+    ],
+  };
   
-  :hover {
-    color: #8be9fd;
-  }
-  `;
-
-  const style = {
-    openScore: {
-      // color: "#8be900",
-    },
-    constientiousScore: {
-      color: '#7da7b0',
-      '&:hover': {
-        color: '#ffffff',
-      },
-    },
-    extrovertedScore: {
-      color: '#7da7b0',
-      '&:hover': {
-        color: '#ffffff',
-      },
-    },
-    agreeableScore: {
-      color: '#7da7b0',
-      '&:hover': {
-        color: '#ffffff',
-      },
-    },
-    neuroticismScore: {
-      color: '#7da7b0',
-      '&:hover': {
-        color: '#ffffff',
-      },
-    },
-  }
-
   return(
-    <Stack spacing={5} direction="row" height='100%' justifyContent="center">
-    <ResultSlider
-      style={style.openScore}
-      orientation="vertical"
-      min={0}
-      max={100}
-      defaultValue={50}
-      aria-label="brightness"
-      onMouseLeave={() => setIsShown(false)}
-      onMouseEnter={() => setIsShown(true)}
-      valueLabelDisplay="auto"/>
-    <ResultSlider
-      style={style}
-      orientation="vertical"
-      min={0}
-      max={100}
-      defaultValue={50}
-      aria-label="brightness"
-      valueLabelDisplay="auto"/>
-    <ResultSlider
-      style={style}
-      disabled
-      orientation="vertical"
-      min={0}
-      max={100}
-      defaultValue={50}
-      aria-label="brightness"
-      valueLabelDisplay="auto"/>
-    <ResultSlider
-      style={style}
-      disabled
-      orientation="vertical"
-      min={0}
-      max={100}
-      defaultValue={50}
-      aria-label="brightness"
-      valueLabelDisplay="auto"/>
-    <ResultSlider
-      style={style}
-      disabled
-      orientation="vertical"
-      min={0}
-      max={100}
-      defaultValue={50}
-      aria-label="brightness"
-      valueLabelDisplay="auto"/>
-      {isShown && (<div> Hello </div>)}
-    </Stack>
+    <Bar options={options} data={data} />
   );
 
 };
