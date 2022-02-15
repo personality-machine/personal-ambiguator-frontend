@@ -45,23 +45,25 @@ const App = () => {
       <Grid container spacing={3}>
         {recordVideo || capturePhoto ? 
             <>
-              <Grid item xs={5}>
+              <Grid item xs={1}/>
+              <Grid item xs={4}>
                 <Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} videoSrc={videoSrc} recordVideo={recordVideo} capturePhoto={capturePhoto}/> 
                 <Button style={style.normalButton} onClick={handleRecordAgain}>Record Again</Button> 
                 <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate}/>
               </Grid>
-              <Grid item xs={7}>
+              <Grid item xs={6}>
                 {/*<Typography variant="h2" style={style.typography}>Scores</Typography>*/}
                 <ScoreDisplay/>
               </Grid>
+              <Grid item xs={1}/>
             </> :
             <>
-              <Grid item xs={2}/>
-              <Grid item xs={8}>
+              <Grid item xs={3}/>
+              <Grid item xs={6}>
                 <Recorder setImgSrc={setImgSrc} setVideoSrc={setVideoSrc} setRecordVideo={setRecordVideo} setCapturePhoto={setCapturePhoto}/>
               </Grid>
               {/*size 3 containers used for centering can be filled*/}
-              <Grid item xs={2}/>
+              <Grid item xs={3}/>
             </>}
       </Grid>
     </Box>
