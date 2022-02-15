@@ -41,8 +41,9 @@ const App = () => {
       fontFamily: 'courier new'
     }
   }
-
-   Predict(imgSrc).then(console.log);
+   if (imgSrc != null){
+    Predict(imgSrc).then(console.log);
+   }
 
   return (
   <Box sx={{ flexGrow: 1 }}>
