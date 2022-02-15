@@ -4,7 +4,7 @@ import * as tf from '@tensorflow/tfjs';
 
 const Predict =
     async (imgUri) => {
-        var img = new Image;
+        var img = new Image();
         img.src = imgUri;
         const model = await tf.loadGraphModel('test/model.json');
         var tensor = await tf.browser.fromPixelsAsync(img);
