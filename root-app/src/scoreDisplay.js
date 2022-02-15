@@ -18,6 +18,7 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+ChartJS.defaults.font.size = 20;
 const ScoreDisplay = () => {
   const options = {
     indexAxis: 'y',
