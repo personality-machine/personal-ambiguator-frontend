@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, useRef} from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -8,7 +8,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import { Bar, getElementAtEvent } from 'react-chartjs-2';
 
 ChartJS.register(
   CategoryScale,
@@ -56,9 +56,20 @@ const ScoreDisplay = () => {
       }
     ],
   };
+  const chartRef = useRef(null);
+  const onClickChart = (event) => {
+    const {current : chart} = chartRef;
+    if (!chart){
+      console.log("!chart");
+      return;
+    }
+    const element = getElementAtEvent(chart, event);
+    const { datasetIndex, index } = element[0];
+    console.log(data.labels[index], data.datasets[datasetIndex].label, data.datasets[datasetIndex].data[index]);
+  }
   
   return(
-    <Bar options={options} data={data} />
+    <Bar ref={chartRef} options={options} data={data} onClick={onClickChart}/>
   );
 
 };
