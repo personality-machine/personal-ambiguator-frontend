@@ -1,103 +1,37 @@
 import React from 'react';
-import Slider from '@mui/material/Slider';
-import Stack from '@mui/material/Stack';
+import { useRef } from 'react';
+import { Bar, getElementAtEvent }  from 'react-chartjs-2';
 import { alpha, styled } from '@mui/material/styles';
+import faker from 'faker';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 
 const ScoreDisplay = ({ocean}) => {
-  const [isShown, setIsShown] = React.useState(false);
+  const chartRef = useRef();
+  const onClick = (event) => {
+    console.log(getElementAtEvent(chartRef.current, event));
+  }
 
-  const ResultSlider = styled(Slider)
-  `
-  width: 18px;
-  color: #5bb2c5;
-  thumb {
-    color: #5bb2c500;
+  const labels = ['Open', 'Contientious', 'Extroverted', 'Agreeable', 'Neurotic'];
+
+  const data = {
+    labels,
+    data: labels.map(() => faker.datatype.number({min: 0, max: 1000})),
   }
   
-  :hover {
-    color: #8be9fd;
-  }
-  `;
-
-  const style = {
-    openScore: {
-      // color: "#8be900",
-    },
-    constientiousScore: {
-      color: '#7da7b0',
-      '&:hover': {
-        color: '#ffffff',
-      },
-    },
-    extrovertedScore: {
-      color: '#7da7b0',
-      '&:hover': {
-        color: '#ffffff',
-      },
-    },
-    agreeableScore: {
-      color: '#7da7b0',
-      '&:hover': {
-        color: '#ffffff',
-      },
-    },
-    neuroticismScore: {
-      color: '#7da7b0',
-      '&:hover': {
-        color: '#ffffff',
-      },
-    },
-  }
-
   return(
-    <Stack spacing={5} direction="row" height='100%' justifyContent="center">
-    <ResultSlider
-      style={style.openScore}
-      orientation="vertical"
-      min={0}
-      max={100}
-      defaultValue={50}
-      aria-label="brightness"
-      onMouseLeave={() => setIsShown(false)}
-      onMouseEnter={() => setIsShown(true)}
-      valueLabelDisplay="auto"/>
-    <ResultSlider
-      style={style}
-      orientation="vertical"
-      min={0}
-      max={100}
-      defaultValue={50}
-      aria-label="brightness"
-      valueLabelDisplay="auto"/>
-    <ResultSlider
-      style={style}
-      disabled
-      orientation="vertical"
-      min={0}
-      max={100}
-      defaultValue={50}
-      aria-label="brightness"
-      valueLabelDisplay="auto"/>
-    <ResultSlider
-      style={style}
-      disabled
-      orientation="vertical"
-      min={0}
-      max={100}
-      defaultValue={50}
-      aria-label="brightness"
-      valueLabelDisplay="auto"/>
-    <ResultSlider
-      style={style}
-      disabled
-      orientation="vertical"
-      min={0}
-      max={100}
-      defaultValue={50}
-      aria-label="brightness"
-      valueLabelDisplay="auto"/>
-      {isShown && (<div> Hello </div>)}
-    </Stack>
+    <Bar
+      ref={chartRef}
+      data={data}
+      onClick={onClick}
+    />
   );
 
 };
