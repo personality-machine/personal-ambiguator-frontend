@@ -14,29 +14,30 @@ const Sliders = ({setContrast,setBrightness,setSaturate}) => {
     }
 
     const style = {
-        color: '#000000'
+      color: '#000000',
+      fontFamily: 'courier new',
     }
 
     return (
     <div>
-        <Stack spacing={2} direction="row">
-        <Typography gutterBottom>
-        Contrast:
+      <Stack spacing={2} direction="row">
+        <Typography gutterBottom style={style}>
+          Contrast..:
         </Typography>
         <Slider style={style} marks step={10} min={0} max={300} defaultValue={100} aria-label="contrast" valueLabelDisplay="auto" onChange={handleChangeContrast}/>
         </Stack>
         <Stack spacing={2} direction="row" >
-        <Typography gutterBottom>
-        Brightness:
+        <Typography gutterBottom style={style}>
+          Brightness:
         </Typography>
         <Slider style={style} marks step={10} min={0} max={300} defaultValue={100} aria-label="brightness" valueLabelDisplay="auto" onChange={handleChangeBrightness}/>
         </Stack>
         <Stack spacing={2} direction="row" >
-        <Typography gutterBottom>
-        Saturation:
+        <Typography gutterBottom style={style}>
+          Saturation:
         </Typography>
         <Slider style={style} marks step={10} min={0} max={300} defaultValue={100} aria-label="saturate" valueLabelDisplay="auto" onChange={handleChangeSaturate}/>
-        </Stack>
+      </Stack>
     </div>
     );
 };
