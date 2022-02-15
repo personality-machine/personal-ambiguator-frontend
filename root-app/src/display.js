@@ -17,4 +17,5 @@ const Display = ({contrast,brightness,saturate,imgSrc,videoSrc, recordVideo, cap
         </div>
     );
 }
+
 export default Display

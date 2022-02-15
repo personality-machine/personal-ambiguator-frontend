@@ -16,15 +16,17 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
 
     const style = {
       recordButton: {
-        width: '50%', height: '50%',
+        width: '100%', height: '100%',
         //padding: 0,
       },
       recordIcon: {
-        width: '50%', height: '50%',
+        width: '100%', height: '100%',
         color: '#000000'
       },
       normalButton: {
-        color: '#000000'
+        color: '#ffffff',
+        backgroundColor: '#000000',
+        fontFamily: 'courier new',
       }
     }
 
