@@ -77,7 +77,7 @@ const App = () => {
                 <Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} videoSrc={videoSrc} recordVideo={recordVideo} capturePhoto={capturePhoto}/> 
                 <Button style={style.normalButton} onClick={handleRecordAgain}>Record Again</Button> 
                 <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate} evaluating={evaluating} contrast={contrast} brightness={brightness} saturate={saturate}/>
-                <Stack spacing={2} direction="row">
+                <Stack spacing={2} direction="row" justifyContent="center">
                 <Button style={style.normalButton} onClick={convertToJpeg}>Evaluate</Button>
                 <Button style={style.normalButton} onClick={handleAdjustParams}>Adjust params</Button>
                 </Stack>

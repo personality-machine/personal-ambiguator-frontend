@@ -14,6 +14,11 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
     const [capturing, setCapturing] = React.useState(false);
     const [recordedChunks, setRecordedChunks] = React.useState([]);
 
+    const videoConstraints = {
+      width: 224,
+      height: 224,
+    }
+
     const style = {
       recordButton: {
         width: '100%', height: '100%',
@@ -73,13 +78,15 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
     return (
     <Box sx={{ flexGrow:1 }}>
       <Grid className="webcam-container" container spacing={2} alignItems="center" justifyContent="center">
-        <Grid item xs={12} justifyContent="center">
+        <Grid item xs={1.5} />
+        <Grid item xs={9} justifyContent="center">
           <Webcam
             width='100%'
             mirrored
             audio={false}
             ref={webcamRef}
             screenshotFormat="image/jpeg"
+            videoConstraints={videoConstraints}
           />
         </Grid>
         <Grid item className="overlay-container" xs={12} justifyContent="center">
@@ -100,6 +107,7 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
             <RadioButtonCheckedIcon style={style.recordIcon}/>
         </IconButton>)}
         </Grid>
+        <Grid item xs={1.5} />
       </Grid>
       <Button onClick={capture} style={style.normalButton}>Capture photo</Button>
     </Box>
