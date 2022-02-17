@@ -19,7 +19,8 @@ ChartJS.register(
   Legend
 );
 ChartJS.defaults.font.size = 20;
-const ScoreDisplay = () => {
+
+const ScoreDisplay = (ocean) => {
   const options = {
     indexAxis: 'y',
     elements: {

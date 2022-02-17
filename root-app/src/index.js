@@ -84,7 +84,7 @@ const App = () => {
               </Grid>
               <Grid item xs={6}>
                 {/*<Typography variant="h2" style={style.typography}>Scores</Typography>*/}
-                <ScoreDisplay/>
+                <ScoreDisplay ocean={ocean}/>
               </Grid>
               <Grid item xs={1}/>
             </> :
