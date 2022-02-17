@@ -3,35 +3,33 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
+  PointElement,
+  LineElement,
   BarElement,
   Title,
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Bar, getElementAtEvent } from 'react-chartjs-2';
+import { Line, getElementAtEvent } from 'react-chartjs-2';
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
+  PointElement,
+  LineElement,
   BarElement,
   Title,
   Tooltip,
   Legend
 );
 ChartJS.defaults.font.size = 20;
-
-const ScoreDisplay = (ocean) => {
+ChartJS.defaults.font.family = 'Courier New';
+const ScoreDisplay = ({ocean}) => {
   const options = {
-    indexAxis: 'y',
-    elements: {
-      bar: {
-        borderWidth: 2,
-      },
-    },
     responsive: true,
     plugins: {
       legend: {
-        position: 'bottom',
+        position: 'top',
       },
       title: {
         display: true,
@@ -46,13 +44,17 @@ const ScoreDisplay = (ocean) => {
     labels,
     datasets: [
       {
+        type:'line',
         label: 'original',
-        data: [1,1,2,3,4],
+        data: [3,2,7,3,9],
+        borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       },
       {
+        type:'line',
         label: 'after params',
-        data: [3,4,7,9,9],
+        data: ocean,
+        borderColor: 'rgb(53, 162, 235)',
         backgroundColor: 'rgba(53, 162, 235, 0.5)',
       }
     ],
@@ -70,7 +72,7 @@ const ScoreDisplay = (ocean) => {
   }
   
   return(
-    <Bar ref={chartRef} options={options} data={data} onClick={onClickChart}/>
+    <Line ref={chartRef} options={options} data={data} onClick={onClickChart}/>
   );
 
 };

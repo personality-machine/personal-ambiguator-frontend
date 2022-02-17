@@ -23,7 +23,7 @@ const App = () => {
   const [capturePhoto, setCapturePhoto] = React.useState(false);
   const [evaluating, setEvaluating] = React.useState(false);
   // may work together with some callModel variable to handle updates
-  const [ocean, setOcean] = React.useState(null); 
+  const [ocean, setOcean] = React.useState([]); 
 
   const handleRecordAgain = () => {
     setRecordVideo(false);
@@ -42,6 +42,7 @@ const App = () => {
     domtoimage.toJpeg(node).then(function (cssImgSrc){
       setCssImgSrc(cssImgSrc);
       setEvaluating(true);
+      setOcean([1,7,5,2,4]);
     }).catch (function (error) {
       console.error(error);
     })
@@ -50,6 +51,7 @@ const App = () => {
   const handleAdjustParams = () => {
     setCssImgSrc(null);
     setEvaluating(false);
+    setOcean([]);
   }
 
   const style = {
