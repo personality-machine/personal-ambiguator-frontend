@@ -1,0 +1,17 @@
+#image-node {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+#ori-image {
+  position: relative;
+  top: 0;
+  left: 0;
+  border: 3px rgb(49, 48, 48) solid;
+}
+#saliency-map {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  opacity: 0.5;
+}

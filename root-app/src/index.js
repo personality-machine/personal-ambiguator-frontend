@@ -77,7 +77,7 @@ const App = () => {
             <>
               <Grid item xs={1}/>
               <Grid item xs={4}>
-                <Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} videoSrc={videoSrc} recordVideo={recordVideo} capturePhoto={capturePhoto}/> 
+                <Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} videoSrc={videoSrc} recordVideo={recordVideo} capturePhoto={capturePhoto} evaluating={evaluating}/> 
                 <Button style={style.normalButton} onClick={handleRecordAgain}>Record Again</Button> 
                 <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate} evaluating={evaluating} contrast={contrast} brightness={brightness} saturate={saturate}/>
                 <Stack spacing={2} direction="row" justifyContent="center">
