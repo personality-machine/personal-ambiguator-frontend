@@ -35,6 +35,7 @@ const App = () => {
     setVideoSrc(null);
     setCssImgSrc(null);
     setEvaluating(false);
+    setOcean([]);
   }
 
   const convertToJpeg = () => {
