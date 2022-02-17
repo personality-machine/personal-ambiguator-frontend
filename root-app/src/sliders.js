@@ -15,6 +15,7 @@ const Sliders = ({setContrast,setBrightness,setSaturate,evaluating,contrast,brig
     }
 
     const style ={
+      color: '#121414',
       fontFamily: 'Courier New'
     }
 
@@ -24,7 +25,7 @@ const Sliders = ({setContrast,setBrightness,setSaturate,evaluating,contrast,brig
         <Typography gutterBottom style={style}>
           Contrast..:  
         </Typography>
-        <Slider disabled={evaluating} marks step={10} min={0} max={300} defaultValue={100} aria-label="contrast" valueLabelDisplay="auto" onChange={handleChangeContrast}/>
+        <Slider disabled={evaluating} style={style} marks step={10} min={0} max={300} defaultValue={100} aria-label="contrast" valueLabelDisplay="auto" onChange={handleChangeContrast}/>
         <Typography gutterBottom style={style}>
           {contrast}
         </Typography>
@@ -33,7 +34,7 @@ const Sliders = ({setContrast,setBrightness,setSaturate,evaluating,contrast,brig
         <Typography gutterBottom style={style}>
           Brightness:
         </Typography>
-        <Slider disabled={evaluating} marks step={10} min={0} max={300} defaultValue={100} aria-label="brightness" valueLabelDisplay="auto" onChange={handleChangeBrightness}/>
+        <Slider disabled={evaluating} style={style} marks step={10} min={0} max={300} defaultValue={100} aria-label="brightness" valueLabelDisplay="auto" onChange={handleChangeBrightness}/>
         <Typography gutterBottom style={style}>
           {brightness}
         </Typography>
@@ -42,7 +43,7 @@ const Sliders = ({setContrast,setBrightness,setSaturate,evaluating,contrast,brig
         <Typography gutterBottom style={style}>
           Saturation:
         </Typography>
-        <Slider disabled={evaluating} marks step={10} min={0} max={300} defaultValue={100} aria-label="saturate" valueLabelDisplay="auto" onChange={handleChangeSaturate}/>
+        <Slider disabled={evaluating} style={style} marks step={10} min={0} max={300} defaultValue={100} aria-label="saturate" valueLabelDisplay="auto" onChange={handleChangeSaturate}/>
         <Typography gutterBottom style={style}>
           {saturate}
         </Typography>
