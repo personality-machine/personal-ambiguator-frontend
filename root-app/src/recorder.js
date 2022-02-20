@@ -15,8 +15,8 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
     const [recordedChunks, setRecordedChunks] = React.useState([]);
 
     const videoConstraints = {
-      width: 224,
-      height: 224,
+      // width: 224,
+      // height: 224,
       aspectRatio: {exact: 1},
     }
 
@@ -84,6 +84,7 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
             mirrored
             audio={false}
             ref={webcamRef}
+            width="80%"
             screenshotFormat="image/jpeg"
             imageSmoothing='true'
             videoConstraints={videoConstraints}
