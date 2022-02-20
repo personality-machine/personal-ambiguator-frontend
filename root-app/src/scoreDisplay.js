@@ -25,7 +25,7 @@ ChartJS.register(
 
 ChartJS.defaults.font.size = 20;
 ChartJS.defaults.font.family = 'monospace';
-const ScoreDisplay = ({ocean, setSaliencySrc}) => {
+const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc}) => {
   const options = {
     responsive: true,
     plugins: {
@@ -48,7 +48,7 @@ const ScoreDisplay = ({ocean, setSaliencySrc}) => {
       {
         type:'line',
         label: 'original',
-        data: [3,2,7,3,9],
+        data: oriOcean,
         borderColor: 'rgb(25, 79, 156)',
         backgroundColor: 'rgba(25, 79, 156, 0.5)',
         pointHitRadius: 20,

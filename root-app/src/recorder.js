@@ -6,9 +6,10 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
+import Predict from './tensorflow_test';
 import './recorder.css';
 
-const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
+const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto, oriOcean, setOriOcean}) => {
     const webcamRef = React.useRef(null); // persistent reference cause no rerendering
     const mediaRecorderRef = React.useRef(null);
     const [capturing, setCapturing] = React.useState(false);
@@ -64,7 +65,11 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
       const imgSrc = webcamRef.current.getScreenshot();
         setImgSrc(imgSrc);
         setCapturePhoto(true);
-    }, [webcamRef, setImgSrc, setCapturePhoto]);
+        if (oriOcean.length === 0) {
+          Predict(imgSrc).then(console.log);
+          setOriOcean([3,2,7,3,9]);
+        }
+    }, [webcamRef, setImgSrc, setCapturePhoto, oriOcean, setOriOcean]);
 
     React.useEffect(() => {
       if (recordedChunks.length){

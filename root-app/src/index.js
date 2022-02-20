@@ -24,7 +24,8 @@ const App = () => {
   const [capturePhoto, setCapturePhoto] = React.useState(false);
   const [evaluating, setEvaluating] = React.useState(false);
   // may work together with some callModel variable to handle updates
-  const [ocean, setOcean] = React.useState([]); 
+  const [ocean, setOcean] = React.useState([]);
+  const [oriOcean, setOriOcean] = React.useState([]); 
 
   const handleRecordAgain = () => {
     setRecordVideo(false);
@@ -37,6 +38,7 @@ const App = () => {
     setCssImgSrc(null);
     setEvaluating(false);
     setOcean([]);
+    setOriOcean([]);
   }
 
   const convertToJpeg = () => {
@@ -86,14 +88,14 @@ const App = () => {
               </Grid>
               <Grid item xs={6}>
                 {/*<Typography variant="h2" style={style.typography}>Scores</Typography>*/}
-                <ScoreDisplay ocean={ocean} setSaliencySrc={setSaliencySrc}/>
+                <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc}/>
               </Grid>
               <Grid item xs={1}/>
             </> :
             <>
               <Grid item xs={3}/>
               <Grid item xs={6}>
-                <Recorder setImgSrc={setImgSrc} setVideoSrc={setVideoSrc} setRecordVideo={setRecordVideo} setCapturePhoto={setCapturePhoto}/>
+                <Recorder setImgSrc={setImgSrc} setVideoSrc={setVideoSrc} setRecordVideo={setRecordVideo} setCapturePhoto={setCapturePhoto} oriOcean={oriOcean} setOriOcean={setOriOcean}/>
               </Grid>
               {/*size 3 containers used for centering can be filled*/}
               <Grid item xs={3}/>

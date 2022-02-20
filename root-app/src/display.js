@@ -13,7 +13,7 @@ const Display = ({contrast, brightness, saturate, imgSrc, saliencySrc, videoSrc,
         {imgSrc && capturePhoto &&
         (<div id="image-node">
           <img id="ori-image" src={imgSrc} alt="" style={filters} width="100%"/>
-          {evaluating && <img
+          {saliencySrc && <img
             id="saliency-map"
             src={saliencySrc}
             alt=""
