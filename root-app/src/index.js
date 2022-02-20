@@ -81,8 +81,8 @@ const App = () => {
                 <Button style={style.normalButton} onClick={handleRecordAgain}>Record Again</Button> 
                 <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate} evaluating={evaluating} contrast={contrast} brightness={brightness} saturate={saturate}/>
                 <Stack spacing={2} direction="row" justifyContent="center">
-                <Button style={style.normalButton} onClick={convertToJpeg}>Evaluate</Button>
-                <Button style={style.normalButton} onClick={handleAdjustParams}>Adjust params</Button>
+                  <Button style={style.normalButton} onClick={convertToJpeg}>Evaluate</Button>
+                  <Button style={style.normalButton} onClick={handleAdjustParams}>Adjust params</Button>
                 </Stack>
               </Grid>
               <Grid item xs={6}>

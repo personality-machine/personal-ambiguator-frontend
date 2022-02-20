@@ -17,6 +17,7 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
     const videoConstraints = {
       width: 224,
       height: 224,
+      aspectRatio: {exact: 1},
     }
 
     const style = {
@@ -60,7 +61,7 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
     }, [mediaRecorderRef, setCapturing]);
 
     const capture = React.useCallback(() => { 
-        const imgSrc = webcamRef.current.getScreenshot();
+      const imgSrc = webcamRef.current.getScreenshot();
         setImgSrc(imgSrc);
         setCapturePhoto(true);
     }, [webcamRef, setImgSrc, setCapturePhoto]);
@@ -78,14 +79,13 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
     return (
     <Box sx={{ flexGrow:1 }}>
       <Grid className="webcam-container" container spacing={2} alignItems="center" justifyContent="center">
-        <Grid item xs={1.5} />
-        <Grid item xs={9} justifyContent="center">
+        <Grid item xs={12} justifyContent="center">
           <Webcam
-            width='100%'
             mirrored
             audio={false}
             ref={webcamRef}
             screenshotFormat="image/jpeg"
+            imageSmoothing='true'
             videoConstraints={videoConstraints}
           />
         </Grid>
@@ -107,7 +107,6 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
             <RadioButtonCheckedIcon style={style.recordIcon}/>
         </IconButton>)}
         </Grid>
-        <Grid item xs={1.5} />
       </Grid>
       <Button onClick={capture} style={style.normalButton}>Capture photo</Button>
     </Box>

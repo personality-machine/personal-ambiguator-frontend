@@ -22,8 +22,9 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+
 ChartJS.defaults.font.size = 20;
-ChartJS.defaults.font.family = 'Courier New';
+ChartJS.defaults.font.family = 'monospace';
 const ScoreDisplay = ({ocean}) => {
   const options = {
     responsive: true,
@@ -38,7 +39,8 @@ const ScoreDisplay = ({ocean}) => {
     },
   };
 
-  const labels = ['Open', 'Contientious', 'Extroverted', 'Agreeable', 'Neurotic'];
+  const labels = ['Openness', 'Conscientiousness', 'Extroversion',
+                  'Agreeableness', 'Neuroticism'];
 
   const data = {
     labels,
@@ -47,28 +49,42 @@ const ScoreDisplay = ({ocean}) => {
         type:'line',
         label: 'original',
         data: [3,2,7,3,9],
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        borderColor: 'rgb(25, 79, 156)',
+        backgroundColor: 'rgba(25, 79, 156, 0.5)',
+        pointHitRadius: 20,
+        pointHoverRadius: 12,
+        pointHoverBorderWidth: 5,
+        tension: 0.2,
+        width: 5,
       },
       {
         type:'line',
         label: 'after params',
         data: ocean,
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        borderColor: 'rgb(79, 132, 103)',
+        backgroundColor: 'rgba(79, 132, 103, 0.5)',
+        pointHitRadius: 20,
+        pointHoverRadius: 12,
+        pointHoverBorderWidth: 5,
+        tension: 0.2,
       }
     ],
   };
   const chartRef = useRef(null);
   const onClickChart = (event) => {
     const {current : chart} = chartRef;
+    /**
     if (!chart){
       console.log("!chart");
       return;
     }
+    */
     const element = getElementAtEvent(chart, event);
-    const { datasetIndex, index } = element[0];
-    console.log(data.labels[index], data.datasets[datasetIndex].label, data.datasets[datasetIndex].data[index]);
+    console.log(element);
+    if(element.length > 0) {
+      const { datasetIndex, index } = element[0];
+      console.log(data.labels[index], data.datasets[datasetIndex].label, data.datasets[datasetIndex].data[index]);
+    }
   }
   
   return(
