@@ -84,6 +84,7 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
             mirrored
             audio={false}
             ref={webcamRef}
+            width="80%"
             screenshotFormat="image/jpeg"
             imageSmoothing='true'
             width="100%"
