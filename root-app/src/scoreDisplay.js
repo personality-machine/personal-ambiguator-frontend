@@ -73,14 +73,11 @@ const ScoreDisplay = ({ocean, setSaliencySrc}) => {
   const chartRef = useRef(null);
   const onClickChart = (event) => {
     const {current : chart} = chartRef;
-    /**
     if (!chart){
-      console.log("!chart");
+      console.error("!chart");
       return;
     }
-    */
     const element = getElementAtEvent(chart, event);
-    console.log(element);
     if(element.length > 0) {
       const { datasetIndex, index } = element[0];
       let saliencyPath = new String('saliency/');

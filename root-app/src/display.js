@@ -9,9 +9,9 @@ const Display = ({contrast, brightness, saturate, imgSrc, saliencySrc, videoSrc,
     };
 
     return (
-      <Grid container >
+      <Grid container>
         {imgSrc && capturePhoto &&
-        ([<div id="image-node">
+        (<div id="image-node">
           <img id="ori-image" src={imgSrc} alt="" style={filters} width="100%"/>
           {evaluating && <img
             id="saliency-map"
@@ -19,16 +19,16 @@ const Display = ({contrast, brightness, saturate, imgSrc, saliencySrc, videoSrc,
             alt=""
             width="100%"
             height="100%"/>}
-          </div>,])}
+          </div>)}
         
         {videoSrc && recordVideo &&
-        ([<div id="video-node">
+        (<div id="video-node">
           <video controls width="100%" style={filters}>
           <source src={videoSrc} type="video/webm"></source></video>
-          </div>]
+          </div>
           )
         }
-      </Grid>
+        </Grid>
     );
 }
 

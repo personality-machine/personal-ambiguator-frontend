@@ -44,6 +44,7 @@ const App = () => {
     domtoimage.toJpeg(node).then(function (cssImgSrc){
       setCssImgSrc(cssImgSrc);
       setEvaluating(true);
+      Predict(cssImgSrc).then(console.log);
       setOcean([1,7,5,2,4]);
     }).catch (function (error) {
       console.error(error);
@@ -67,9 +68,6 @@ const App = () => {
       fontFamily: 'courier new'
     }
   }
-   if (cssImgSrc != null){
-    Predict(cssImgSrc).then(console.log);
-   }
 
   return (
   <Box sx={{ flexGrow: 1 }}>
