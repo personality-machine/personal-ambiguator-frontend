@@ -25,7 +25,7 @@ ChartJS.register(
 
 ChartJS.defaults.font.size = 20;
 ChartJS.defaults.font.family = 'monospace';
-const ScoreDisplay = ({ocean}) => {
+const ScoreDisplay = ({ocean, setSaliencySrc}) => {
   const options = {
     responsive: true,
     plugins: {
@@ -83,6 +83,21 @@ const ScoreDisplay = ({ocean}) => {
     console.log(element);
     if(element.length > 0) {
       const { datasetIndex, index } = element[0];
+      let saliencyPath = new String('saliency/');
+      switch(data.datasets[datasetIndex].label) {
+        case 'original':
+          saliencyPath = saliencyPath.concat('original/');
+          break;
+        case 'after params':
+          saliencyPath = saliencyPath.concat('after/');
+          break;
+        default:
+          console.log('unindentified label');
+          break;
+      }
+      saliencyPath = saliencyPath.concat(data.labels[index]).concat(".png");
+      setSaliencySrc(saliencyPath.toLowerCase());
+      console.log(saliencyPath.toLowerCase());
       console.log(data.labels[index], data.datasets[datasetIndex].label, data.datasets[datasetIndex].data[index]);
     }
   }

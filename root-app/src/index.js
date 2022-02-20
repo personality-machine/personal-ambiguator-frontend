@@ -17,6 +17,7 @@ const App = () => {
   const [brightness, setBrightness] = React.useState(100);
   const [saturate, setSaturate] = React.useState(100);
   const [imgSrc, setImgSrc] = React.useState(null);
+  const [saliencySrc, setSaliencySrc] = React.useState(null);
   const [cssImgSrc, setCssImgSrc] = React.useState(null);
   const [videoSrc, setVideoSrc] = React.useState(null);
   const [recordVideo, setRecordVideo] = React.useState(false);
@@ -77,7 +78,7 @@ const App = () => {
             <>
               <Grid item xs={1}/>
               <Grid item xs={4}>
-                <Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} videoSrc={videoSrc} recordVideo={recordVideo} capturePhoto={capturePhoto} evaluating={evaluating}/> 
+                <Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} saliencySrc={saliencySrc} videoSrc={videoSrc} recordVideo={recordVideo} capturePhoto={capturePhoto} evaluating={evaluating}/> 
                 <Button style={style.normalButton} onClick={handleRecordAgain}>Record Again</Button> 
                 <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate} evaluating={evaluating} contrast={contrast} brightness={brightness} saturate={saturate}/>
                 <Stack spacing={2} direction="row" justifyContent="center">
@@ -87,7 +88,7 @@ const App = () => {
               </Grid>
               <Grid item xs={6}>
                 {/*<Typography variant="h2" style={style.typography}>Scores</Typography>*/}
-                <ScoreDisplay ocean={ocean}/>
+                <ScoreDisplay ocean={ocean} setSaliencySrc={setSaliencySrc}/>
               </Grid>
               <Grid item xs={1}/>
             </> :

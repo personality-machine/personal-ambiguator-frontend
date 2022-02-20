@@ -15,8 +15,8 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
     const [recordedChunks, setRecordedChunks] = React.useState([]);
 
     const videoConstraints = {
-      width: 224,
-      height: 224,
+      // width: 224,
+      // height: 224,
       aspectRatio: {exact: 1},
     }
 
@@ -86,6 +86,7 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
             ref={webcamRef}
             screenshotFormat="image/jpeg"
             imageSmoothing='true'
+            width="100%"
             videoConstraints={videoConstraints}
           />
         </Grid>

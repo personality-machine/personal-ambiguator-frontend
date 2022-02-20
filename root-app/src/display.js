@@ -3,16 +3,10 @@ import Grid from '@mui/material/Grid';
 
 import './display.css';
 
-const Display = ({contrast,brightness,saturate,imgSrc,videoSrc, recordVideo, capturePhoto, evaluating}) => {
+const Display = ({contrast, brightness, saturate, imgSrc, saliencySrc, videoSrc, recordVideo, capturePhoto, evaluating}) => {
     const filters = {
         filter: `contrast(${contrast}%) brightness(${brightness}%) saturate(${saturate}%)`
     };
-
-    const saliency_filters = {
-      filter: `opacity(70%)`
-    };
-
-    const saliencySRC = '/fake-saliency.png';
 
     return (
       <Grid container >
@@ -21,9 +15,8 @@ const Display = ({contrast,brightness,saturate,imgSrc,videoSrc, recordVideo, cap
           <img id="ori-image" src={imgSrc} alt="" style={filters} width="100%"/>
           {evaluating && <img
             id="saliency-map"
-            src={saliencySRC}
+            src={saliencySrc}
             alt=""
-            style={saliency_filters}
             width="100%"
             height="100%"/>}
           </div>,])}
