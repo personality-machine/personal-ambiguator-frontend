@@ -9,7 +9,7 @@ const Predict =
         const model = await tf.loadLayersModel('no_randomcrop/model.json');
         var tensor = await tf.browser.fromPixelsAsync(img);
         tensor = tensor.slice([0,0,0], [224,224,3]).cast('float32');
-        return model.predict(tensor.reshape([1,224,224,3])).predict;
+        return model.predict(tensor.reshape([1,224,224,3])).array();
     }
 
 export default Predict
