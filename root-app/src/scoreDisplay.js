@@ -27,7 +27,7 @@ ChartJS.defaults.font.size = 20;
 ChartJS.defaults.font.family = 'monospace';
 const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc}) => {
   const options = {
-    responsive: true,
+    // responsive: true,
     plugins: {
       legend: {
         position: 'top',

@@ -73,11 +73,11 @@ const App = () => {
 
   return (
   <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={3}>
+      <Grid container spacing={3} rows>
         {recordVideo || capturePhoto ? 
             <>
-              <Grid item xs={1}/>
-              <Grid item xs={4}>
+              <Grid item xs={3} md={1}/>
+              <Grid item xs={6} md={4}>
                 <Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} saliencySrc={saliencySrc} videoSrc={videoSrc} recordVideo={recordVideo} capturePhoto={capturePhoto} evaluating={evaluating}/> 
                 <Button style={style.normalButton} onClick={handleRecordAgain}>Record Again</Button> 
                 <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate} evaluating={evaluating} contrast={contrast} brightness={brightness} saturate={saturate}/>
@@ -86,11 +86,12 @@ const App = () => {
                   <Button style={style.normalButton} onClick={handleAdjustParams}>Adjust params</Button>
                 </Stack>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={3} md='auto'/>
+              <Grid item xs={12} md={6}>
                 {/*<Typography variant="h2" style={style.typography}>Scores</Typography>*/}
                 <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc}/>
               </Grid>
-              <Grid item xs={1}/>
+              <Grid item xs={0} md={1}/>
             </> :
             <>
               <Grid item xs={3}/>
