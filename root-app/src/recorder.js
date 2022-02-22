@@ -6,13 +6,20 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
+import Predict from './tensorflow_test';
 import './recorder.css';
 
-const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
+const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto, oriOcean, setOriOcean}) => {
     const webcamRef = React.useRef(null); // persistent reference cause no rerendering
     const mediaRecorderRef = React.useRef(null);
     const [capturing, setCapturing] = React.useState(false);
     const [recordedChunks, setRecordedChunks] = React.useState([]);
+
+    const videoConstraints = {
+      // width: 224,
+      // height: 224,
+      aspectRatio: {exact: 1},
+    }
 
     const style = {
       recordButton: {
@@ -55,10 +62,14 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
     }, [mediaRecorderRef, setCapturing]);
 
     const capture = React.useCallback(() => { 
-        const imgSrc = webcamRef.current.getScreenshot();
+      const imgSrc = webcamRef.current.getScreenshot();
         setImgSrc(imgSrc);
         setCapturePhoto(true);
-    }, [webcamRef, setImgSrc, setCapturePhoto]);
+        if (oriOcean.length === 0) {
+          Predict(imgSrc).then(console.log);
+          setOriOcean([3,2,7,3,9]);
+        }
+    }, [webcamRef, setImgSrc, setCapturePhoto, oriOcean, setOriOcean]);
 
     React.useEffect(() => {
       if (recordedChunks.length){
@@ -75,11 +86,14 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto}) => {
       <Grid className="webcam-container" container spacing={2} alignItems="center" justifyContent="center">
         <Grid item xs={12} justifyContent="center">
           <Webcam
-            width='100%'
             mirrored
             audio={false}
             ref={webcamRef}
+            width="80%"
             screenshotFormat="image/jpeg"
+            imageSmoothing='true'
+            width="100%"
+            videoConstraints={videoConstraints}
           />
         </Grid>
         <Grid item className="overlay-container" xs={12} justifyContent="center">
