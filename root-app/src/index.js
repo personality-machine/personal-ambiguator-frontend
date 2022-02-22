@@ -7,6 +7,7 @@ import Recorder from './recorder';
 import Sliders from  './sliders';
 import Display from './display';
 import Predict from './tensorflow_test';
+import Gradient from './gradient';
 import ScoreDisplay from './scoreDisplay';
 import './index.css';
 
@@ -42,6 +43,7 @@ const App = () => {
   }
    if (imgSrc != null){
     Predict(imgSrc).then(console.log);
+    Gradient(imgSrc).then(console.log);
    }
 
   return (
