@@ -3,34 +3,34 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
+  PointElement,
+  LineElement,
   BarElement,
   Title,
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Bar, getElementAtEvent } from 'react-chartjs-2';
+import { Line, getElementAtEvent } from 'react-chartjs-2';
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
+  PointElement,
+  LineElement,
   BarElement,
   Title,
   Tooltip,
   Legend
 );
+
 ChartJS.defaults.font.size = 20;
-const ScoreDisplay = () => {
+ChartJS.defaults.font.family = 'monospace';
+const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc}) => {
   const options = {
-    indexAxis: 'y',
-    elements: {
-      bar: {
-        borderWidth: 2,
-      },
-    },
     responsive: true,
     plugins: {
       legend: {
-        position: 'bottom',
+        position: 'top',
       },
       title: {
         display: true,
@@ -39,20 +39,34 @@ const ScoreDisplay = () => {
     },
   };
 
-  const labels = ['Open', 'Contientious', 'Extroverted', 'Agreeable', 'Neurotic'];
+  const labels = ['Openness', 'Conscientiousness', 'Extroversion',
+                  'Agreeableness', 'Neuroticism'];
 
   const data = {
     labels,
     datasets: [
       {
+        type:'line',
         label: 'original',
-        data: [1,1,2,3,4],
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        data: oriOcean,
+        borderColor: 'rgb(25, 79, 156)',
+        backgroundColor: 'rgba(25, 79, 156, 0.5)',
+        pointHitRadius: 20,
+        pointHoverRadius: 12,
+        pointHoverBorderWidth: 5,
+        tension: 0.2,
+        width: 5,
       },
       {
+        type:'line',
         label: 'after params',
-        data: [3,4,7,9,9],
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        data: ocean,
+        borderColor: 'rgb(79, 132, 103)',
+        backgroundColor: 'rgba(79, 132, 103, 0.5)',
+        pointHitRadius: 20,
+        pointHoverRadius: 12,
+        pointHoverBorderWidth: 5,
+        tension: 0.2,
       }
     ],
   };
@@ -60,16 +74,33 @@ const ScoreDisplay = () => {
   const onClickChart = (event) => {
     const {current : chart} = chartRef;
     if (!chart){
-      console.log("!chart");
+      console.error("!chart");
       return;
     }
     const element = getElementAtEvent(chart, event);
-    const { datasetIndex, index } = element[0];
-    console.log(data.labels[index], data.datasets[datasetIndex].label, data.datasets[datasetIndex].data[index]);
+    if(element.length > 0) {
+      const { datasetIndex, index } = element[0];
+      let saliencyPath = new String('saliency/');
+      switch(data.datasets[datasetIndex].label) {
+        case 'original':
+          saliencyPath = saliencyPath.concat('original/');
+          break;
+        case 'after params':
+          saliencyPath = saliencyPath.concat('after/');
+          break;
+        default:
+          console.log('unindentified label');
+          break;
+      }
+      saliencyPath = saliencyPath.concat(data.labels[index]).concat(".png");
+      setSaliencySrc(saliencyPath.toLowerCase());
+      console.log(saliencyPath.toLowerCase());
+      console.log(data.labels[index], data.datasets[datasetIndex].label, data.datasets[datasetIndex].data[index]);
+    }
   }
   
   return(
-    <Bar ref={chartRef} options={options} data={data} onClick={onClickChart}/>
+    <Line ref={chartRef} options={options} data={data} onClick={onClickChart}/>
   );
 
 };

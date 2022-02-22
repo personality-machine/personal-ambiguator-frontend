@@ -3,6 +3,8 @@ import {render} from 'react-dom';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
+import domtoimage from 'dom-to-image';
+import Stack from '@mui/material/Stack';
 import Recorder from './recorder';
 import Sliders from  './sliders';
 import Display from './display';
@@ -16,11 +18,15 @@ const App = () => {
   const [brightness, setBrightness] = React.useState(100);
   const [saturate, setSaturate] = React.useState(100);
   const [imgSrc, setImgSrc] = React.useState(null);
+  const [saliencySrc, setSaliencySrc] = React.useState(null);
+  const [cssImgSrc, setCssImgSrc] = React.useState(null);
   const [videoSrc, setVideoSrc] = React.useState(null);
   const [recordVideo, setRecordVideo] = React.useState(false);
   const [capturePhoto, setCapturePhoto] = React.useState(false);
+  const [evaluating, setEvaluating] = React.useState(false);
   // may work together with some callModel variable to handle updates
-  const [ocean, setOcean] = React.useState(null); 
+  const [ocean, setOcean] = React.useState([]);
+  const [oriOcean, setOriOcean] = React.useState([]); 
 
   const handleRecordAgain = () => {
     setRecordVideo(false);
@@ -28,6 +34,30 @@ const App = () => {
     setContrast(100);
     setBrightness(100);
     setSaturate(100);
+    setImgSrc(null);
+    setVideoSrc(null);
+    setCssImgSrc(null);
+    setEvaluating(false);
+    setOcean([]);
+    setOriOcean([]);
+  }
+
+  const convertToJpeg = () => {
+    let node = document.getElementById('image-node');
+    domtoimage.toJpeg(node).then(function (cssImgSrc){
+      setCssImgSrc(cssImgSrc);
+      setEvaluating(true);
+      Predict(cssImgSrc).then(console.log);
+      setOcean([1,7,5,2,4]);
+    }).catch (function (error) {
+      console.error(error);
+    })
+  }
+
+  const handleAdjustParams = () => {
+    setCssImgSrc(null);
+    setEvaluating(false);
+    setOcean([]);
   }
 
   const style = {
@@ -41,10 +71,12 @@ const App = () => {
       fontFamily: 'courier new'
     }
   }
+
    if (imgSrc != null){
     //Predict(imgSrc).then(console.log);
     Gradient(imgSrc, 0).then(console.log);
    }
+
 
   return (
   <Box sx={{ flexGrow: 1 }}>
@@ -53,20 +85,24 @@ const App = () => {
             <>
               <Grid item xs={1}/>
               <Grid item xs={4}>
-                <Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} videoSrc={videoSrc} recordVideo={recordVideo} capturePhoto={capturePhoto}/> 
+                <Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} saliencySrc={saliencySrc} videoSrc={videoSrc} recordVideo={recordVideo} capturePhoto={capturePhoto} evaluating={evaluating}/> 
                 <Button style={style.normalButton} onClick={handleRecordAgain}>Record Again</Button> 
-                <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate}/>
+                <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate} evaluating={evaluating} contrast={contrast} brightness={brightness} saturate={saturate}/>
+                <Stack spacing={2} direction="row" justifyContent="center">
+                  <Button style={style.normalButton} onClick={convertToJpeg}>Evaluate</Button>
+                  <Button style={style.normalButton} onClick={handleAdjustParams}>Adjust params</Button>
+                </Stack>
               </Grid>
               <Grid item xs={6}>
                 {/*<Typography variant="h2" style={style.typography}>Scores</Typography>*/}
-                <ScoreDisplay/>
+                <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc}/>
               </Grid>
               <Grid item xs={1}/>
             </> :
             <>
               <Grid item xs={3}/>
               <Grid item xs={6}>
-                <Recorder setImgSrc={setImgSrc} setVideoSrc={setVideoSrc} setRecordVideo={setRecordVideo} setCapturePhoto={setCapturePhoto}/>
+                <Recorder setImgSrc={setImgSrc} setVideoSrc={setVideoSrc} setRecordVideo={setRecordVideo} setCapturePhoto={setCapturePhoto} oriOcean={oriOcean} setOriOcean={setOriOcean}/>
               </Grid>
               {/*size 3 containers used for centering can be filled*/}
               <Grid item xs={3}/>
