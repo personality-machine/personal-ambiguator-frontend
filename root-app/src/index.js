@@ -73,8 +73,8 @@ const App = () => {
   }
 
    if (imgSrc != null){
-    Predict(imgSrc).then(console.log);
-    Gradient(imgSrc).then(console.log);
+    //Predict(imgSrc).then(console.log);
+    Gradient(imgSrc, 0).then(console.log);
    }
 
 
