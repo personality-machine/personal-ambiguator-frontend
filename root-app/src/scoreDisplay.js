@@ -26,7 +26,7 @@ ChartJS.register(
 
 ChartJS.defaults.font.size = 20;
 ChartJS.defaults.font.family = 'monospace';
-const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriArr, setOriArr, afterArr, setAfterArr}) => {
+const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriArr, setOriArr, afterArr, setAfterArr, datasetIndex, setDatasetIndex, index, setIndex}) => {
   const options = {
     responsive: true,
     plugins: {
@@ -72,8 +72,6 @@ const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriAr
     ],
   };
   const chartRef = useRef(null);
-  const [datasetIndex, setDatasetIndex] = React.useState(null);
-  const [index, setIndex] = React.useState(null);
   const onClickChart = (event) => {
     const {current : chart} = chartRef;
     if (!chart){

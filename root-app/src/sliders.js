@@ -3,15 +3,24 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import './sliders.css';
 
-const Sliders = ({setContrast,setBrightness,setSaturate,evaluating,contrast,brightness,saturate}) => {
+const Sliders = ({setContrast,setBrightness,setSaturate,evaluating,contrast,brightness,saturate,setSaliencySrc,setDatasetIndex, setIndex}) => {
     const handleChangeContrast = (event, newValue) => {
-        setContrast(newValue);
+      setSaliencySrc(null);
+      setDatasetIndex(null);
+      setIndex(null);
+      setContrast(newValue);
     }
     const handleChangeBrightness = (event, newValue) => {
-        setBrightness(newValue);
+      setSaliencySrc(null);
+      setDatasetIndex(null);
+      setIndex(null);
+      setBrightness(newValue);
     }
     const handleChangeSaturate = (event, newValue) => {
-        setSaturate(newValue);
+      setSaliencySrc(null);
+      setDatasetIndex(null);
+      setIndex(null);
+      setSaturate(newValue);
     }
 
     const style ={
