@@ -9,9 +9,10 @@ import Recorder from './recorder';
 import Sliders from  './sliders';
 import Display from './display';
 import Predict from './tensorflow_test';
-import Gradient from './gradient';
 import ScoreDisplay from './scoreDisplay';
+import ModelEvaluate from './modelEvaluate';
 import './index.css';
+
 
 const App = () => {
   const [contrast, setContrast] = React.useState(100);
@@ -26,7 +27,53 @@ const App = () => {
   const [evaluating, setEvaluating] = React.useState(false);
   // may work together with some callModel variable to handle updates
   const [ocean, setOcean] = React.useState([]);
-  const [oriOcean, setOriOcean] = React.useState([]); 
+  const [oriOcean, setOriOcean] = React.useState([]);
+  // original saliency url, [oriUrlO, oriUrlC, oriUrlE, oriUrlA, oriUrlN]
+  const [oriArr, setOriArr] = React.useState([
+    {
+      id : 1,
+      url: ""
+    },
+    {
+      id : 2,
+      url: ""
+    },
+    {
+      id : 3,
+      url: ""
+    },
+    {
+      id : 4,
+      url: ""
+    },
+    {
+      id : 5,
+      url: ""
+    }
+  ]);
+  // after saliency url, [aftUrlO, aftUrlC, aftUrlE, aftUrlA, aftUrlN]
+  const [afterArr, setAfterArr] = React.useState([
+    {
+      id : 6,
+      url: ""
+    },
+    {
+      id : 7,
+      url: ""
+    },
+    {
+      id : 8,
+      url: ""
+    },
+    {
+      id : 9,
+      url: ""
+    },
+    {
+      id : 10,
+      url: ""
+    }
+  ]);
 
   const handleRecordAgain = () => {
     setRecordVideo(false);
@@ -45,10 +92,18 @@ const App = () => {
   const convertToJpeg = () => {
     let node = document.getElementById('image-node');
     domtoimage.toJpeg(node).then(function (cssImgSrc){
+      console.log('after');
+      console.log(cssImgSrc.split('').reduce((a,b) => (((a << 5) - a) + b.charCodeAt(0))|0, 0));
       setCssImgSrc(cssImgSrc);
       setEvaluating(true);
-      Predict(cssImgSrc).then(console.log);
-      setOcean([1,7,5,2,4]);
+      ModelEvaluate(cssImgSrc, 'after params', oriArr, {setOriArr}, afterArr, {setAfterArr});
+      Predict(cssImgSrc).then((arr) => {
+        arr = arr[0].slice(0,-1);
+        for (var i = 0; i < arr.length; i++){
+          arr[i] *= 10;
+        }
+        setOcean(arr);
+      });
     }).catch (function (error) {
       console.error(error);
     })
@@ -72,12 +127,6 @@ const App = () => {
     }
   }
 
-   if (imgSrc != null){
-    //Predict(imgSrc).then(console.log);
-    Gradient(imgSrc, 0).then(console.log);
-   }
-
-
   return (
   <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={3}>
@@ -95,14 +144,14 @@ const App = () => {
               </Grid>
               <Grid item xs={6}>
                 {/*<Typography variant="h2" style={style.typography}>Scores</Typography>*/}
-                <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc}/>
+                <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc} oriArr={oriArr} afterArr={afterArr}/>
               </Grid>
               <Grid item xs={1}/>
             </> :
             <>
               <Grid item xs={3}/>
               <Grid item xs={6}>
-                <Recorder setImgSrc={setImgSrc} setVideoSrc={setVideoSrc} setRecordVideo={setRecordVideo} setCapturePhoto={setCapturePhoto} oriOcean={oriOcean} setOriOcean={setOriOcean}/>
+                <Recorder setImgSrc={setImgSrc} setVideoSrc={setVideoSrc} setRecordVideo={setRecordVideo} setCapturePhoto={setCapturePhoto} oriOcean={oriOcean} setOriOcean={setOriOcean} oriArr={oriArr} setOriArr={setOriArr} afterArr = {afterArr} setAfterArr = {setAfterArr}/>
               </Grid>
               {/*size 3 containers used for centering can be filled*/}
               <Grid item xs={3}/>

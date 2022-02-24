@@ -10,7 +10,7 @@ const Predict =
         tensor = tensor.slice([0,0,0], [224,224,3]).cast('float32').reshape([1,224,224,3]);
 
         var result = model.predict(tensor);
-        return result;
+        return result.array();
     }
 
 

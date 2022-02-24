@@ -8,8 +8,9 @@ import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import Predict from './tensorflow_test';
 import './recorder.css';
+import ModelEvaluate from './modelEvaluate.js';
 
-const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto, oriOcean, setOriOcean}) => {
+const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto, oriOcean, setOriOcean, oriArr, setOriArr, afterArr, setAfterArr}) => {
     const webcamRef = React.useRef(null); // persistent reference cause no rerendering
     const mediaRecorderRef = React.useRef(null);
     const [capturing, setCapturing] = React.useState(false);
@@ -64,10 +65,18 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto, oriOc
     const capture = React.useCallback(() => { 
       const imgSrc = webcamRef.current.getScreenshot();
         setImgSrc(imgSrc);
+        console.log("original");
+        console.log(imgSrc.split('').reduce((a,b) => (((a << 5) - a) + b.charCodeAt(0))|0, 0));
         setCapturePhoto(true);
         if (oriOcean.length === 0) {
-          Predict(imgSrc).then(console.log);
-          setOriOcean([3,2,7,3,9]);
+          ModelEvaluate(imgSrc, 'original', oriArr, {setOriArr}, afterArr, {setAfterArr});
+          Predict(imgSrc).then((arr) => {
+            arr = arr[0].slice(0,-1);
+            for (var i = 0; i < arr.length; i++){
+              arr[i] *= 10;
+            }
+            setOriOcean(arr);
+          });
         }
     }, [webcamRef, setImgSrc, setCapturePhoto, oriOcean, setOriOcean]);
 
