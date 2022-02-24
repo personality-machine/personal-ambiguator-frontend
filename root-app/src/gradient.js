@@ -20,7 +20,15 @@ const Gradient =
         const min = result.min();
         result = result.sub(min).div(max.sub(min));
 
-        return result.array();
+        const resTensor = tf.tensor(result.arraySync()[0]);
+        const canvas = document.createElement('canvas');
+        canvas.width = resTensor.width
+        canvas.height = resTensor.height
+        await tf.browser.toPixels(resTensor, canvas);
+        const dataUrl = canvas.toDataURL();
+
+        // return result.array();
+        return dataUrl;
     }
 
 
