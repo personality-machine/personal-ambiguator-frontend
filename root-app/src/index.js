@@ -10,7 +10,6 @@ import Sliders from  './sliders';
 import Display from './display';
 import Predict from './tensorflow_test';
 import ScoreDisplay from './scoreDisplay';
-import ModelEvaluate from './modelEvaluate';
 import './index.css';
 
 
@@ -96,7 +95,6 @@ const App = () => {
       console.log(cssImgSrc.split('').reduce((a,b) => (((a << 5) - a) + b.charCodeAt(0))|0, 0));
       setCssImgSrc(cssImgSrc);
       setEvaluating(true);
-      ModelEvaluate(cssImgSrc, 'after params', oriArr, {setOriArr}, afterArr, {setAfterArr});
       Predict(cssImgSrc).then((arr) => {
         arr = arr[0].slice(0,-1);
         for (var i = 0; i < arr.length; i++){
@@ -144,14 +142,14 @@ const App = () => {
               </Grid>
               <Grid item xs={6}>
                 {/*<Typography variant="h2" style={style.typography}>Scores</Typography>*/}
-                <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc} oriArr={oriArr} afterArr={afterArr}/>
+                <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc} imgSrc={imgSrc} cssImgSrc={cssImgSrc} oriArr={oriArr} setOriArr={setOriArr} afterArr={afterArr} setAfterArr={setAfterArr}/>
               </Grid>
               <Grid item xs={1}/>
             </> :
             <>
               <Grid item xs={3}/>
               <Grid item xs={6}>
-                <Recorder setImgSrc={setImgSrc} setVideoSrc={setVideoSrc} setRecordVideo={setRecordVideo} setCapturePhoto={setCapturePhoto} oriOcean={oriOcean} setOriOcean={setOriOcean} oriArr={oriArr} setOriArr={setOriArr} afterArr = {afterArr} setAfterArr = {setAfterArr}/>
+                <Recorder setImgSrc={setImgSrc} setVideoSrc={setVideoSrc} setRecordVideo={setRecordVideo} setCapturePhoto={setCapturePhoto} oriOcean={oriOcean} setOriOcean={setOriOcean}/>
               </Grid>
               {/*size 3 containers used for centering can be filled*/}
               <Grid item xs={3}/>

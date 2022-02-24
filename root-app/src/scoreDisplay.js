@@ -1,4 +1,5 @@
-import {React, useRef} from 'react';
+import React, {useRef, useEffect} from 'react';
+import ModelEvaluate from './modelEvaluate';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -25,7 +26,7 @@ ChartJS.register(
 
 ChartJS.defaults.font.size = 20;
 ChartJS.defaults.font.family = 'monospace';
-const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, oriArr, afterArr}) => {
+const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriArr, setOriArr, afterArr, setAfterArr}) => {
   const options = {
     responsive: true,
     plugins: {
@@ -71,6 +72,8 @@ const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, oriArr, afterArr}) => {
     ],
   };
   const chartRef = useRef(null);
+  const [datasetIndex, setDatasetIndex] = React.useState(null);
+  const [index, setIndex] = React.useState(null);
   const onClickChart = (event) => {
     const {current : chart} = chartRef;
     if (!chart){
@@ -80,23 +83,32 @@ const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, oriArr, afterArr}) => {
     const element = getElementAtEvent(chart, event);
     if(element.length > 0) {
       const { datasetIndex, index } = element[0];
+      setDatasetIndex(datasetIndex);
+      setIndex(index);
       // let saliencyPath = new String('saliency/');
+      // saliencyPath = saliencyPath.concat(data.labels[index]).concat(".png");
+      // setSaliencySrc(saliencyPath.toLowerCase());
+      // console.log(data.labels[index], data.datasets[datasetIndex].label, data.datasets[datasetIndex].data[index]);
+    }
+  }
+
+  useEffect(() => {
+    if (datasetIndex !== null && index !== null){
       switch(data.datasets[datasetIndex].label) {
         case 'original':
+          ModelEvaluate(imgSrc, 'original', index, oriArr, {setOriArr}, afterArr, {setAfterArr});
           setSaliencySrc(oriArr[index].url);
           break;
         case 'after params':
+          ModelEvaluate(cssImgSrc, 'after params', index, oriArr, {setOriArr}, afterArr, {setAfterArr});
           setSaliencySrc(afterArr[index].url);
           break;
         default:
           console.log('unindentified label');
           break;
       }
-      // saliencyPath = saliencyPath.concat(data.labels[index]).concat(".png");
-      // setSaliencySrc(saliencyPath.toLowerCase());
-      console.log(data.labels[index], data.datasets[datasetIndex].label, data.datasets[datasetIndex].data[index]);
     }
-  }
+  })
   
   return(
     <Line ref={chartRef} options={options} data={data} onClick={onClickChart}/>
