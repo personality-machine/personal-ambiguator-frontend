@@ -100,7 +100,6 @@ const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriAr
             ModelEvaluate(imgSrc, 'original', index, oriArr, {setOriArr}, afterArr, {setAfterArr});
           }
           setSaliencySrc(oriArr[index].url);
-          console.log(oriArr);
           break;
         case 'after params':
           if (afterArr[index].url === ""){

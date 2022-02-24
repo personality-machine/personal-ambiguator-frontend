@@ -27,8 +27,8 @@ const App = () => {
   // may work together with some callModel variable to handle updates
   const [ocean, setOcean] = React.useState([]);
   const [oriOcean, setOriOcean] = React.useState([]);
-  // original saliency url, [oriUrlO, oriUrlC, oriUrlE, oriUrlA, oriUrlN]
-  const [oriArr, setOriArr] = React.useState([
+
+  const oriListPattern = [
     {
       id : 1,
       url: ""
@@ -49,9 +49,8 @@ const App = () => {
       id : 5,
       url: ""
     }
-  ]);
-  // after saliency url, [aftUrlO, aftUrlC, aftUrlE, aftUrlA, aftUrlN]
-  const [afterArr, setAfterArr] = React.useState([
+  ]
+  const afterListPattern = [
     {
       id : 6,
       url: ""
@@ -72,7 +71,11 @@ const App = () => {
       id : 10,
       url: ""
     }
-  ]);
+  ]
+  // original saliency url, [oriUrlO, oriUrlC, oriUrlE, oriUrlA, oriUrlN]
+  const [oriArr, setOriArr] = React.useState(oriListPattern);
+  // after saliency url, [aftUrlO, aftUrlC, aftUrlE, aftUrlA, aftUrlN]
+  const [afterArr, setAfterArr] = React.useState(afterListPattern);
 
   const handleRecordAgain = () => {
     setRecordVideo(false);
@@ -86,6 +89,9 @@ const App = () => {
     setEvaluating(false);
     setOcean([]);
     setOriOcean([]);
+    setSaliencySrc(null);
+    setOriArr(oriListPattern);
+    setAfterArr(afterListPattern);
   }
 
   const convertToJpeg = () => {
@@ -111,6 +117,8 @@ const App = () => {
     setCssImgSrc(null);
     setEvaluating(false);
     setOcean([]);
+    setSaliencySrc(null);
+    setAfterArr(afterListPattern);
   }
 
   const style = {
