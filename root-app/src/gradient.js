@@ -15,6 +15,11 @@ const Gradient =
         let g = tf.grad(f);
         var result = g(tensor);
 
+        //normalize data
+        const max = result.max();
+        const min = result.min();
+        result = result.sub(min).div(max.sub(min));
+
         return result.array();
     }
 
