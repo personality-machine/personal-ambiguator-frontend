@@ -3,13 +3,10 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Webcam from 'react-webcam';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
-import StopCircleIcon from '@mui/icons-material/StopCircle';
 import Predict from './tensorflow_test';
 import './recorder.css';
 
-const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto, oriOcean, setOriOcean, liveUpdateFlag, setLiveUpdateFlag}) => {
+const Recorder = ({setImgSrc, setCapturePhoto, oriOcean, setOriOcean, liveUpdateFlag, setLiveUpdateFlag}) => {
     const webcamRef = React.useRef(null); // persistent reference cause no rerendering
 
     const videoConstraints = {
@@ -56,7 +53,7 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto, oriOc
         }
       }, 1000);
       return () => clearInterval(interval);
-    },[])
+    },[liveUpdate, liveUpdateFlag])
 
     const pause = () => {
       setLiveUpdateFlag(false);

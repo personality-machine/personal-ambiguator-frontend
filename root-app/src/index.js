@@ -21,8 +21,6 @@ const App = () => {
   const [imgSrc, setImgSrc] = React.useState(null);
   const [saliencySrc, setSaliencySrc] = React.useState(null);
   const [cssImgSrc, setCssImgSrc] = React.useState(null);
-  const [videoSrc, setVideoSrc] = React.useState(null);
-  const [recordVideo, setRecordVideo] = React.useState(false);
   const [capturePhoto, setCapturePhoto] = React.useState(false);
   const [evaluating, setEvaluating] = React.useState(false);
   // may work together with some callModel variable to handle updates
@@ -82,13 +80,11 @@ const App = () => {
   const [afterArr, setAfterArr] = React.useState(afterListPattern);
 
   const handleRecordAgain = () => {
-    setRecordVideo(false);
     setCapturePhoto(false);
     setContrast(100);
     setBrightness(100);
     setSaturate(100);
     setImgSrc(null);
-    setVideoSrc(null);
     setCssImgSrc(null);
     setEvaluating(false);
     setOcean([]);
@@ -148,8 +144,8 @@ const App = () => {
               <Grid item xs={1}/>
               <Grid item xs={4}>
                 {liveUpdateFlag ?
-                <Recorder setImgSrc={setImgSrc} setVideoSrc={setVideoSrc} setRecordVideo={setRecordVideo} setCapturePhoto={setCapturePhoto} oriOcean={oriOcean} setOriOcean={setOriOcean} liveUpdateFlag={liveUpdateFlag} setLiveUpdateFlag={setLiveUpdateFlag}/>
-                :(<div><Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} saliencySrc={saliencySrc} videoSrc={videoSrc} recordVideo={recordVideo} capturePhoto={capturePhoto} evaluating={evaluating}/>
+                <Recorder setImgSrc={setImgSrc} setCapturePhoto={setCapturePhoto} oriOcean={oriOcean} setOriOcean={setOriOcean} liveUpdateFlag={liveUpdateFlag} setLiveUpdateFlag={setLiveUpdateFlag}/>
+                :(<div><Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} saliencySrc={saliencySrc} capturePhoto={capturePhoto}/>
                   <Button style={style.normalButton} onClick={handleRecordAgain}>Start Again</Button>
                 <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate} evaluating={evaluating} contrast={contrast} brightness={brightness} saturate={saturate} setSaliencySrc={setSaliencySrc} setDatasetIndex={setDatasetIndex} setIndex={setIndex}/>
                 <Stack spacing={2} direction="row" justifyContent="center">
