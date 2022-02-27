@@ -95,13 +95,13 @@ const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriAr
       switch(data.datasets[datasetIndex].label) {
         case 'original':
           if (oriArr[index].url === ""){
-            ModelEvaluate(imgSrc, 'original', index, oriArr, {setOriArr}, afterArr, {setAfterArr});
+            ModelEvaluate(imgSrc, 'original', oriArr, {setOriArr}, afterArr, {setAfterArr});
           }
           setSaliencySrc(oriArr[index].url);
           break;
         case 'after params':
           if (afterArr[index].url === ""){
-            ModelEvaluate(cssImgSrc, 'after params', index, oriArr, {setOriArr}, afterArr, {setAfterArr});
+            ModelEvaluate(cssImgSrc, 'after params', oriArr, {setOriArr}, afterArr, {setAfterArr});
           }
           setSaliencySrc(afterArr[index].url);
           break;
