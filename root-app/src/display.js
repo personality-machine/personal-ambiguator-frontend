@@ -12,7 +12,12 @@ const Display = ({contrast, brightness, saturate, imgSrc, saliencySrc, videoSrc,
       <Grid container>
         {imgSrc && capturePhoto &&
         (<div id="image-node">
-          <img id="ori-image" src={imgSrc} alt="" style={filters} width="100%"/>
+          <img
+            id="ori-image"
+            src={imgSrc}
+            alt=""
+            style={filters}
+            width="100%"/>
           {saliencySrc && <img
             id="saliency-map"
             src={saliencySrc}
