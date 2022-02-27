@@ -1,6 +1,6 @@
 import Gradient from './gradient';
 
-const ModelEvaluate = (src, srcCase, index, oriArr, {setOriArr}, afterArr, {setAfterArr}) => {
+const ModelEvaluate = (src, srcCase, oriArr, {setOriArr}, afterArr, {setAfterArr}) => {
       let newArr = [];    
       switch(srcCase){
         case 'original':
@@ -13,9 +13,11 @@ const ModelEvaluate = (src, srcCase, index, oriArr, {setOriArr}, afterArr, {setA
           console.log('unindentified label');
           break;
       }
-      if (src != null && newArr[index].url === ""){
-        Gradient(src, index).then((dataUri) => {
-          newArr[index].url = dataUri;
+      if (src != null){
+        Gradient(src).then((dataUri) => {
+          for (let index = 0; index < newArr.length; index++){
+            newArr[index].url = dataUri[index];
+          }
           switch(srcCase){
             case 'original':
               setOriArr(newArr);
