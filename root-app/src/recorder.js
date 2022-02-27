@@ -9,11 +9,8 @@ import StopCircleIcon from '@mui/icons-material/StopCircle';
 import Predict from './tensorflow_test';
 import './recorder.css';
 
-const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto, oriOcean, setOriOcean}) => {
+const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto, oriOcean, setOriOcean, liveUpdateFlag, setLiveUpdateFlag}) => {
     const webcamRef = React.useRef(null); // persistent reference cause no rerendering
-    const mediaRecorderRef = React.useRef(null);
-    const [capturing, setCapturing] = React.useState(false);
-    const [recordedChunks, setRecordedChunks] = React.useState([]);
 
     const videoConstraints = {
       // width: 224,
@@ -37,35 +34,9 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto, oriOc
       }
     }
 
-    const handleDataAvailable = React.useCallback(
-      ({ data }) => {
-        if (data.size > 0) {
-          setRecordedChunks((prev) => prev.concat(data));
-        }
-      },
-      [setRecordedChunks]
-    );
-
-    const handleStartCaptureClick = React.useCallback(() => {
-      setCapturing(true);
-      setVideoSrc(null);
-      mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
-        mimeType: "video/webm"
-      });
-      mediaRecorderRef.current.ondataavailable = handleDataAvailable;
-      mediaRecorderRef.current.start();
-    }, [webcamRef, setCapturing, mediaRecorderRef, handleDataAvailable, setVideoSrc]);
-
-    const handleStopCaptureClick = React.useCallback(() => {
-      setCapturing(false);
-      mediaRecorderRef.current.stop();
-    }, [mediaRecorderRef, setCapturing]);
-
-    const capture = React.useCallback(() => { 
+    const liveUpdate = async () => {
       const imgSrc = webcamRef.current.getScreenshot();
         setImgSrc(imgSrc);
-        console.log("original");
-        console.log(imgSrc.split('').reduce((a,b) => (((a << 5) - a) + b.charCodeAt(0))|0, 0));
         setCapturePhoto(true);
         if (oriOcean.length === 0) {
           Predict(imgSrc).then((arr) => {
@@ -76,17 +47,20 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto, oriOc
             setOriOcean(arr);
           });
         }
-    }, [webcamRef, setImgSrc, setCapturePhoto, oriOcean, setOriOcean]);
+    }
 
     React.useEffect(() => {
-      if (recordedChunks.length){
-        const blob = new Blob(recordedChunks, {type: "video/webm"});
-        const url = URL.createObjectURL(blob);
-        setVideoSrc(url);
-        setRecordedChunks([]);
-        setRecordVideo(true);
-      }
-    }, [recordedChunks, setVideoSrc, setRecordVideo])
+      const interval = setInterval(() => {
+        if (liveUpdateFlag){
+          liveUpdate();
+        }
+      }, 1000);
+      return () => clearInterval(interval);
+    },[])
+
+    const pause = () => {
+      setLiveUpdateFlag(false);
+    }
 
     return (
     <Box sx={{ flexGrow:1 }}>
@@ -103,26 +77,8 @@ const Recorder = ({setImgSrc,setVideoSrc, setRecordVideo, setCapturePhoto, oriOc
             videoConstraints={videoConstraints}
           />
         </Grid>
-        <Grid item className="overlay-container" xs={12} justifyContent="center">
-        {capturing ? 
-          (<IconButton
-            style={style.recordButton}
-            variant='contained'
-            aria-label="stop-video"
-            onClick={handleStopCaptureClick}>
-            <StopCircleIcon style={style.recordIcon}/>
-          </IconButton>)
-        : (<IconButton
-            style={style.recordButton}
-            align="center"
-            variant="outlined"
-            aria-label="start-video"
-            onClick={handleStartCaptureClick}>
-            <RadioButtonCheckedIcon style={style.recordIcon}/>
-        </IconButton>)}
-        </Grid>
       </Grid>
-      <Button onClick={capture} style={style.normalButton}>Capture photo</Button>
+      <Button onClick={pause} style={style.normalButton}>Pause</Button>
     </Box>
     );
 };

@@ -29,6 +29,7 @@ const App = () => {
   const [oriOcean, setOriOcean] = React.useState([]);
   const [datasetIndex, setDatasetIndex] = React.useState(null);
   const [index, setIndex] = React.useState(null);
+  const [liveUpdateFlag, setLiveUpdateFlag] = React.useState(true);
 
   const oriListPattern = [
     {
@@ -96,13 +97,12 @@ const App = () => {
     setIndex(null);
     setOriArr(oriListPattern);
     setAfterArr(afterListPattern);
+    setLiveUpdateFlag(true);
   }
 
   const convertToJpeg = () => {
     let node = document.getElementById('image-node');
     domtoimage.toJpeg(node).then(function (cssImgSrc){
-      console.log('after');
-      console.log(cssImgSrc.split('').reduce((a,b) => (((a << 5) - a) + b.charCodeAt(0))|0, 0));
       setCssImgSrc(cssImgSrc);
       setEvaluating(true);
       Predict(cssImgSrc).then((arr) => {
@@ -142,31 +142,26 @@ const App = () => {
   return (
   <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={3}>
-        {recordVideo || capturePhoto ? 
+        {
             <>
               <Grid item xs={1}/>
               <Grid item xs={4}>
-                <Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} saliencySrc={saliencySrc} videoSrc={videoSrc} recordVideo={recordVideo} capturePhoto={capturePhoto} evaluating={evaluating}/> 
-                <Button style={style.normalButton} onClick={handleRecordAgain}>Record Again</Button> 
+                {liveUpdateFlag ?
+                <Recorder setImgSrc={setImgSrc} setVideoSrc={setVideoSrc} setRecordVideo={setRecordVideo} setCapturePhoto={setCapturePhoto} oriOcean={oriOcean} setOriOcean={setOriOcean} liveUpdateFlag={liveUpdateFlag} setLiveUpdateFlag={setLiveUpdateFlag}/>
+                :(<div><Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} saliencySrc={saliencySrc} videoSrc={videoSrc} recordVideo={recordVideo} capturePhoto={capturePhoto} evaluating={evaluating}/>
+                  <Button style={style.normalButton} onClick={handleRecordAgain}>Start Again</Button>
                 <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate} evaluating={evaluating} contrast={contrast} brightness={brightness} saturate={saturate} setSaliencySrc={setSaliencySrc} setDatasetIndex={setDatasetIndex} setIndex={setIndex}/>
                 <Stack spacing={2} direction="row" justifyContent="center">
                   <Button style={style.normalButton} onClick={convertToJpeg}>Evaluate</Button>
                   <Button style={style.normalButton} onClick={handleAdjustParams}>Adjust params</Button>
-                </Stack>
+                </Stack></div>
+                )}
               </Grid>
               <Grid item xs={6}>
                 {/*<Typography variant="h2" style={style.typography}>Scores</Typography>*/}
-                <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc} imgSrc={imgSrc} cssImgSrc={cssImgSrc} oriArr={oriArr} setOriArr={setOriArr} afterArr={afterArr} setAfterArr={setAfterArr} datasetIndex={datasetIndex} setDatasetIndex={setDatasetIndex} index={index} setIndex={setIndex}/>
+                <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc} imgSrc={imgSrc} cssImgSrc={cssImgSrc} oriArr={oriArr} setOriArr={setOriArr} afterArr={afterArr} setAfterArr={setAfterArr} datasetIndex={datasetIndex} setDatasetIndex={setDatasetIndex} index={index} setIndex={setIndex} setImgSrc={setImgSrc} setVideoSrc={setVideoSrc} setRecordVideo={setRecordVideo} setCapturePhoto={setCapturePhoto} oriOcean={oriOcean} setOriOcean={setOriOcean}/>
               </Grid>
               <Grid item xs={1}/>
-            </> :
-            <>
-              <Grid item xs={3}/>
-              <Grid item xs={6}>
-                <Recorder setImgSrc={setImgSrc} setVideoSrc={setVideoSrc} setRecordVideo={setRecordVideo} setCapturePhoto={setCapturePhoto} oriOcean={oriOcean} setOriOcean={setOriOcean}/>
-              </Grid>
-              {/*size 3 containers used for centering can be filled*/}
-              <Grid item xs={3}/>
             </>}
       </Grid>
     </Box>
