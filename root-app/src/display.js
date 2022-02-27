@@ -25,14 +25,6 @@ const Display = ({contrast, brightness, saturate, imgSrc, saliencySrc, videoSrc,
             width="100%"
             height="100%"/>}
           </div>)}
-        
-        {videoSrc && recordVideo &&
-        (<div id="video-node">
-          <video controls width="100%" style={filters}>
-          <source src={videoSrc} type="video/webm"></source></video>
-          </div>
-          )
-        }
         </Grid>
     );
 }
