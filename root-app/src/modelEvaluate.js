@@ -15,18 +15,19 @@ const ModelEvaluate = (src, srcCase, index, oriArr, {setOriArr}, afterArr, {setA
       }
       if (src != null && newArr[index].url === ""){
         Gradient(src, index).then((dataUri) => {
-          newArr[index].url = dataUri;
-          switch(srcCase){
-            case 'original':
-              setOriArr(newArr);
-              break;
-            case 'after params':
-              setAfterArr(newArr);
-              break;
-            default:
-              console.log('unindentified label');
-              break;
-          }
+          console.log(dataUri);
+          // newArr[index].url = dataUri;
+          // switch(srcCase){
+          //   case 'original':
+          //     setOriArr(newArr);
+          //     break;
+          //   case 'after params':
+          //     setAfterArr(newArr);
+          //     break;
+          //   default:
+          //     console.log('unindentified label');
+          //     break;
+          //}
       });
       }
   };
