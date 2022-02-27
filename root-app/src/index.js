@@ -132,11 +132,11 @@ const App = () => {
     normalButton: {
       color: '#ffffff',
       backgroundColor: '#000000',
-      fontFamily: 'courier new',
+      fontFamily: 'monospace',
     },
     typography: {
       color: '#000000',
-      fontFamily: 'courier new'
+      fontFamily: 'monospace'
     }
   }
 
