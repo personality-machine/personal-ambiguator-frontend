@@ -10,6 +10,7 @@ import Sliders from  './sliders';
 import Display from './display';
 import Predict from './tensorflow_test';
 import ScoreDisplay from './scoreDisplay';
+import InfoBox from './infoBox';
 import './index.css';
 
 
@@ -157,6 +158,7 @@ const App = () => {
               <Grid item xs={6}>
                 {/*<Typography variant="h2" style={style.typography}>Scores</Typography>*/}
                 <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc} imgSrc={imgSrc} cssImgSrc={cssImgSrc} oriArr={oriArr} setOriArr={setOriArr} afterArr={afterArr} setAfterArr={setAfterArr} datasetIndex={datasetIndex} setDatasetIndex={setDatasetIndex} index={index} setIndex={setIndex}/>
+                <InfoBox/>
               </Grid>
               <Grid item xs={1}/>
             </> :
