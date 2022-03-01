@@ -48,14 +48,23 @@ body {
   background-color: #f8f8f2;
   margin-top: 1.5rem;
   color: rgb(110, 106, 106);
-  font: 400 10.6666666667px "courier new", exo, ubuntu, "segoe ui", helvetica, arial,
-    sans-serif;
+  font: 400 10.6666666667px "courier new", exo, ubuntu, "segoe ui", helvetica,
+    arial, sans-serif;
   text-align: center;
   /* img size is 50x50 */
   background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAIAAACRXR/mAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAABnSURBVHja7M5RDYAwDEXRDgmvEocnlrQS2SwUFST9uEfBGWs9c97nbGtDcquqiKhOImLs/UpuzVzWEi1atGjRokWLFi1atGjRokWLFi1atGjRokWLFi1af7Ukz8xWp8z8AAAA//8DAJ4LoEAAlL1nAAAAAElFTkSuQmCC")
-  /*background: url("../public/oceanbg.png")*/
-    repeat 0 0;
-  -webkit-animation: bg-scrolling-reverse 0.92s infinite;
+    /*background: url("../public/oceanbg.png")*/ repeat 0 0;
+}
+body::before {
+  content: "Personality Machine";
+  font-size: 5vw;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.pause {
+  /* chrome */
+  -webkit-animation: bg-scrolling-reverse 0.5s infinite;
   /* Safari 4+ */
   -moz-animation: bg-scrolling-reverse 0.92s infinite;
   /* Fx 5+ */
@@ -67,10 +76,4 @@ body {
   -moz-animation-timing-function: linear;
   -o-animation-timing-function: linear;
   animation-timing-function: linear;
-}
-body::before {
-  content: "Personality Machine";
-  font-size: 5vw;
-  font-weight: 100;
-  font-style: normal;
 }

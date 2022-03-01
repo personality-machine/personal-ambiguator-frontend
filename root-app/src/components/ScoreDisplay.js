@@ -1,5 +1,5 @@
 import React, {useRef, useEffect} from 'react';
-import ModelEvaluate from './modelEvaluate';
+import ModelEvaluate from '../model/modelEvaluate';
 import {
   Chart as ChartJS,
   CategoryScale,

@@ -1,16 +1,20 @@
 import React from 'react';
-import {render} from 'react-dom';
+import { render } from 'react-dom';
+import domtoimage from 'dom-to-image';
+
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
-import domtoimage from 'dom-to-image';
 import Stack from '@mui/material/Stack';
-import Recorder from './recorder';
-import Sliders from  './sliders';
-import Display from './display';
-import Predict from './tensorflow_test';
-import ScoreDisplay from './scoreDisplay';
-import InfoBox from './infoBox';
+
+import Recorder from './components/Recorder';
+import Sliders from './components/Sliders';
+import Display from './components/Display';
+import ScoreDisplay from './components/ScoreDisplay';
+import InfoBox from './components/InfoBox';
+
+import Predict from './model/tensorflow_test';
+
 import './index.css';
 
 
@@ -21,8 +25,6 @@ const App = () => {
   const [imgSrc, setImgSrc] = React.useState(null);
   const [saliencySrc, setSaliencySrc] = React.useState(null);
   const [cssImgSrc, setCssImgSrc] = React.useState(null);
-  const [videoSrc, setVideoSrc] = React.useState(null);
-  const [recordVideo, setRecordVideo] = React.useState(false);
   const [capturePhoto, setCapturePhoto] = React.useState(false);
   const [evaluating, setEvaluating] = React.useState(false);
   // may work together with some callModel variable to handle updates
@@ -34,45 +36,45 @@ const App = () => {
 
   const oriListPattern = [
     {
-      id : 1,
+      id: 1,
       url: ""
     },
     {
-      id : 2,
+      id: 2,
       url: ""
     },
     {
-      id : 3,
+      id: 3,
       url: ""
     },
     {
-      id : 4,
+      id: 4,
       url: ""
     },
     {
-      id : 5,
+      id: 5,
       url: ""
     }
   ]
   const afterListPattern = [
     {
-      id : 6,
+      id: 6,
       url: ""
     },
     {
-      id : 7,
+      id: 7,
       url: ""
     },
     {
-      id : 8,
+      id: 8,
       url: ""
     },
     {
-      id : 9,
+      id: 9,
       url: ""
     },
     {
-      id : 10,
+      id: 10,
       url: ""
     }
   ]
@@ -82,13 +84,11 @@ const App = () => {
   const [afterArr, setAfterArr] = React.useState(afterListPattern);
 
   const handleRecordAgain = () => {
-    setRecordVideo(false);
     setCapturePhoto(false);
     setContrast(100);
     setBrightness(100);
     setSaturate(100);
     setImgSrc(null);
-    setVideoSrc(null);
     setCssImgSrc(null);
     setEvaluating(false);
     setOcean([]);
@@ -103,17 +103,17 @@ const App = () => {
 
   const convertToJpeg = () => {
     let node = document.getElementById('image-node');
-    domtoimage.toJpeg(node).then(function (cssImgSrc){
+    domtoimage.toJpeg(node).then(function (cssImgSrc) {
       setCssImgSrc(cssImgSrc);
       setEvaluating(true);
       Predict(cssImgSrc).then((arr) => {
-        arr = arr[0].slice(0,-1);
-        for (var i = 0; i < arr.length; i++){
+        arr = arr[0].slice(0, -1);
+        for (var i = 0; i < arr.length; i++) {
           arr[i] *= 10;
         }
         setOcean(arr);
       });
-    }).catch (function (error) {
+    }).catch(function (error) {
       console.error(error);
     })
   }
@@ -141,31 +141,31 @@ const App = () => {
   }
 
   return (
-  <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={3}>
         {
-            <>
-              <Grid item xs={1}/>
-              <Grid item xs={4}>
-                {liveUpdateFlag ?
-                <Recorder setImgSrc={setImgSrc} setVideoSrc={setVideoSrc} setRecordVideo={setRecordVideo} setCapturePhoto={setCapturePhoto} oriOcean={oriOcean} setOriOcean={setOriOcean} liveUpdateFlag={liveUpdateFlag} setLiveUpdateFlag={setLiveUpdateFlag}/>
-                :(<div><Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} saliencySrc={saliencySrc} videoSrc={videoSrc} recordVideo={recordVideo} capturePhoto={capturePhoto} evaluating={evaluating}/>
+          <>
+            <Grid item xs={1} />
+            <Grid item xs={4}>
+              {liveUpdateFlag ?
+                <Recorder setImgSrc={setImgSrc} setCapturePhoto={setCapturePhoto} oriOcean={oriOcean} setOriOcean={setOriOcean} liveUpdateFlag={liveUpdateFlag} setLiveUpdateFlag={setLiveUpdateFlag} />
+                : (<div><Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} saliencySrc={saliencySrc} capturePhoto={capturePhoto} />
                   <Button style={style.normalButton} onClick={handleRecordAgain}>Start Again</Button>
-                <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate} evaluating={evaluating} contrast={contrast} brightness={brightness} saturate={saturate} setSaliencySrc={setSaliencySrc} setDatasetIndex={setDatasetIndex} setIndex={setIndex}/>
-                <Stack spacing={2} direction="row" justifyContent="center">
-                  <Button style={style.normalButton} onClick={convertToJpeg}>Evaluate</Button>
-                  <Button style={style.normalButton} onClick={handleAdjustParams}>Adjust params</Button>
-                </Stack></div>
+                  <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate} evaluating={evaluating} contrast={contrast} brightness={brightness} saturate={saturate} setSaliencySrc={setSaliencySrc} setDatasetIndex={setDatasetIndex} setIndex={setIndex} />
+                  <Stack spacing={2} direction="row" justifyContent="center">
+                    <Button style={style.normalButton} onClick={convertToJpeg}>Evaluate</Button>
+                    <Button style={style.normalButton} onClick={handleAdjustParams}>Adjust params</Button>
+                  </Stack></div>
                 )}
-              </Grid>
-              <Grid item xs={3} md='auto'/>
-              <Grid item xs={12} md={6}>
-                {/*<Typography variant="h2" style={style.typography}>Scores</Typography>*/}
-                <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc} imgSrc={imgSrc} cssImgSrc={cssImgSrc} oriArr={oriArr} setOriArr={setOriArr} afterArr={afterArr} setAfterArr={setAfterArr} datasetIndex={datasetIndex} setDatasetIndex={setDatasetIndex} index={index} setIndex={setIndex}/>
-                <InfoBox evaluating={evaluating} liveUpdateFlag={liveUpdateFlag}/>
-              </Grid>
-              <Grid item xs={0} md={1}/>
-            </>}
+            </Grid>
+            <Grid item xs={3} md='auto' />
+            <Grid item xs={12} md={6}>
+              {/*<Typography variant="h2" style={style.typography}>Scores</Typography>*/}
+              <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc} imgSrc={imgSrc} cssImgSrc={cssImgSrc} oriArr={oriArr} setOriArr={setOriArr} afterArr={afterArr} setAfterArr={setAfterArr} datasetIndex={datasetIndex} setDatasetIndex={setDatasetIndex} index={index} setIndex={setIndex} />
+              <InfoBox evaluating={evaluating} />
+            </Grid>
+            <Grid item xs={0} md={1} />
+          </>}
       </Grid>
     </Box>
   );
