@@ -26,7 +26,7 @@ ChartJS.register(
 
 ChartJS.defaults.font.size = 20;
 ChartJS.defaults.font.family = 'monospace';
-const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriArr, setOriArr, afterArr, setAfterArr, datasetIndex, setDatasetIndex, index, setIndex}) => {
+const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriArr, setOriArr, afterArr, setAfterArr, datasetIndex, setDatasetIndex, index, setIndex, liveUpdateFlag}) => {
   const options = {
     // responsive: true,
     plugins: {
@@ -78,6 +78,9 @@ const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriAr
       console.error("!chart");
       return;
     }
+    if (liveUpdateFlag) {
+      return;
+    }
     const element = getElementAtEvent(chart, event);
     if(element.length > 0) {
       const { datasetIndex, index } = element[0];
@@ -91,7 +94,7 @@ const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriAr
   }
 
   useEffect(() => {
-    if (datasetIndex !== null && index !== null){
+    if (datasetIndex !== null && index !== null && liveUpdateFlag === false) {
       switch(data.datasets[datasetIndex].label) {
         case 'original':
           if (oriArr[index].url === ""){

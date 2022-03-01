@@ -25,7 +25,6 @@ const App = () => {
   const [imgSrc, setImgSrc] = React.useState(null);
   const [saliencySrc, setSaliencySrc] = React.useState(null);
   const [cssImgSrc, setCssImgSrc] = React.useState(null);
-  const [capturePhoto, setCapturePhoto] = React.useState(false);
   const [evaluating, setEvaluating] = React.useState(false);
   // may work together with some callModel variable to handle updates
   const [ocean, setOcean] = React.useState([]);
@@ -84,7 +83,6 @@ const App = () => {
   const [afterArr, setAfterArr] = React.useState(afterListPattern);
 
   const handleRecordAgain = () => {
-    setCapturePhoto(false);
     setContrast(100);
     setBrightness(100);
     setSaturate(100);
@@ -148,8 +146,8 @@ const App = () => {
             <Grid item xs={3} md={1} />
             <Grid item xs={6} md={4}>
               {liveUpdateFlag ?
-                <Recorder setImgSrc={setImgSrc} setCapturePhoto={setCapturePhoto} oriOcean={oriOcean} setOriOcean={setOriOcean} liveUpdateFlag={liveUpdateFlag} setLiveUpdateFlag={setLiveUpdateFlag} />
-                : (<div><Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} saliencySrc={saliencySrc} capturePhoto={capturePhoto} />
+                <Recorder setImgSrc={setImgSrc} oriOcean={oriOcean} setOriOcean={setOriOcean} liveUpdateFlag={liveUpdateFlag} setLiveUpdateFlag={setLiveUpdateFlag} />
+                : (<div><Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} saliencySrc={saliencySrc} />
                   <Button style={style.normalButton} onClick={handleRecordAgain}>Start Again</Button>
                   <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate} evaluating={evaluating} contrast={contrast} brightness={brightness} saturate={saturate} setSaliencySrc={setSaliencySrc} setDatasetIndex={setDatasetIndex} setIndex={setIndex} />
                   <Stack spacing={2} direction="row" justifyContent="center">
@@ -161,7 +159,7 @@ const App = () => {
             <Grid item xs={3} md='auto' />
             <Grid item xs={12} md={6}>
               {/*<Typography variant="h2" style={style.typography}>Scores</Typography>*/}
-              <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc} imgSrc={imgSrc} cssImgSrc={cssImgSrc} oriArr={oriArr} setOriArr={setOriArr} afterArr={afterArr} setAfterArr={setAfterArr} datasetIndex={datasetIndex} setDatasetIndex={setDatasetIndex} index={index} setIndex={setIndex} />
+              <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc} imgSrc={imgSrc} cssImgSrc={cssImgSrc} oriArr={oriArr} setOriArr={setOriArr} afterArr={afterArr} setAfterArr={setAfterArr} datasetIndex={datasetIndex} setDatasetIndex={setDatasetIndex} index={index} setIndex={setIndex} liveUpdateFlag={liveUpdateFlag}/>
               <InfoBox evaluating={evaluating} liveUpdateFlag={liveUpdateFlag} />
             </Grid>
             <Grid item xs={0} md={1} />

@@ -9,7 +9,7 @@ import Predict from '../apr/tensorflow_test';
 
 import './Recorder.css';
 
-const Recorder = ({ setImgSrc, setCapturePhoto, oriOcean, setOriOcean, liveUpdateFlag, setLiveUpdateFlag }) => {
+const Recorder = ({ setImgSrc, oriOcean, setOriOcean, liveUpdateFlag, setLiveUpdateFlag }) => {
   const webcamRef = React.useRef(null); // persistent reference cause no rerendering
 
   const videoConstraints = {
@@ -37,7 +37,6 @@ const Recorder = ({ setImgSrc, setCapturePhoto, oriOcean, setOriOcean, liveUpdat
   const liveUpdate = async () => {
     const imgSrc = webcamRef.current.getScreenshot();
     setImgSrc(imgSrc);
-    setCapturePhoto(true);
     if (oriOcean.length === 0) {
       Predict(imgSrc).then((arr) => {
         arr = arr[0].slice(0, -1);
@@ -54,13 +53,13 @@ const Recorder = ({ setImgSrc, setCapturePhoto, oriOcean, setOriOcean, liveUpdat
       if (liveUpdateFlag) {
         liveUpdate();
       }
-    }, 1000);
+    }, 2000);
     return () => clearInterval(interval);
   },[])
 
   const pause = () => {
-    liveUpdate();
     setLiveUpdateFlag(false);
+    liveUpdate();
   }
 
   return (

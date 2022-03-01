@@ -3,14 +3,14 @@ import Grid from '@mui/material/Grid';
 
 import './Display.css';
 
-const Display = ({contrast, brightness, saturate, imgSrc, saliencySrc, capturePhoto}) => {
+const Display = ({contrast, brightness, saturate, imgSrc, saliencySrc}) => {
     const filters = {
         filter: `contrast(${contrast}%) brightness(${brightness}%) saturate(${saturate}%)`
     };
 
     return (
       <Grid container>
-        {imgSrc && capturePhoto &&
+        {imgSrc &&
         (<div id="image-node">
           <img
             id="ori-image"
