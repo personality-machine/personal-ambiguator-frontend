@@ -2,7 +2,9 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import SnackbarContent from '@mui/material/SnackbarContent';
 import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
 import Modal from '@mui/material/Modal';
 import { alpha } from '@mui/material/styles';
 
@@ -22,8 +24,10 @@ const InfoBox = ({evaluating, liveUpdateFlag}) => {
     fontSize: '1.2rem',
     textAlign: 'left',
     border: '2px solid rgb(25, 79, 156)',
+    borderRadius: '15px',
     boxShadow: 24,
     p: 4,
+    padding: '15px',
   };
   const infoStyle = {
     backgroundColor: alpha('rgb(25, 79, 156)', 0.6),
@@ -32,57 +36,63 @@ const InfoBox = ({evaluating, liveUpdateFlag}) => {
     fontFamily: 'monospace',
     fontSize: '1.2rem',
   };
+  const greenInfoStyle = {
+    backgroundColor: alpha('rgb(79, 132, 103)', 0.6),
+    color: '#f8f8f2',
+    whiteSpace: 'normal',
+    fontFamily: 'monospace',
+    fontSize: '1.2rem',
+  };
+  const buttonStyle = {
+    color: '#f8f8f2',
+    backgroundColor: '#000000',
+    fontFamily: 'monospace',
+    '&:hover' : {
+      backgroundColor: '#000000',
+    }
+
+  };
 
   return (
     <Grid container spacing={1} justifyContent="center">
       <Grid item>
         {liveUpdateFlag ?
-          <Typography component="div" sx={infoStyle}>
+          <SnackbarContent
+            message={
+              'The machine is updating the scores live from the webcam! Try \
+              clicking `PAUSE` to see how applying different filters to the \
+              image affects the OCEAN scores.'
+            }
 
-            The machine is updating the scores live from the webcam! Try
-            clicking `PAUSE` to see how applying different filters to the image
-            affects the OCEAN scores.
-
-          </Typography>
+            style={infoStyle}/>
         :
         <Box>
         {!evaluating ?
-          <Typography component="div" sx={infoStyle}>
+          <SnackbarContent
+            message={
+              'You can adjust parameters with the sliders under the image and \
+              then click evaluate to see how the filters affect the scores \
+              given by the Personality Machine!'
+            }
 
-            You can adjust parameters with the sliders under the image and then
-            click evaluate to see how the filters affect the scores given by
-            the Personality Machine!
-
-          </Typography>
+            style={infoStyle}/>
         :
-          <Typography component="div" sx={{
-            backgroundColor: alpha('rgb(79, 132, 103)', 0.6),
-            color: '#f8f8f2',
-            whiteSpace: 'normal',
-            fontFamily: 'monospace',
-            fontSize: '1.2rem',
-            }}>
+        <SnackbarContent
+          message={
 
-            The personality machine is evaluating your scores! Once responsive,
-            click on the data points above to see the different saliency maps.
-            If you want to go back to adjusting parameters, click the button
-            under the sliders that lets you do so!
-
-          </Typography>
+            'The personality machine is evaluating your scores! Once \
+            responsive, click on the data points above to see the different \
+            saliency maps. If you want to go back to adjusting parameters, \
+            click the button under the sliders that lets you do so!'
+          }
+          style={greenInfoStyle}/>
         }
         </Box>
         }
       </Grid>
       <Grid item>
         <Button
-          sx={{
-           color: '#f8f8f2',
-           backgroundColor: alpha('#000000', 0.7),
-           fontFamily: 'monospace',
-           '&:hover': {
-             backgroundColor: '#000000',
-           }
-          }}
+          sx={buttonStyle}
           onClick={handleOpen}>
           FIND OUT MORE
         </Button>
@@ -90,7 +100,7 @@ const InfoBox = ({evaluating, liveUpdateFlag}) => {
           open={open}
           onClose={handleClose}
         >
-          <Box sx={popupStyle}>
+          <Box style={popupStyle}>
             <h3>
               Purpose:
             </h3>
