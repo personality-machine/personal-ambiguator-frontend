@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
 import Webcam from 'react-webcam';
-import Predict from '../model/tensorflow_test';
+import Predict from '../apr/tensorflow_test';
 
 import './Recorder.css';
 

@@ -13,7 +13,7 @@ import Display from './components/Display';
 import ScoreDisplay from './components/ScoreDisplay';
 import InfoBox from './components/InfoBox';
 
-import Predict from './model/tensorflow_test';
+import Predict from './apr/tensorflow_test';
 
 import './index.css';
 
