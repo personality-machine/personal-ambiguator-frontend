@@ -145,8 +145,8 @@ const App = () => {
       <Grid container spacing={3}>
         {
           <>
-            <Grid item xs={1} />
-            <Grid item xs={4}>
+            <Grid item xs={3} md={1} />
+            <Grid item xs={6} md={4}>
               {liveUpdateFlag ?
                 <Recorder setImgSrc={setImgSrc} setCapturePhoto={setCapturePhoto} oriOcean={oriOcean} setOriOcean={setOriOcean} liveUpdateFlag={liveUpdateFlag} setLiveUpdateFlag={setLiveUpdateFlag} />
                 : (<div><Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} saliencySrc={saliencySrc} capturePhoto={capturePhoto} />

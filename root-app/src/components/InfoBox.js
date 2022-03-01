@@ -1,5 +1,6 @@
 import React from 'react';
 import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import SnackbarContent from '@mui/material/SnackbarContent';
@@ -8,27 +9,20 @@ import Dialog from '@mui/material/Dialog';
 import Modal from '@mui/material/Modal';
 import { alpha } from '@mui/material/styles';
 
-const InfoBox = ({evaluating, liveUpdateFlag}) => {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+import { IntroductionBlock, ToolBlock, BiasesBlock } from './TextBlocks';
 
-  const popupStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    backgroundColor: alpha('rgb(5, 32, 71)', 0.9),
-    color: '#f8f8f2',
-    fontStyle: 'monospace',
-    fontSize: '1.2rem',
-    textAlign: 'left',
-    border: '2px solid rgb(25, 79, 156)',
-    borderRadius: '15px',
-    boxShadow: 24,
-    p: 4,
-    padding: '15px',
-  };
+const InfoBox = ({evaluating, liveUpdateFlag}) => {
+  const [introductionOpen, setIntroductionOpen] = React.useState(false);
+  {/*TODO: introOpen to `true` by default once out of development*/}
+  const handleIntroductionOpen = () => setIntroductionOpen(true);
+  const handleIntroductionClose = () => setIntroductionOpen(false);
+  const [toolOpen, setToolOpen] = React.useState(false);
+  const handleToolOpen = () => setToolOpen(true);
+  const handleToolClose = () => setToolOpen(false);
+  const [biasesOpen, setBiasesOpen] = React.useState(false);
+  const handleBiasesOpen = () => setBiasesOpen(true);
+  const handleBiasesClose = () => setBiasesOpen(false);
+
   const infoStyle = {
     backgroundColor: alpha('rgb(25, 79, 156)', 0.6),
     color: '#f8f8f2',
@@ -91,47 +85,31 @@ const InfoBox = ({evaluating, liveUpdateFlag}) => {
         }
       </Grid>
       <Grid item>
-        <Button
-          sx={buttonStyle}
-          onClick={handleOpen}>
-          FIND OUT MORE
-        </Button>
+        <Stack spacing={2} direction="row" justifyContent="center">
+          <Button sx={buttonStyle} onClick={handleIntroductionOpen}>
+            INTRO
+          </Button>
+          <Button sx={buttonStyle} onClick={handleToolOpen}>
+            OUR TOOL
+          </Button>
+          <Button sx={buttonStyle} onClick={handleBiasesOpen}>
+            BIASES
+          </Button>
+        </Stack>
         <Modal
-          open={open}
-          onClose={handleClose}
-        >
-          <Box style={popupStyle}>
-            <h3>
-              Purpose:
-            </h3>
-
-            <p>
-              The purpose of this box is to give more information on how the
-              model works and how it came to be.
-            </p>
-
-            <h3>
-              Some placeholder text:
-            </h3>
-
-            <p>
-              Here's some text! I am taking the time to write a longer
-              paragraph to check how well the box reacts to the text length and
-              pragraph length in general. I think it should be fine but it's
-              always helpful to add in some test data to check. It's all good!
-              :))
-            </p>
-
-            <p>
-              Can it do different paragraphs? It can if you add in paragraph
-              html things :o
-            </p>
-
-            <h3>
-              It can even do headers...
-            </h3>
-
-          </Box>
+          open={introductionOpen}
+          onClose={handleIntroductionClose}>
+          <IntroductionBlock/>
+        </Modal>
+        <Modal
+          open={toolOpen}
+          onClose={handleToolClose}>
+          <ToolBlock/>
+        </Modal>
+        <Modal
+          open={biasesOpen}
+          onClose={handleBiasesClose}>
+          <BiasesBlock/>
         </Modal>
       </Grid>
     </Grid>
