@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { render } from 'react-dom';
 import domtoimage from 'dom-to-image';
 
@@ -13,10 +13,15 @@ import Display from './components/Display';
 import ScoreDisplay from './components/ScoreDisplay';
 import InfoBox from './components/InfoBox';
 
-import Predict from './model/tensorflow_test';
+import Predict from './apr/tensorflow_test';
+import { loadModel } from './apr/model';
+import { resnetPreprocessor } from './apr/preprocessors';
 
 import './index.css';
+import { ModelLoggingVerbosity } from '@tensorflow/tfjs-layers/dist/base_callbacks';
 
+const MODEL_JSON_PATH = 'resnet/model.json';
+const MODEL_PREPROCESSOR = resnetPreprocessor;
 
 const App = () => {
   const [contrast, setContrast] = React.useState(100);
@@ -33,6 +38,7 @@ const App = () => {
   const [datasetIndex, setDatasetIndex] = React.useState(null);
   const [index, setIndex] = React.useState(null);
   const [liveUpdateFlag, setLiveUpdateFlag] = React.useState(true);
+  const [model, setModel] = React.useState(null);
 
   const oriListPattern = [
     {
@@ -106,7 +112,9 @@ const App = () => {
     domtoimage.toJpeg(node).then(function (cssImgSrc) {
       setCssImgSrc(cssImgSrc);
       setEvaluating(true);
-      Predict(cssImgSrc).then((arr) => {
+      let image = new Image();
+      image.src = cssImgSrc;
+      model.predict(image).then((arr) => {
         arr = arr[0].slice(0, -1);
         for (var i = 0; i < arr.length; i++) {
           arr[i] *= 10;
@@ -140,6 +148,16 @@ const App = () => {
     }
   }
 
+  // initialise model
+  // TODO: @Kyra reorganise this :blobreach:
+  useEffect(() => {
+    loadModel(MODEL_JSON_PATH, MODEL_PREPROCESSOR).then((model) => {
+      console.log("Set model and trigger reload");
+      console.log(model);
+      setModel(model);
+    });
+  }, []);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={3}>
@@ -148,7 +166,7 @@ const App = () => {
             <Grid item xs={1} />
             <Grid item xs={4}>
               {liveUpdateFlag ?
-                <Recorder setImgSrc={setImgSrc} setCapturePhoto={setCapturePhoto} oriOcean={oriOcean} setOriOcean={setOriOcean} liveUpdateFlag={liveUpdateFlag} setLiveUpdateFlag={setLiveUpdateFlag} />
+                <Recorder setImgSrc={setImgSrc} setCapturePhoto={setCapturePhoto} oriOcean={oriOcean} setOriOcean={setOriOcean} liveUpdateFlag={liveUpdateFlag} setLiveUpdateFlag={setLiveUpdateFlag} model={model} />
                 : (<div><Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} saliencySrc={saliencySrc} capturePhoto={capturePhoto} />
                   <Button style={style.normalButton} onClick={handleRecordAgain}>Start Again</Button>
                   <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate} evaluating={evaluating} contrast={contrast} brightness={brightness} saturate={saturate} setSaliencySrc={setSaliencySrc} setDatasetIndex={setDatasetIndex} setIndex={setIndex} />
