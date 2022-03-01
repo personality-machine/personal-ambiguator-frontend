@@ -159,7 +159,7 @@ const App = () => {
             <Grid item xs={3} md='auto' />
             <Grid item xs={12} md={6}>
               {/*<Typography variant="h2" style={style.typography}>Scores</Typography>*/}
-              <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc} imgSrc={imgSrc} cssImgSrc={cssImgSrc} oriArr={oriArr} setOriArr={setOriArr} afterArr={afterArr} setAfterArr={setAfterArr} datasetIndex={datasetIndex} setDatasetIndex={setDatasetIndex} index={index} setIndex={setIndex} />
+              <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc} imgSrc={imgSrc} cssImgSrc={cssImgSrc} oriArr={oriArr} setOriArr={setOriArr} afterArr={afterArr} setAfterArr={setAfterArr} datasetIndex={datasetIndex} setDatasetIndex={setDatasetIndex} index={index} setIndex={setIndex} liveUpdateFlag={liveUpdateFlag}/>
               <InfoBox evaluating={evaluating} liveUpdateFlag={liveUpdateFlag} />
             </Grid>
             <Grid item xs={0} md={1} />
