@@ -29,6 +29,15 @@ ChartJS.defaults.font.family = 'monospace';
 const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriArr, setOriArr, afterArr, setAfterArr, datasetIndex, setDatasetIndex, index, setIndex, liveUpdateFlag}) => {
   const options = {
     // responsive: true,
+    scales:{
+      y: {
+        max: 10,
+        min: 0,
+        ticks:{
+          stepSize: 1,
+        }
+      }
+    },
     plugins: {
       legend: {
         position: 'top',
