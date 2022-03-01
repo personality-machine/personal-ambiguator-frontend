@@ -56,7 +56,7 @@ const Recorder = ({ setImgSrc, setCapturePhoto, oriOcean, setOriOcean, liveUpdat
       }
     }, 1000);
     return () => clearInterval(interval);
-  })
+  },[])
 
   const pause = () => {
     setLiveUpdateFlag(false);
