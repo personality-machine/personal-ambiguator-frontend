@@ -59,6 +59,7 @@ const Recorder = ({ setImgSrc, setCapturePhoto, oriOcean, setOriOcean, liveUpdat
   },[])
 
   const pause = () => {
+    liveUpdate();
     setLiveUpdateFlag(false);
   }
 
