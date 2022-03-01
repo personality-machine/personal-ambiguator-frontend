@@ -1,7 +1,7 @@
 import Slider from '@mui/material/Slider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import './sliders.css';
+import './Sliders.css';
 
 const Sliders = ({setContrast,setBrightness,setSaturate,evaluating,contrast,brightness,saturate,setSaliencySrc,setDatasetIndex, setIndex}) => {
     const handleChangeContrast = (event, newValue) => {

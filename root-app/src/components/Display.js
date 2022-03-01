@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from '@mui/material/Grid';
 
-import './display.css';
+import './Display.css';
 
 const Display = ({contrast, brightness, saturate, imgSrc, saliencySrc, capturePhoto}) => {
     const filters = {
