@@ -12,7 +12,8 @@ import { alpha } from '@mui/material/styles';
 import { IntroductionBlock, ToolBlock, BiasesBlock } from './TextBlocks';
 
 const InfoBox = ({evaluating, liveUpdateFlag}) => {
-  const [introductionOpen, setIntroductionOpen] = React.useState(true);
+  const [introductionOpen, setIntroductionOpen] = React.useState(false);
+  {/*TODO: introOpen to `true` by default once out of development*/}
   const handleIntroductionOpen = () => setIntroductionOpen(true);
   const handleIntroductionClose = () => setIntroductionOpen(false);
   const [toolOpen, setToolOpen] = React.useState(false);
