@@ -34,7 +34,7 @@ const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriAr
         max: 10,
         min: 0,
         ticks:{
-          stepSize: 1,
+          stepSize: 0.5,
         }
       }
     },
