@@ -53,7 +53,7 @@ const Recorder = ({ setImgSrc, oriOcean, setOriOcean, liveUpdateFlag, setLiveUpd
       if (liveUpdateFlag) {
         liveUpdate();
       }
-    }, 1000);
+    }, 2000);
     return () => clearInterval(interval);
   },[])
 
