@@ -20,7 +20,7 @@ import { resnetPreprocessor } from './apr/preprocessors';
 
 import './index.css';
 
-const MODEL_JSON_PATH = 'resnet/model.json';
+const MODEL_JSON_PATH = 'mobilenet/model.json';
 const MODEL_PREPROCESSOR = resnetPreprocessor;
 
 const App = () => {
@@ -151,11 +151,7 @@ const App = () => {
   // initialise model
   // TODO: @Kyra reorganise this :blobreach:
   useEffect(() => {
-    loadModel(MODEL_JSON_PATH, MODEL_PREPROCESSOR).then((model) => {
-      console.log("Set model and trigger reload");
-      console.log(model);
-      setModel(model);
-    });
+    loadModel(MODEL_JSON_PATH, MODEL_PREPROCESSOR).then(setModel);
   }, []);
 
   return (
@@ -166,7 +162,7 @@ const App = () => {
             <Grid item xs={1} />
             <Grid item xs={4}>
               {liveUpdateFlag ?
-                <Recorder setImgSrc={setImgSrc} setCapturePhoto={setCapturePhoto} oriOcean={oriOcean} setOriOcean={setOriOcean} liveUpdateFlag={liveUpdateFlag} setLiveUpdateFlag={setLiveUpdateFlag} model={model} />
+                <Recorder setImgSrc={setImgSrc} setCapturePhoto={setCapturePhoto} setOriOcean={setOriOcean} liveUpdateFlag={liveUpdateFlag} setLiveUpdateFlag={setLiveUpdateFlag} model={model} />
                 : (<div><Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} saliencySrc={saliencySrc} capturePhoto={capturePhoto} />
                   <Button style={style.normalButton} onClick={handleRecordAgain}>Start Again</Button>
                   <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate} evaluating={evaluating} contrast={contrast} brightness={brightness} saturate={saturate} setSaliencySrc={setSaliencySrc} setDatasetIndex={setDatasetIndex} setIndex={setIndex} />
