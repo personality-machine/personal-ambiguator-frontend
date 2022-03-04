@@ -2,10 +2,8 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import SnackbarContent from '@mui/material/SnackbarContent';
 import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
 import Modal from '@mui/material/Modal';
 import { alpha } from '@mui/material/styles';
 
@@ -50,7 +48,7 @@ const InfoBox = ({evaluating, liveUpdateFlag}) => {
   return (
     <Grid container spacing={1} justifyContent="center">
       <Stack spacing={2} direction="column">
-      <Grid item>
+      <Grid item height={180}>
         {liveUpdateFlag ?
           <SnackbarContent
             message={
