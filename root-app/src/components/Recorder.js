@@ -14,7 +14,7 @@ import './Recorder.css';
 const SUCCESS_DELAY_MS = 50;
 const FAILURE_DELAY_MS = 500;
 
-const Recorder = ({ setImgSrc, setCapturePhoto, setOriOcean, liveUpdateFlag, setLiveUpdateFlag, model }) => {
+const Recorder = ({ setImgSrc, oriOcean, setOriOcean, liveUpdateFlag, setLiveUpdateFlag, model }) => {
 
   const webcamRef = React.useRef(null); // persistent reference cause no rerendering
   const [time, setTime] = React.useState(null);
@@ -48,7 +48,6 @@ const Recorder = ({ setImgSrc, setCapturePhoto, setOriOcean, liveUpdateFlag, set
     const imgSrc = webcamRef.current.getScreenshot();
     if (imgSrc === null) return false; 
     setImgSrc(imgSrc);
-    setCapturePhoto(true);
     if (model !== null) {
       // TODO: move this null check to a loading loop
       let image = await loadImage(imgSrc);

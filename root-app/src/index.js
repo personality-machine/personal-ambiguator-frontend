@@ -166,11 +166,11 @@ const App = () => {
             <Grid item md={1} />
             <Grid item md={4}>
             <Stack spacing={2} direction="column">
-              <box />
+              <Box />
               {liveUpdateFlag ?
 
-                <Recorder setImgSrc={setImgSrc} setCapturePhoto={setCapturePhoto} setOriOcean={setOriOcean} liveUpdateFlag={liveUpdateFlag} setLiveUpdateFlag={setLiveUpdateFlag} model={model} />
-                : (<div><Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} saliencySrc={saliencySrc} capturePhoto={capturePhoto} />
+                <Recorder setImgSrc={setImgSrc} oriOcean={oriOcean} setOriOcean={setOriOcean} liveUpdateFlag={liveUpdateFlag} setLiveUpdateFlag={setLiveUpdateFlag} model={model} />
+                : (<div><Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} saliencySrc={saliencySrc} />
 
                   <Button style={style.normalButton} onClick={handleRecordAgain}>Start Again</Button>
                   <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate} evaluating={evaluating} contrast={contrast} brightness={brightness} saturate={saturate} setSaliencySrc={setSaliencySrc} setDatasetIndex={setDatasetIndex} setIndex={setIndex} />
