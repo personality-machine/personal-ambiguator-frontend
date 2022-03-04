@@ -86,14 +86,14 @@ const BiasesBlock = () => {
   return (
     <Box style={popupStyle}>
       <h3>
-        What about biases?
+        Personality of the 'real you':
       </h3>
 
       <p>
 
         Some AI companies also claim that AI can take away or ignore your race
         and gender by just focusing on personality. But are race and gender
-        just things that are layered on top of the ‘real you’?
+        just things that are layered on top of the 'real you'?
 
       </p>
 

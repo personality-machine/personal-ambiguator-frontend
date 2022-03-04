@@ -93,7 +93,7 @@ const InfoBox = ({evaluating, liveUpdateFlag}) => {
             OUR TOOL
           </Button>
           <Button sx={buttonStyle} onClick={handleBiasesOpen}>
-            BIASES
+            REAL YOU
           </Button>
         </Stack>
         <Modal
