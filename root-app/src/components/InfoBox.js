@@ -47,8 +47,7 @@ const InfoBox = ({evaluating, liveUpdateFlag}) => {
 
   return (
     <Grid container spacing={1} justifyContent="center">
-      <Stack spacing={2} direction="column">
-      <Grid item height={180}>
+      <Grid item>
         {liveUpdateFlag ?
           <SnackbarContent
             message={
@@ -111,7 +110,6 @@ const InfoBox = ({evaluating, liveUpdateFlag}) => {
           <BiasesBlock/>
         </Modal>
       </Grid>
-      </Stack>
     </Grid>
   );
 };
