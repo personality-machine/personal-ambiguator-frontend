@@ -26,7 +26,7 @@ ChartJS.register(
 
 ChartJS.defaults.font.size = 20;
 ChartJS.defaults.font.family = 'monospace';
-const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriArr, setOriArr, afterArr, setAfterArr, datasetIndex, setDatasetIndex, index, setIndex}) => {
+const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriArr, setOriArr, afterArr, setAfterArr, datasetIndex, setDatasetIndex, index, setIndex, model}) => {
   const options = {
     // responsive: true,
     plugins: {
@@ -95,13 +95,13 @@ const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriAr
       switch(data.datasets[datasetIndex].label) {
         case 'original':
           if (oriArr[index].url === ""){
-            ModelEvaluate(imgSrc, 'original', oriArr, {setOriArr}, afterArr, {setAfterArr});
+            ModelEvaluate(imgSrc, 'original', oriArr, {setOriArr}, afterArr, {setAfterArr}, model);
           }
           setSaliencySrc(oriArr[index].url);
           break;
         case 'after params':
           if (afterArr[index].url === ""){
-            ModelEvaluate(cssImgSrc, 'after params', oriArr, {setOriArr}, afterArr, {setAfterArr});
+            ModelEvaluate(cssImgSrc, 'after params', oriArr, {setOriArr}, afterArr, {setAfterArr}, model);
           }
           setSaliencySrc(afterArr[index].url);
           break;

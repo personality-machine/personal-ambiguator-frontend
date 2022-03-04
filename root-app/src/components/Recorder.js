@@ -5,7 +5,9 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
 import Webcam from 'react-webcam';
-import Predict from '../apr/tensorflow_test';
+
+import {loadImage} from '../apr/utils';
+
 
 import './Recorder.css';
 
@@ -38,17 +40,6 @@ const Recorder = ({ setImgSrc, setCapturePhoto, oriOcean, setOriOcean, liveUpdat
     }
   }
 
-  // https://riptutorial.com/javascript/example/19127/using-es2017-async-await
-  const loadImage = url => {
-    return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.addEventListener('load', () => resolve(img));
-        img.addEventListener('error', () => {
-            reject(new Error(`Failed to load ${url}`));
-        });
-        img.src = url;
-    });
-  }
 
   const update = async () => {
     try {
@@ -74,7 +65,7 @@ const Recorder = ({ setImgSrc, setCapturePhoto, oriOcean, setOriOcean, liveUpdat
         return false;
       }
     } catch (err) {
-      console.log("err");
+      console.log(err);
       return false;
     }
   };

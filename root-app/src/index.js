@@ -13,12 +13,12 @@ import Display from './components/Display';
 import ScoreDisplay from './components/ScoreDisplay';
 import InfoBox from './components/InfoBox';
 
-import Predict from './apr/tensorflow_test';
+import {loadImage} from './apr/utils';
+
 import { loadModel } from './apr/model';
 import { resnetPreprocessor } from './apr/preprocessors';
 
 import './index.css';
-import { ModelLoggingVerbosity } from '@tensorflow/tfjs-layers/dist/base_callbacks';
 
 const MODEL_JSON_PATH = 'resnet/model.json';
 const MODEL_PREPROCESSOR = resnetPreprocessor;
@@ -107,13 +107,13 @@ const App = () => {
     setLiveUpdateFlag(true);
   }
 
+
   const convertToJpeg = () => {
     let node = document.getElementById('image-node');
-    domtoimage.toJpeg(node).then(function (cssImgSrc) {
+    domtoimage.toJpeg(node).then(async function (cssImgSrc) {
       setCssImgSrc(cssImgSrc);
       setEvaluating(true);
-      let image = new Image();
-      image.src = cssImgSrc;
+      let image = await loadImage(cssImgSrc);
       model.predict(image).then((arr) => {
         arr = arr[0].slice(0, -1);
         for (var i = 0; i < arr.length; i++) {
@@ -179,7 +179,7 @@ const App = () => {
             <Grid item xs={3} md='auto' />
             <Grid item xs={12} md={6}>
               {/*<Typography variant="h2" style={style.typography}>Scores</Typography>*/}
-              <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc} imgSrc={imgSrc} cssImgSrc={cssImgSrc} oriArr={oriArr} setOriArr={setOriArr} afterArr={afterArr} setAfterArr={setAfterArr} datasetIndex={datasetIndex} setDatasetIndex={setDatasetIndex} index={index} setIndex={setIndex} />
+              <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc} imgSrc={imgSrc} cssImgSrc={cssImgSrc} oriArr={oriArr} setOriArr={setOriArr} afterArr={afterArr} setAfterArr={setAfterArr} datasetIndex={datasetIndex} setDatasetIndex={setDatasetIndex} index={index} setIndex={setIndex} model={model} />
               <InfoBox evaluating={evaluating} />
             </Grid>
             <Grid item xs={0} md={1} />
