@@ -132,6 +132,8 @@ const App = () => {
       color: '#ffffff',
       backgroundColor: '#000000',
       fontFamily: 'monospace',
+      marginTop: 10,
+      marginBottom: 10,
     },
     typography: {
       color: '#000000',

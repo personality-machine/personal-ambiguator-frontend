@@ -31,6 +31,8 @@ const Recorder = ({ setImgSrc, oriOcean, setOriOcean, liveUpdateFlag, setLiveUpd
       color: '#ffffff',
       backgroundColor: '#000000',
       fontFamily: 'courier new',
+      marginTop: 10,
+      marginBottom: 10,
     }
   }
 
