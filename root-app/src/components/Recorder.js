@@ -48,6 +48,7 @@ const Recorder = ({ setImgSrc, oriOcean, setOriOcean, liveUpdateFlag, setLiveUpd
     const imgSrc = webcamRef.current.getScreenshot();
     if (imgSrc === null) return false; 
     setImgSrc(imgSrc);
+    
     if (model !== null) {
       // TODO: move this null check to a loading loop
       let image = await loadImage(imgSrc);
