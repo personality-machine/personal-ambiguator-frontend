@@ -3,51 +3,77 @@ import React from 'react';
 import {
     AppBar,
     Toolbar,
+    Modal,
     CssBaseline,
     Typography,
     makeStyles,
   } from "@material-ui/core";
 
 
+import {
+    IntroductionBlock,
+    ToolBlock,
+    BiasesBlock
+  } from './TextBlocks';
+
 const Navigation = () => {
   const useStyles = makeStyles((theme) => ({
+    toolbar: {
+      backgroundColor: "#194f9c"
+    },
     navlinks: {
       marginRight: theme.spacing(10),
       display: "flex",
     },
-   logo: {
+    logo: {
       marginLeft: theme.spacing(5),
+      fontFamily: "monospace",
     },
     link: {
       textDecoration: "none",
       color: "white",
-      fontSize: "20px",
+      fontSize: "1.3rem",
+      fontFamily: "monospace",
       cursor: "pointer",
       marginLeft: theme.spacing(5),
       "&:hover": {
-        color: "yellow",
-        borderBottom: "1px solid white",
+        color: "#a8f7cc",
+        borderBottom: "1px solid #57c287",
       },
     },
   }));
   const classes = useStyles();
 
+  const [introductionOpen, setIntroductionOpen] = React.useState(false);
+  {/*TODO: introOpen to `true` by default once out of development*/}
+  const [toolOpen, setToolOpen] = React.useState(false);
+  const [biasesOpen, setBiasesOpen] = React.useState(false);
+
   const handleIntroductionOpen = () => {
-      console.log("Introduction Open.");
+    setIntroductionOpen(true);
+  }
+  const handleIntroductionClose = () => {
+    setIntroductionOpen(false);
   }
 
   const handleToolOpen = () => {
-      console.log("Tool Open.");
+    setToolOpen(true);
+  }
+  const handleToolClose = () => {
+    setToolOpen(false);
   }
 
   const handleBiasesOpen = () => {
-      console.log("Biases Open.");
+    setBiasesOpen(true);
+  }
+  const handleBiasesClose = () => {
+    setBiasesOpen(false);
   }
 
   return (
     <AppBar position="static">
       <CssBaseline />
-      <Toolbar>
+      <Toolbar className={classes.toolbar}>
         <Typography variant="h4" className={classes.logo}>
           Personality Machine
         </Typography>
@@ -59,10 +85,25 @@ const Navigation = () => {
               Our Tool
             </Typography>
             <Typography onClick={handleBiasesOpen} className={classes.link}>
-              Biases
+              'Real You'
             </Typography>
           </div>
       </Toolbar>
+      <Modal
+        open={introductionOpen}
+        onClose={handleIntroductionClose}>
+        <IntroductionBlock/>
+      </Modal>
+      <Modal
+        open={toolOpen}
+        onClose={handleToolClose}>
+        <ToolBlock/>
+      </Modal>
+      <Modal
+        open={biasesOpen}
+        onClose={handleBiasesClose}>
+        <BiasesBlock/>
+      </Modal>
     </AppBar>
 );
 }

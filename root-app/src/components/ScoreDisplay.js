@@ -29,12 +29,23 @@ ChartJS.defaults.font.family = 'monospace';
 const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriArr, setOriArr, afterArr, setAfterArr, datasetIndex, setDatasetIndex, index, setIndex, liveUpdateFlag}) => {
   const options = {
     responsive: true,
+    color: '#000000',
+    fontSize: '20px',
     scales:{
       y: {
         max: 10.0,
         min: 0,
         ticks:{
           stepSize: 0.5,
+          color: 'black',
+        }
+      },
+      x: {
+        ticks: {
+          color: 'black',
+          font: {
+            size: 18,
+          }
         }
       }
     },
@@ -44,7 +55,11 @@ const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriAr
       },
       title: {
         display: true,
-        text: 'Big 5 charts',
+        text: 'Big 5 chart',
+        color: '#000000',
+        font: {
+          size: 25,
+        }
       },
     },
   };
