@@ -143,8 +143,8 @@ const App = () => {
       <Grid container spacing={3}>
         {
           <>
-            <Grid item xs={3} md={1} />
-            <Grid item xs={6} md={4}>
+            <Grid item md={1} />
+            <Grid item md={4}>
             <Stack spacing={2} direction="column">
               <box />
               {liveUpdateFlag ?
@@ -159,15 +159,14 @@ const App = () => {
                 )}
             </Stack>
             </Grid>
-            <Grid item xs={3} md='auto' />
-            <Grid item xs={12} md={6}>
-            <Stack spacing={2} direction="column" >
+            <Grid item md='auto' />
+            <Grid item md={6}>
+            <Stack spacing={3.5} direction="column" >
               <Box />
               <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc} imgSrc={imgSrc} cssImgSrc={cssImgSrc} oriArr={oriArr} setOriArr={setOriArr} afterArr={afterArr} setAfterArr={setAfterArr} datasetIndex={datasetIndex} setDatasetIndex={setDatasetIndex} index={index} setIndex={setIndex} liveUpdateFlag={liveUpdateFlag}/>
               <InfoBox evaluating={evaluating} liveUpdateFlag={liveUpdateFlag} />
               </Stack>
             </Grid>
-            <Grid item xs={0} md={1} />
           </>}
       </Grid>
     </Box>
