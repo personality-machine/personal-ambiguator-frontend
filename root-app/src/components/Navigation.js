@@ -32,6 +32,18 @@ const Navigation = () => {
   }));
   const classes = useStyles();
 
+  const handleIntroductionOpen = () => {
+      console.log("Introduction Open.");
+  }
+
+  const handleToolOpen = () => {
+      console.log("Tool Open.");
+  }
+
+  const handleBiasesOpen = () => {
+      console.log("Biases Open.");
+  }
+
   return (
     <AppBar position="static">
       <CssBaseline />
@@ -40,13 +52,13 @@ const Navigation = () => {
           Personality Machine
         </Typography>
           <div className={classes.navlinks}>
-            <Typography className={classes.link}>
+            <Typography onClick={handleIntroductionOpen} className={classes.link}>
               Introduction
             </Typography>
-            <Typography  className={classes.link}>
+            <Typography onClick={handleToolOpen} className={classes.link}>
               Our Tool
             </Typography>
-            <Typography  className={classes.link}>
+            <Typography onClick={handleBiasesOpen} className={classes.link}>
               Biases
             </Typography>
           </div>
