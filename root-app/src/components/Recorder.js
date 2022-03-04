@@ -78,7 +78,6 @@ const Recorder = ({ setImgSrc, oriOcean, setOriOcean, liveUpdateFlag, setLiveUpd
 
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
       <Grid className="webcam-container" container spacing={2} alignItems="center" justifyContent="center">
         <Grid item xs={12} justifyContent="center">
           <Webcam
@@ -92,8 +91,6 @@ const Recorder = ({ setImgSrc, oriOcean, setOriOcean, liveUpdateFlag, setLiveUpd
           />
         </Grid>
       </Grid>
-      <Button onClick={() => {setLiveUpdateFlag(false)}} style={style.normalButton}>Pause</Button>
-    </Box>
   );
 };
 
