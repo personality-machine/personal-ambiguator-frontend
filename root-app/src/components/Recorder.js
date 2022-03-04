@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
 import Webcam from 'react-webcam';
-import Predict from '../apr/tensorflow_test';
+
+import {loadImage} from '../apr/utils';
+
 
 import './Recorder.css';
 
-const Recorder = ({ setImgSrc, oriOcean, setOriOcean, liveUpdateFlag, setLiveUpdateFlag }) => {
+const SUCCESS_DELAY_MS = 50;
+const FAILURE_DELAY_MS = 500;
+
+const Recorder = ({ setImgSrc, oriOcean, setOriOcean, liveUpdateFlag, setLiveUpdateFlag, model }) => {
+
   const webcamRef = React.useRef(null); // persistent reference cause no rerendering
+  const [time, setTime] = React.useState(null);
 
   const videoConstraints = {
     // width: 224,
@@ -36,33 +43,39 @@ const Recorder = ({ setImgSrc, oriOcean, setOriOcean, liveUpdateFlag, setLiveUpd
     }
   }
 
-  const liveUpdate = async () => {
+
+  const update = async () => {
     const imgSrc = webcamRef.current.getScreenshot();
+    if (imgSrc === null) return false; 
     setImgSrc(imgSrc);
-    if (oriOcean.length === 0) {
-      Predict(imgSrc).then((arr) => {
-        arr = arr[0];
-        for (var i = 0; i < arr.length; i++) {
-          arr[i] *= 10;
-        }
-        setOriOcean(arr);
-      });
-    }
-  }
-
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      if (liveUpdateFlag) {
-        liveUpdate();
+    
+    if (model !== null) {
+      // TODO: move this null check to a loading loop
+      let image = await loadImage(imgSrc);
+      let arr = await model.predict(image);
+      arr = arr[0].slice(0, -1);
+      for (var i = 0; i < arr.length; i++) {
+        arr[i] *= 10;
       }
-    }, 2000);
-    return () => clearInterval(interval);
-  },[])
+      setOriOcean(arr);
+      return true;
+    } else {
+      return false;
+    }
+  };
 
-  const pause = () => {
-    setLiveUpdateFlag(false);
-    liveUpdate();
-  }
+  // TODO: make sure we don't setTime after component destroyed
+  useEffect(() => {
+    if (!liveUpdateFlag) return;
+    update().then((success) => {
+      setTimeout(() => {
+        setTime(Date.now());
+      }, success ? SUCCESS_DELAY_MS : FAILURE_DELAY_MS);
+    }).catch((error) => {
+      console.error(error);
+    });
+  }, [liveUpdateFlag, time, model]);
+
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -79,7 +92,7 @@ const Recorder = ({ setImgSrc, oriOcean, setOriOcean, liveUpdateFlag, setLiveUpd
           />
         </Grid>
       </Grid>
-      <Button onClick={pause} style={style.normalButton}>Pause</Button>
+      <Button onClick={() => {setLiveUpdateFlag(false)}} style={style.normalButton}>Pause</Button>
     </Box>
   );
 };

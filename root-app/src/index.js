@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { render } from 'react-dom';
 import domtoimage from 'dom-to-image';
 
@@ -13,11 +13,18 @@ import Display from './components/Display';
 import ScoreDisplay from './components/ScoreDisplay';
 import Steps from './components/Steps';
 
-import Predict from './apr/tensorflow_test';
+import {loadImage} from './apr/utils';
+
+import { loadModel } from './apr/model';
+import { resnetPreprocessor } from './apr/preprocessors';
+
 import Navigation from './components/Navigation';
+
 
 import './index.css';
 
+const MODEL_JSON_PATH = 'mobilenet/model.json';
+const MODEL_PREPROCESSOR = resnetPreprocessor;
 
 const App = () => {
   const [contrast, setContrast] = React.useState(100);
@@ -33,6 +40,7 @@ const App = () => {
   const [datasetIndex, setDatasetIndex] = React.useState(null);
   const [index, setIndex] = React.useState(null);
   const [liveUpdateFlag, setLiveUpdateFlag] = React.useState(true);
+  const [model, setModel] = React.useState(null);
 
   const oriListPattern = [
     {
@@ -100,13 +108,15 @@ const App = () => {
     setLiveUpdateFlag(true);
   }
 
+
   const convertToJpeg = () => {
     let node = document.getElementById('image-node');
-    domtoimage.toJpeg(node).then(function (cssImgSrc) {
+    domtoimage.toJpeg(node).then(async function (cssImgSrc) {
       setCssImgSrc(cssImgSrc);
       setEvaluating(true);
-      Predict(cssImgSrc).then((arr) => {
-        arr = arr[0];
+      let image = await loadImage(cssImgSrc);
+      model.predict(image).then((arr) => {
+        arr = arr[0].slice(0, -1);
         for (var i = 0; i < arr.length; i++) {
           arr[i] *= 10;
         }
@@ -141,6 +151,12 @@ const App = () => {
     }
   }
 
+  // initialise model
+  // TODO: @Kyra reorganise this :blobreach:
+  useEffect(() => {
+    loadModel(MODEL_JSON_PATH, MODEL_PREPROCESSOR).then(setModel);
+  }, []);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Navigation />
@@ -149,12 +165,12 @@ const App = () => {
         <Grid item md={1} />
         <Grid item md={4}>
         {liveUpdateFlag ?
-          <Recorder setImgSrc={setImgSrc} oriOcean={oriOcean} setOriOcean={setOriOcean} liveUpdateFlag={liveUpdateFlag} setLiveUpdateFlag={setLiveUpdateFlag} />
-          : <Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} saliencySrc={saliencySrc} />} 
+          <Recorder setImgSrc={setImgSrc} oriOcean={oriOcean} setOriOcean={setOriOcean} liveUpdateFlag={liveUpdateFlag} setLiveUpdateFlag={setLiveUpdateFlag} model={model} />
+          : <Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} saliencySrc={saliencySrc} />}
         </Grid>
         <Grid item md='auto' />
         <Grid item md={6} >
-        <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc} imgSrc={imgSrc} cssImgSrc={cssImgSrc} oriArr={oriArr} setOriArr={setOriArr} afterArr={afterArr} setAfterArr={setAfterArr} datasetIndex={datasetIndex} setDatasetIndex={setDatasetIndex} index={index} setIndex={setIndex} liveUpdateFlag={liveUpdateFlag}/>
+        <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc} imgSrc={imgSrc} cssImgSrc={cssImgSrc} oriArr={oriArr} setOriArr={setOriArr} afterArr={afterArr} setAfterArr={setAfterArr} datasetIndex={datasetIndex} setDatasetIndex={setDatasetIndex} index={index} setIndex={setIndex} model={model} liveUpdateFlag={liveUpdateFlag}/>
         </Grid>
         {/* sliders and instructions*/}
         <Grid item md={1} />
