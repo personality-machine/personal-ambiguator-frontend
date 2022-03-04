@@ -13,7 +13,7 @@ const Gradient =
         let res = new Array(6);
         for (let i = 0; i < 6; i++){
             // calculate gradient
-            let f = x=> model.predict(x).slice([0,i],[1,1]);
+            let f = x => model.predict(x).slice([0,i],[1,1]);
             let g = tf.grad(f);
             var result = g(tensor);
 
