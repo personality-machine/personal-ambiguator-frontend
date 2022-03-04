@@ -41,7 +41,7 @@ const Recorder = ({ setImgSrc, oriOcean, setOriOcean, liveUpdateFlag, setLiveUpd
     setImgSrc(imgSrc);
     if (oriOcean.length === 0) {
       Predict(imgSrc).then((arr) => {
-        arr = arr[0].slice(0, -1);
+        arr = arr[0];
         for (var i = 0; i < arr.length; i++) {
           arr[i] *= 10;
         }

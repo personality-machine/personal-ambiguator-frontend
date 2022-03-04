@@ -11,7 +11,7 @@ import Recorder from './components/Recorder';
 import Sliders from './components/Sliders';
 import Display from './components/Display';
 import ScoreDisplay from './components/ScoreDisplay';
-import InfoBox from './components/InfoBox';
+import Steps from './components/Steps';
 
 import Predict from './apr/tensorflow_test';
 import Navigation from './components/Navigation';
@@ -106,7 +106,7 @@ const App = () => {
       setCssImgSrc(cssImgSrc);
       setEvaluating(true);
       Predict(cssImgSrc).then((arr) => {
-        arr = arr[0].slice(0, -1);
+        arr = arr[0];
         for (var i = 0; i < arr.length; i++) {
           arr[i] *= 10;
         }
@@ -145,33 +145,33 @@ const App = () => {
     <Box sx={{ flexGrow: 1 }}>
       <Navigation />
       <Grid container spacing={3}>
-        {
-          <>
-            <Grid item md={1} />
-            <Grid item md={4}>
-            <Stack spacing={2} direction="column">
-              <box />
-              {liveUpdateFlag ?
-                <Recorder setImgSrc={setImgSrc} oriOcean={oriOcean} setOriOcean={setOriOcean} liveUpdateFlag={liveUpdateFlag} setLiveUpdateFlag={setLiveUpdateFlag} />
-                : (<div><Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} saliencySrc={saliencySrc} />
-                  <Button style={style.normalButton} onClick={handleRecordAgain}>Start Again</Button>
-                  <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate} evaluating={evaluating} contrast={contrast} brightness={brightness} saturate={saturate} setSaliencySrc={setSaliencySrc} setDatasetIndex={setDatasetIndex} setIndex={setIndex} />
-                  <Stack spacing={2} direction="row" justifyContent="center">
-                    <Button style={style.normalButton} onClick={convertToJpeg}>Evaluate</Button>
-                    <Button style={style.normalButton} onClick={handleAdjustParams}>Adjust params</Button>
-                  </Stack></div>
-                )}
-            </Stack>
-            </Grid>
-            <Grid item md='auto' />
-            <Grid item md={6}>
-            <Stack spacing={3.5} direction="column" >
-              <Box />
-              <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc} imgSrc={imgSrc} cssImgSrc={cssImgSrc} oriArr={oriArr} setOriArr={setOriArr} afterArr={afterArr} setAfterArr={setAfterArr} datasetIndex={datasetIndex} setDatasetIndex={setDatasetIndex} index={index} setIndex={setIndex} liveUpdateFlag={liveUpdateFlag}/>
-              <InfoBox evaluating={evaluating} liveUpdateFlag={liveUpdateFlag} />
-              </Stack>
-            </Grid>
-          </>}
+        {/* recorder and chart*/}
+        <Grid item md={1} />
+        <Grid item md={4}>
+        {liveUpdateFlag ?
+          <Recorder setImgSrc={setImgSrc} oriOcean={oriOcean} setOriOcean={setOriOcean} liveUpdateFlag={liveUpdateFlag} setLiveUpdateFlag={setLiveUpdateFlag} />
+          : <Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} saliencySrc={saliencySrc} />} 
+        </Grid>
+        <Grid item md='auto' />
+        <Grid item md={6} >
+        <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc} imgSrc={imgSrc} cssImgSrc={cssImgSrc} oriArr={oriArr} setOriArr={setOriArr} afterArr={afterArr} setAfterArr={setAfterArr} datasetIndex={datasetIndex} setDatasetIndex={setDatasetIndex} index={index} setIndex={setIndex} liveUpdateFlag={liveUpdateFlag}/>
+        </Grid>
+        {/* sliders and instructions*/}
+        <Grid item md={1} />
+        <Grid item md={4} >
+        {liveUpdateFlag ?
+          <Box />
+          : (<div><Button style={style.normalButton} onClick={handleRecordAgain}>Start Again</Button>
+            <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate} evaluating={evaluating} contrast={contrast} brightness={brightness} saturate={saturate} setSaliencySrc={setSaliencySrc} setDatasetIndex={setDatasetIndex} setIndex={setIndex} />
+            <Stack spacing={2} direction="row" justifyContent="center">
+              <Button style={style.normalButton} onClick={convertToJpeg}>Evaluate</Button>
+              <Button style={style.normalButton} onClick={handleAdjustParams}>Adjust params</Button>
+            </Stack></div>)}
+        </Grid>
+        <Grid item md='auto' />
+        <Grid item md={6} >
+        <Steps />
+        </Grid>
       </Grid>
     </Box>
   );
