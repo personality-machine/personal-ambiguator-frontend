@@ -24,11 +24,21 @@ ChartJS.register(
   Legend
 );
 
-ChartJS.defaults.font.size = 20;
+ChartJS.defaults.font.size = 14;
 ChartJS.defaults.font.family = 'monospace';
-const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriArr, setOriArr, afterArr, setAfterArr, datasetIndex, setDatasetIndex, index, setIndex, model}) => {
+
+const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriArr, setOriArr, afterArr, setAfterArr, datasetIndex, setDatasetIndex, index, setIndex, model, liveUpdateFlag}) => {
   const options = {
-    // responsive: true,
+    responsive: true,
+    scales:{
+      y: {
+        max: 10.0,
+        min: 0,
+        ticks:{
+          stepSize: 0.5,
+        }
+      }
+    },
     plugins: {
       legend: {
         position: 'top',
@@ -41,7 +51,7 @@ const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriAr
   };
 
   const labels = ['Openness', 'Conscientiousness', 'Extroversion',
-                  'Agreeableness', 'Neuroticism'];
+                  'Agreeableness', 'Neuroticism', 'Invite to interview'];
 
   const data = {
     labels,
@@ -78,20 +88,19 @@ const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriAr
       console.error("!chart");
       return;
     }
+    if (liveUpdateFlag) {
+      return;
+    }
     const element = getElementAtEvent(chart, event);
     if(element.length > 0) {
       const { datasetIndex, index } = element[0];
       setDatasetIndex(datasetIndex);
       setIndex(index);
-      // let saliencyPath = new String('saliency/');
-      // saliencyPath = saliencyPath.concat(data.labels[index]).concat(".png");
-      // setSaliencySrc(saliencyPath.toLowerCase());
-      // console.log(data.labels[index], data.datasets[datasetIndex].label, data.datasets[datasetIndex].data[index]);
-    }
+      }
   }
 
   useEffect(() => {
-    if (datasetIndex !== null && index !== null){
+    if (datasetIndex !== null && index !== null && liveUpdateFlag === false) {
       switch(data.datasets[datasetIndex].label) {
         case 'original':
           if (oriArr[index].url === ""){

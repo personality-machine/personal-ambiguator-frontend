@@ -15,6 +15,7 @@ const SUCCESS_DELAY_MS = 50;
 const FAILURE_DELAY_MS = 500;
 
 const Recorder = ({ setImgSrc, setCapturePhoto, setOriOcean, liveUpdateFlag, setLiveUpdateFlag, model }) => {
+
   const webcamRef = React.useRef(null); // persistent reference cause no rerendering
   const [time, setTime] = React.useState(null);
 
@@ -37,6 +38,8 @@ const Recorder = ({ setImgSrc, setCapturePhoto, setOriOcean, liveUpdateFlag, set
       color: '#ffffff',
       backgroundColor: '#000000',
       fontFamily: 'courier new',
+      marginTop: 10,
+      marginBottom: 10,
     }
   }
 
@@ -72,6 +75,7 @@ const Recorder = ({ setImgSrc, setCapturePhoto, setOriOcean, liveUpdateFlag, set
       console.error(error);
     });
   }, [liveUpdateFlag, time, model]);
+
 
   return (
     <Box sx={{ flexGrow: 1 }}>

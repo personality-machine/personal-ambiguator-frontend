@@ -18,6 +18,9 @@ import {loadImage} from './apr/utils';
 import { loadModel } from './apr/model';
 import { resnetPreprocessor } from './apr/preprocessors';
 
+import Navigation from './components/Navigation';
+
+
 import './index.css';
 
 const MODEL_JSON_PATH = 'mobilenet/model.json';
@@ -30,7 +33,6 @@ const App = () => {
   const [imgSrc, setImgSrc] = React.useState(null);
   const [saliencySrc, setSaliencySrc] = React.useState(null);
   const [cssImgSrc, setCssImgSrc] = React.useState(null);
-  const [capturePhoto, setCapturePhoto] = React.useState(false);
   const [evaluating, setEvaluating] = React.useState(false);
   // may work together with some callModel variable to handle updates
   const [ocean, setOcean] = React.useState([]);
@@ -90,7 +92,6 @@ const App = () => {
   const [afterArr, setAfterArr] = React.useState(afterListPattern);
 
   const handleRecordAgain = () => {
-    setCapturePhoto(false);
     setContrast(100);
     setBrightness(100);
     setSaturate(100);
@@ -141,6 +142,8 @@ const App = () => {
       color: '#ffffff',
       backgroundColor: '#000000',
       fontFamily: 'monospace',
+      marginTop: 10,
+      marginBottom: 10,
     },
     typography: {
       color: '#000000',
@@ -156,14 +159,19 @@ const App = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
+      <Navigation />
       <Grid container spacing={3}>
         {
           <>
-            <Grid item xs={1} />
-            <Grid item xs={4}>
+            <Grid item md={1} />
+            <Grid item md={4}>
+            <Stack spacing={2} direction="column">
+              <box />
               {liveUpdateFlag ?
+
                 <Recorder setImgSrc={setImgSrc} setCapturePhoto={setCapturePhoto} setOriOcean={setOriOcean} liveUpdateFlag={liveUpdateFlag} setLiveUpdateFlag={setLiveUpdateFlag} model={model} />
                 : (<div><Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} saliencySrc={saliencySrc} capturePhoto={capturePhoto} />
+
                   <Button style={style.normalButton} onClick={handleRecordAgain}>Start Again</Button>
                   <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate} evaluating={evaluating} contrast={contrast} brightness={brightness} saturate={saturate} setSaliencySrc={setSaliencySrc} setDatasetIndex={setDatasetIndex} setIndex={setIndex} />
                   <Stack spacing={2} direction="row" justifyContent="center">
@@ -171,14 +179,18 @@ const App = () => {
                     <Button style={style.normalButton} onClick={handleAdjustParams}>Adjust params</Button>
                   </Stack></div>
                 )}
+            </Stack>
             </Grid>
-            <Grid item xs={3} md='auto' />
-            <Grid item xs={12} md={6}>
-              {/*<Typography variant="h2" style={style.typography}>Scores</Typography>*/}
-              <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc} imgSrc={imgSrc} cssImgSrc={cssImgSrc} oriArr={oriArr} setOriArr={setOriArr} afterArr={afterArr} setAfterArr={setAfterArr} datasetIndex={datasetIndex} setDatasetIndex={setDatasetIndex} index={index} setIndex={setIndex} model={model} />
-              <InfoBox evaluating={evaluating} />
+
+            <Grid item md='auto' />
+            <Grid item md={6}>
+            <Stack spacing={3.5} direction="column" >
+              <Box />
+              <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc} imgSrc={imgSrc} cssImgSrc={cssImgSrc} oriArr={oriArr} setOriArr={setOriArr} afterArr={afterArr} setAfterArr={setAfterArr} datasetIndex={datasetIndex} setDatasetIndex={setDatasetIndex} index={index} setIndex={setIndex} model={model} liveUpdateFlag={liveUpdateFlag}/>
+              <InfoBox evaluating={evaluating} liveUpdateFlag={liveUpdateFlag} />
+              </Stack>
+
             </Grid>
-            <Grid item xs={0} md={1} />
           </>}
       </Grid>
     </Box>
