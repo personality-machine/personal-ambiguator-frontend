@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -8,9 +8,12 @@ import Webcam from 'react-webcam';
 
 import './Recorder.css';
 
-const Recorder = ({ setImgSrc, setCapturePhoto, oriOcean, setOriOcean, liveUpdateFlag, setLiveUpdateFlag, model }) => {
+const SUCCESS_DELAY_MS = 50;
+const FAILURE_DELAY_MS = 500;
 
+const Recorder = ({ setImgSrc, setCapturePhoto, setOriOcean, liveUpdateFlag, setLiveUpdateFlag, model }) => {
   const webcamRef = React.useRef(null); // persistent reference cause no rerendering
+  const [time, setTime] = React.useState(null);
 
   const videoConstraints = {
     // width: 224,
@@ -51,7 +54,7 @@ const Recorder = ({ setImgSrc, setCapturePhoto, oriOcean, setOriOcean, liveUpdat
     if (imgSrc === null) return false; 
     setImgSrc(imgSrc);
     setCapturePhoto(true);
-    if (oriOcean.length === 0 && model !== null) {
+    if (model !== null) {
       // TODO: move this null check to a loading loop
       let image = await loadImage(imgSrc);
       let arr = await model.predict(image);
@@ -66,28 +69,17 @@ const Recorder = ({ setImgSrc, setCapturePhoto, oriOcean, setOriOcean, liveUpdat
     }
   };
 
-  const updateLoop = () => {
+  // TODO: make sure we don't setTime after component destroyed
+  useEffect(() => {
+    if (!liveUpdateFlag) return;
     update().then((success) => {
-      if (success) {
-        setTimeout(updateLoop, 50);
-      } else {
-        setTimeout(updateLoop, 500);
-      }
+      setTimeout(() => {
+        setTime(Date.now());
+      }, success ? SUCCESS_DELAY_MS : FAILURE_DELAY_MS);
     }).catch((error) => {
       console.error(error);
-      setTimeout(updateLoop, 500);
     });
-  }
-
-  React.useEffect(() => {
-    if (model !== null) {
-      updateLoop();
-    }
-  }, [model]);
-
-  const pause = () => {
-    setLiveUpdateFlag(false);
-  }
+  }, [liveUpdateFlag, time, model]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -104,7 +96,7 @@ const Recorder = ({ setImgSrc, setCapturePhoto, oriOcean, setOriOcean, liveUpdat
           />
         </Grid>
       </Grid>
-      <Button onClick={pause} style={style.normalButton}>Pause</Button>
+      <Button onClick={() => {setLiveUpdateFlag(false)}} style={style.normalButton}>Pause</Button>
     </Box>
   );
 };
