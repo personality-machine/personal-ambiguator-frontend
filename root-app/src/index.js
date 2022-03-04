@@ -13,14 +13,12 @@ import Display from './components/Display';
 import ScoreDisplay from './components/ScoreDisplay';
 import InfoBox from './components/InfoBox';
 
-import Predict from './apr/tensorflow_test';
 import { loadModel } from './apr/model';
 import { resnetPreprocessor } from './apr/preprocessors';
 
 import './index.css';
-import { ModelLoggingVerbosity } from '@tensorflow/tfjs-layers/dist/base_callbacks';
 
-const MODEL_JSON_PATH = 'resnet/model.json';
+const MODEL_JSON_PATH = 'mobilenet/model.json';
 const MODEL_PREPROCESSOR = resnetPreprocessor;
 
 const App = () => {
@@ -151,11 +149,7 @@ const App = () => {
   // initialise model
   // TODO: @Kyra reorganise this :blobreach:
   useEffect(() => {
-    loadModel(MODEL_JSON_PATH, MODEL_PREPROCESSOR).then((model) => {
-      console.log("Set model and trigger reload");
-      console.log(model);
-      setModel(model);
-    });
+    loadModel(MODEL_JSON_PATH, MODEL_PREPROCESSOR).then(setModel);
   }, []);
 
   return (

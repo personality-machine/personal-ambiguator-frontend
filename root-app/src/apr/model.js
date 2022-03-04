@@ -23,9 +23,7 @@ const loadModel = async (modelJsonPath, imagePreprocessor) => {
              * Input: HTMLImageElement of dimensions 224x224
              * Output: Array[6] of floats
              */
-            console.log("predict");
             let input = await imageToTensor(image, imagePreprocessor);
-            console.log(input);
             return model.predict(input).array();
         },
         grad: async (image) => {
