@@ -14,6 +14,7 @@ import ScoreDisplay from './components/ScoreDisplay';
 import InfoBox from './components/InfoBox';
 
 import Predict from './apr/tensorflow_test';
+import Navigation from './components/Navigation';
 
 import './index.css';
 
@@ -140,6 +141,7 @@ const App = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
+      <Navigation />
       <Grid container spacing={3}>
         {
           <>
