@@ -143,11 +143,15 @@ const App = () => {
       backgroundColor: '#000000',
       fontFamily: 'monospace',
       marginTop: 10,
-      marginBottom: 10,
+      marginBottom: 10
     },
     typography: {
       color: '#000000',
       fontFamily: 'monospace'
+    },
+    Grid: {
+      marginTop: 10,
+      marginBottom: 10,
     }
   }
 
@@ -159,8 +163,8 @@ const App = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Navigation />
-      <Grid container spacing={3}>
+      <Navigation/>
+      <Grid container spacing={3} style={style.Grid}>
         {/* recorder and chart*/}
         <Grid item md={1} />
         <Grid item md={4}>
