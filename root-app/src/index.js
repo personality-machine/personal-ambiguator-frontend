@@ -11,6 +11,7 @@ import Recorder from './components/Recorder';
 import Sliders from './components/Sliders';
 import Display from './components/Display';
 import ScoreDisplay from './components/ScoreDisplay';
+import Navigation from './components/Navigation';
 import Steps from './components/Steps';
 
 import {loadImage} from './apr/utils';
@@ -18,12 +19,10 @@ import {loadImage} from './apr/utils';
 import { loadModel } from './apr/model';
 import { resnetPreprocessor } from './apr/preprocessors';
 
-import Navigation from './components/Navigation';
-
 
 import './index.css';
 
-const MODEL_JSON_PATH = 'mobilenet/model.json';
+const MODEL_JSON_PATH = 'no_randomcrop/model.json';
 const MODEL_PREPROCESSOR = resnetPreprocessor;
 
 const App = () => {
@@ -142,12 +141,14 @@ const App = () => {
       color: '#ffffff',
       backgroundColor: '#000000',
       fontFamily: 'monospace',
-      marginTop: 10,
-      marginBottom: 10,
+      marginTop: 5
     },
     typography: {
       color: '#000000',
       fontFamily: 'monospace'
+    },
+    Grid: {
+      marginTop: 10,
     }
   }
 
@@ -159,8 +160,8 @@ const App = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Navigation />
-      <Grid container spacing={3} p={2}>
+      <Navigation/>
+      <Grid container spacing={3} style={style.Grid}>
         {/* recorder and chart*/}
         <Grid item xs={1}/>
         <Grid item xs={4}>
@@ -176,7 +177,7 @@ const App = () => {
         <Grid item xs={1} />
         <Grid item xs={4} >
         {liveUpdateFlag ?
-          <Box />
+          <Button onClick={() => {setLiveUpdateFlag(false)}} style={style.normalButton}>Pause</Button>
           : (<div><Button style={style.normalButton} onClick={handleRecordAgain}>Start Again</Button>
             <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate} evaluating={evaluating} contrast={contrast} brightness={brightness} saturate={saturate} setSaliencySrc={setSaliencySrc} setDatasetIndex={setDatasetIndex} setIndex={setIndex} />
             <Stack spacing={2} direction="row" justifyContent="center">
