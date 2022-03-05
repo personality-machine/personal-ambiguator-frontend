@@ -40,6 +40,8 @@ const App = () => {
   const [index, setIndex] = React.useState(null);
   const [liveUpdateFlag, setLiveUpdateFlag] = React.useState(true);
   const [model, setModel] = React.useState(null);
+  const [activeStep, setActiveStep] = React.useState(0);
+  const [completed, setCompleted] = React.useState({});
 
   const oriListPattern = [
     {
@@ -145,6 +147,13 @@ const App = () => {
     setAfterArr(afterListPattern);
   }
 
+
+  const handleComplete = (step) => {
+    const newCompleted = completed;
+    newCompleted[step] = true;
+    setCompleted(newCompleted);
+  };
+
   const style = {
     normalButton: {
       color: '#ffffff',
@@ -156,7 +165,7 @@ const App = () => {
       color: '#000000',
       fontFamily: 'monospace'
     },
-    Grid: {
+    grid: {
       marginTop: 10,
     }
   }
@@ -169,7 +178,7 @@ const App = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Navigation/>
-      <Grid container spacing={3} style={style.Grid}>
+      <Grid container spacing={3} style={style.grid}>
         {/* recorder and chart*/}
         <Grid item xs={1}/>
         <Grid item xs={4}>
@@ -185,17 +194,17 @@ const App = () => {
         <Grid item xs={1} />
         <Grid item xs={4} >
         {liveUpdateFlag ?
-          <Button onClick={() => {setLiveUpdateFlag(false)}} style={style.normalButton}>Pause</Button>
-          : (<div><Button style={style.normalButton} onClick={handleRecordAgain}>Start Again</Button>
+          <Button onClick={() => { setLiveUpdateFlag(false); setActiveStep(1); handleComplete(0)}} style={style.normalButton}>Pause</Button>
+          : (<div><Button style={style.normalButton} onClick={handleRecordAgain}>Live Mode</Button>
             <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate} evaluating={evaluating} contrast={contrast} brightness={brightness} saturate={saturate} setSaliencySrc={setSaliencySrc} setDatasetIndex={setDatasetIndex} setIndex={setIndex} />
             <Stack spacing={2} direction="row" justifyContent="center">
-              <Button style={style.normalButton} onClick={convertToJpeg}>Evaluate</Button>
+              <Button style={style.normalButton} onClick={() => {convertToJpeg();setActiveStep(2); handleComplete(1)}}>Evaluate</Button>
               <Button style={style.normalButton} onClick={handleAdjustParams}>Adjust params</Button>
             </Stack></div>)}
         </Grid>
         <Grid item xs='auto' />
         <Grid item xs={6} >
-        <Steps />
+        <Steps activeStep={activeStep} setActiveStep={setActiveStep} completed={completed} setCompleted={setCompleted}/>
         </Grid>
       </Grid>
     </Box>

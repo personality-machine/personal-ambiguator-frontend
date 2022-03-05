@@ -33,13 +33,13 @@ const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriAr
     responsive: true,
     color: '#000000',
     fontSize: '20px',
-    aspectRatio:1.5,
+    aspectRatio: 1.5,
     scales:{
       y: {
         max: 10.0,
         min: 0,
         ticks:{
-          stepSize: 0.5,
+          stepSize: 1,
           color: 'black',
         }
       },
