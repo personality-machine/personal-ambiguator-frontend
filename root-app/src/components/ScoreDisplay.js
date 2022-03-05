@@ -30,6 +30,7 @@ ChartJS.defaults.font.family = 'monospace';
 const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriArr, setOriArr, afterArr, setAfterArr, datasetIndex, setDatasetIndex, index, setIndex, model, liveUpdateFlag}) => {
   const options = {
     responsive: true,
+    aspectRatio:1.5,
     scales:{
       y: {
         max: 10.0,
