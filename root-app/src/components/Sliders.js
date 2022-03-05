@@ -25,7 +25,8 @@ const Sliders = ({setContrast,setBrightness,setSaturate,evaluating,contrast,brig
 
     const style ={
       color: '#121414',
-      fontFamily: 'Courier New'
+      fontFamily: 'monospace',
+      fontSize: 'bold'
     }
 
     return (
