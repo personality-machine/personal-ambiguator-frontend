@@ -117,10 +117,11 @@ const App = () => {
 
 
   const convertToJpeg = () => {
+    setEvaluating(true);
+    setSaliencySrc(null);
     let node = document.getElementById('image-node');
     domtoimage.toJpeg(node).then(async function (cssImgSrc) {
       setCssImgSrc(cssImgSrc);
-      setEvaluating(true);
       let image = await loadImage(cssImgSrc);
       model.predict(image).then((arr) => {
         arr = arr[0];
