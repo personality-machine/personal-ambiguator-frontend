@@ -61,13 +61,13 @@ const App = () => {
     {
       id: 5,
       url: ""
-    }
-  ]
-  const afterListPattern = [
+    },
     {
       id: 6,
       url: ""
-    },
+    }
+  ]
+  const afterListPattern = [
     {
       id: 7,
       url: ""
@@ -82,6 +82,14 @@ const App = () => {
     },
     {
       id: 10,
+      url: ""
+    },
+    {
+      id: 11,
+      url: ""
+    },
+    {
+      id: 12,
       url: ""
     }
   ]
@@ -109,10 +117,11 @@ const App = () => {
 
 
   const convertToJpeg = () => {
+    setEvaluating(true);
+    setSaliencySrc(null);
     let node = document.getElementById('image-node');
     domtoimage.toJpeg(node).then(async function (cssImgSrc) {
       setCssImgSrc(cssImgSrc);
-      setEvaluating(true);
       let image = await loadImage(cssImgSrc);
       model.predict(image).then((arr) => {
         arr = arr[0];
@@ -153,7 +162,6 @@ const App = () => {
   }
 
   // initialise model
-  // TODO: @Kyra reorganise this :blobreach:
   useEffect(() => {
     loadModel(MODEL_JSON_PATH, MODEL_PREPROCESSOR).then(setModel);
   }, []);
