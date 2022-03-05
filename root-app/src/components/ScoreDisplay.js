@@ -26,6 +26,7 @@ ChartJS.register(
 
 ChartJS.defaults.font.size = 14;
 ChartJS.defaults.font.family = 'monospace';
+ChartJS.defaults.font.weight = 'bold';
 
 const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriArr, setOriArr, afterArr, setAfterArr, datasetIndex, setDatasetIndex, index, setIndex, model, liveUpdateFlag}) => {
   const options = {
