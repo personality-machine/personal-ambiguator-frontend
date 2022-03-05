@@ -61,13 +61,13 @@ const App = () => {
     {
       id: 5,
       url: ""
-    }
-  ]
-  const afterListPattern = [
+    },
     {
       id: 6,
       url: ""
-    },
+    }
+  ]
+  const afterListPattern = [
     {
       id: 7,
       url: ""
@@ -82,6 +82,14 @@ const App = () => {
     },
     {
       id: 10,
+      url: ""
+    },
+    {
+      id: 11,
+      url: ""
+    },
+    {
+      id: 12,
       url: ""
     }
   ]
@@ -153,7 +161,6 @@ const App = () => {
   }
 
   // initialise model
-  // TODO: @Kyra reorganise this :blobreach:
   useEffect(() => {
     loadModel(MODEL_JSON_PATH, MODEL_PREPROCESSOR).then(setModel);
   }, []);
