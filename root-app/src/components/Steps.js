@@ -8,7 +8,8 @@ import Typography from '@mui/material/Typography';
 
 const steps = ['Stop live updating', 
                'Adjust parameters using sliders and evaluate', 
-               'Click on data points to see saliency maps', 'Re-adjust parameters'];
+               'Click on data points to see saliency maps',
+               'Re-adjust parameters'];
 const content = ['The machine is updating the scores live from the webcam! Click `PAUSE` to stop.', 
                  'See how the filters affect the scores given by the Personality Machine!', 
                  'The personality machine is evaluating your scores! Click and wait until saliency map appears', 

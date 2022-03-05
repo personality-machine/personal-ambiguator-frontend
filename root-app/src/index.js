@@ -160,21 +160,21 @@ const App = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Navigation />
-      <Grid container spacing={3}>
+      <Grid container spacing={3} p={2}>
         {/* recorder and chart*/}
-        <Grid item md={1} />
-        <Grid item md={4}>
+        <Grid item xs={1}/>
+        <Grid item xs={4}>
         {liveUpdateFlag ?
           <Recorder setImgSrc={setImgSrc} oriOcean={oriOcean} setOriOcean={setOriOcean} liveUpdateFlag={liveUpdateFlag} setLiveUpdateFlag={setLiveUpdateFlag} model={model} />
           : <Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} saliencySrc={saliencySrc} />}
         </Grid>
-        <Grid item md='auto' />
-        <Grid item md={6} >
-        <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc} imgSrc={imgSrc} cssImgSrc={cssImgSrc} oriArr={oriArr} setOriArr={setOriArr} afterArr={afterArr} setAfterArr={setAfterArr} datasetIndex={datasetIndex} setDatasetIndex={setDatasetIndex} index={index} setIndex={setIndex} model={model} liveUpdateFlag={liveUpdateFlag}/>
+        <Grid item xs='auto'/>
+        <Grid item xs={6} >
+          <ScoreDisplay ocean={ocean} oriOcean={oriOcean} setSaliencySrc={setSaliencySrc} imgSrc={imgSrc} cssImgSrc={cssImgSrc} oriArr={oriArr} setOriArr={setOriArr} afterArr={afterArr} setAfterArr={setAfterArr} datasetIndex={datasetIndex} setDatasetIndex={setDatasetIndex} index={index} setIndex={setIndex} model={model} liveUpdateFlag={liveUpdateFlag}/>
         </Grid>
         {/* sliders and instructions*/}
-        <Grid item md={1} />
-        <Grid item md={4} >
+        <Grid item xs={1} />
+        <Grid item xs={4} >
         {liveUpdateFlag ?
           <Box />
           : (<div><Button style={style.normalButton} onClick={handleRecordAgain}>Start Again</Button>
@@ -184,8 +184,8 @@ const App = () => {
               <Button style={style.normalButton} onClick={handleAdjustParams}>Adjust params</Button>
             </Stack></div>)}
         </Grid>
-        <Grid item md='auto' />
-        <Grid item md={6} >
+        <Grid item xs='auto' />
+        <Grid item xs={6} >
         <Steps />
         </Grid>
       </Grid>
