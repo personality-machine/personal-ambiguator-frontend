@@ -9,5 +9,4 @@ const loadImage = url => {
     });
 }
 
-
 export {loadImage};
