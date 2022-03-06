@@ -17,14 +17,15 @@ const steps = ['Stop live updating',
                'Saliency maps',
                'Re-adjust parameters'];
 const content = ['The machine is updating the scores live from the webcam! Click `PAUSE` to stop.', 
-                 'See how the filters affect the image and then click `EVALUATE` to see how they affect the scores given by the Personality Machine.', 
+                 'See how the filters affect the image and then click `EVALUATE` to see how they affect the scores.', 
                  'Click on a data point and wait until the saliency map appears.', 
-                 'If you want to go back to adjusting parameters, click the `ADJUST PARAMS` button. If you want to go back to live mode, click `LIVE MODE`.'];
+                 'Click `ADJUST PARAMS` to go back to adjusting parameters. Click `LIVE MODE` to go back to live mode.'];
 
 const HorizontalNonLinearStepper = ({activeStep, setActiveStep, completed, setCompleted}) => {
   const useStyles = makeStyles((theme) => ({
     step: {
       backgroundColor: alpha('rgb(25, 79, 156)', 0.0),
+      marginLeft: 10,
     },
     steplabel: {
       fontFamily: 'monospace',
@@ -37,6 +38,7 @@ const HorizontalNonLinearStepper = ({activeStep, setActiveStep, completed, setCo
       border: '2px solid rgb(25, 79, 156)',
       borderRadius: '5px',
       padding: '5px',
+      marginLeft: 35,
     },
     button: {
       color: '#f8f8f2',
@@ -48,6 +50,8 @@ const HorizontalNonLinearStepper = ({activeStep, setActiveStep, completed, setCo
       "&:disabled": {
         backgroundColor: '#888888',
       },
+      marginBottom: 10,
+      marginLeft: 35
     },
     feedback: {
       color: '#000000',
