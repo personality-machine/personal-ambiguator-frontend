@@ -22,8 +22,7 @@ const Display = ({contrast, brightness, saturate, imgSrc, saliencySrc}) => {
             id="saliency-map"
             src={saliencySrc}
             alt=""
-            width="100%"
-            height="100%"/>}
+            width="100%"/>}
           </div>)}
         </Grid>
     );

@@ -3,14 +3,15 @@ import Box from '@mui/material/Box';
 import { alpha } from '@mui/material/styles';
 
 const popupStyle = {
-  position: 'absolute',
+  position: 'relative',
   top: '50%',
   left: '50%',
+  width: '80%',
   transform: 'translate(-50%, -50%)',
   backgroundColor: alpha('rgb(5, 32, 71)', 0.9),
   color: '#f8f8f2',
   fontFamily: 'monospace',
-  fontSize: '1.4rem',
+  fontSize: '1.3rem',
   textAlign: 'left',
   border: '2px solid rgb(25, 79, 156)',
   borderRadius: '15px',
