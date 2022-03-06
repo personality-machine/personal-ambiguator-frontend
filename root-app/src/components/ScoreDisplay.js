@@ -32,7 +32,6 @@ const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriAr
   const options = {
     responsive: true,
     color: '#000000',
-    fontSize: '20px',
     aspectRatio: 1.5,
     scales:{
       y: {
@@ -46,9 +45,6 @@ const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriAr
       x: {
         ticks: {
           color: 'black',
-          font: {
-            size: 18,
-          }
         }
       }
     },
@@ -61,7 +57,7 @@ const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriAr
         text: 'Big 5 chart',
         color: '#000000',
         font: {
-          size: 25,
+          size: 30,
         }
       },
     },

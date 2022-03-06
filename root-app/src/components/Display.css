@@ -11,8 +11,7 @@
 }
 #saliency-map {
   position: absolute;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   opacity: 0.6;
-  border: 3px rgb(49, 48, 48) solid;
 }
