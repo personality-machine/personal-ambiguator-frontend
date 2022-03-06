@@ -1,4 +1,5 @@
 import * as tf from '@tensorflow/tfjs';
+const utils = require('./utils');
 
 const imageToTensor = async (image, imagePreprocessor) => {
     /**
@@ -35,14 +36,59 @@ const loadModel = async (modelJsonPath, imagePreprocessor) => {
             let res = new Array(6);
 
             for (let i = 0; i < 6; i++) {
-                // calculate gradient
-                let grad_wrt_i = tf.grad(x => model.predict(x).slice([0, i], [1, 1]));
-                var result = grad_wrt_i(input);
+                console.log(model.summary());
+                let lastConvLayerIndex = 0;
 
-                // normalise data
-                const max = result.max();
-                const min = result.min();
-                result = result.sub(min).div(max.sub(min));
+                const lastConvLayer = model.layers[lastConvLayerIndex];
+                const lastConvLayerOutput = lastConvLayer.output
+
+                const subModel1 = tf.model({
+                inputs: model.inputs,
+                outputs: lastConvLayerOutput
+                });
+
+                const subModel2Input: tf.SymbolicTensor = tf.input({
+                      shape: lastConvLayerOutput.shape.slice(1)
+                });
+                lastConvLayerIndex++;
+                let currentOutput: tf.SymbolicTensor = subModel2Input;
+
+                while (lastConvLayerIndex < model.layers.length) {
+                    currentOutput = model.layers[lastConvLayerIndex].apply(currentOutput);
+                    lastConvLayerIndex++;
+                }
+                const subModel2 = tf.model({
+                    inputs: subModel2Input,
+                    outputs: currentOutput
+                    });
+
+                const convOutput2ClassOutput = (input: any) => subModel2.apply(input, { training: true }).gather([i], 1);
+                const gradFunction = tf.grad(convOutput2ClassOutput);
+
+                const lastConvLayerOutputValues = subModel1.apply(input);
+
+                const gradValues = gradFunction(lastConvLayerOutputValues);
+
+                // Calculate the weights of the feature maps
+                const weights = tf.mean(gradValues, [0, 1, 2]);
+
+                const weightedFeatures = lastConvLayerOutputValues.mul(weights);
+
+                // apply ReLu to the weighted features
+                var result: tf.Tensor<tensorflow.Rank> = weightedFeatures.relu();
+
+                // result = result.div(result.max());
+                console.log("hello");
+                console.log(result.array());
+
+                let colormap = require('colormap')
+                let colors = colormap({
+                  colormap: 'jet',
+                  nshades: 10,
+                  format: 'hex',
+                  alpha: 1
+                })
+
 
                 // convert tensor to image
                 const resTensor = tf.tensor(result.arraySync()[0]);
