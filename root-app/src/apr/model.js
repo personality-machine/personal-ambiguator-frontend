@@ -15,10 +15,26 @@ const imageToTensor = async (image, imagePreprocessor = null) => {
     return imagePreprocessor == null ? input: imagePreprocessor(input);
 }
 
+const constructGradCamModels = (model) => {
+    let input1 = tf.input({ shape: [224,224,3] });
+    let output1 = model.layers[1].apply(input1);
+    
+    let input2 = tf.input({ shape: output1.shape.slice(1) });
+    let output2 = model.layers[2].apply(input2);
+
+    return [
+        tf.model({inputs: input1, outputs: output1}),
+        tf.model({inputs: input2, outputs: output2}),
+    ];
+}
+
 const loadModel = async (modelJsonPath, imagePreprocessor) => {
     console.log("Load model");
     const model = await tf.loadLayersModel(modelJsonPath);
     console.log("Model loaded");
+
+    const [model_prefix, model_suffix] = constructGradCamModels(model);
+
     return {
         predict: async (image) => {
             /**
@@ -35,60 +51,19 @@ const loadModel = async (modelJsonPath, imagePreprocessor) => {
              */
             let input = await imageToTensor(image);
             let res = new Array(6);
-
-            // https://github.com/tensorflow/tfjs-examples/blob/master/visualize-convnet/cam.js#L49
-
-            // Try to locate the last conv layer of the model.
-            // let layerIndex = model.layers[1].length - 1;
-            let layerIndex = 153;
-            console.log(model.layers[1]);
-            while (layerIndex >= 0) {
-                console.log(model.layers[1].getLayer(null, layerIndex).getClassName());
-                if (model.layers[1].getLayer(null, layerIndex).getClassName().startsWith('Conv')) {
-                    break;
-                }
-                layerIndex--;
-            }
-            tf.util.assert(
-                layerIndex >= 0, `Failed to find a convolutional layer in model`);
-
-            const lastConvLayer = model.layers[1].getLayer(null, layerIndex);
-            console.log(
-                `Located last convolutional layer of the model at ` +
-                `index ${layerIndex}: layer type = ${lastConvLayer.getClassName()}; ` +
-                `layer name = ${lastConvLayer.name}`);
-
+            
             for (let i = 0; i < 6; i++) {
-
-                const lastConvLayerOutput = lastConvLayer.output;
-                const subModel1 =
-                    tf.model({ inputs: model.inputs, outputs: lastConvLayerOutput });
-
-                const newInput = tf.input({ shape: lastConvLayerOutput.shape.slice(1) });
-                layerIndex++;
-                let y = newInput;
-                while (layerIndex < model.layers[1].length) {
-                    y = model.layers[1].getLayer(null, layerIndex++).apply(y);
-                }
-                const subModel2 = tf.model({ inputs: newInput, outputs: y });
-
                 res[i] = tf.tidy(() => {
-                    const convOutput2ClassOutput = (input) =>
-                        subModel2.apply(input, { training: true }).gather([i], 1);
-                    const gradFunction = tf.grad(convOutput2ClassOutput);
-
-                    // Calculate the values of the last conv layer's output.
-                    const lastConvLayerOutputValues = subModel1.apply(input);
-
-                    const gradValues = gradFunction(lastConvLayerOutputValues);
+                    let last_conv_layer_output = model_prefix.apply(input);
+                    let grads = tf.grad((x) => model_suffix.apply(x).gather([i], 1))(last_conv_layer_output);
 
                     // Pool the gradient values within each filter of the last convolutional
                     // layer, resulting in a tensor of shape [numFilters].
-                    const pooledGradValues = tf.mean(gradValues, [0, 1, 2]);
-                    // Scale the convlutional layer's output by the pooled gradients, using
+                    const pooledGradValues = tf.mean(grads, [0, 1, 2]);
+                    // Scale the convolutional layer's output by the pooled gradients, using
                     // broadcasting.
                     const scaledConvOutputValues =
-                        lastConvLayerOutputValues.mul(pooledGradValues);
+                        last_conv_layer_output.mul(pooledGradValues);
 
                     // Create heat map by averaging and collapsing over all filters.
                     let heatMap = scaledConvOutputValues.mean(-1);
@@ -108,6 +83,7 @@ const loadModel = async (modelJsonPath, imagePreprocessor) => {
 
                     // To form the final output, overlay the color heat map on the input image.
                     heatMap = heatMap.mul(overlayFactor).add(input.div(255));
+                    console.log(heatMap);
                     return heatMap.div(heatMap.max()).mul(255);
                 });
             }
