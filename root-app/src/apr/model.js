@@ -49,7 +49,7 @@ const loadModel = async (modelJsonPath, imagePreprocessor) => {
              * Input: HTMLImageElement of dimensions 224x224
              * Output: Array[6] of 224x224 canvas elements rendering saliency maps
              */
-            let input = await imageToTensor(image);
+            let input = await imageToTensor(image, imagePreprocessor);
             let res = new Array(6);
 
             for (let i = 0; i < 6; i++) {
