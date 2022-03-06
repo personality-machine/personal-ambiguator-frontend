@@ -7,15 +7,18 @@ const imageToTensor = async (image, imagePreprocessor = null) => {
      * Output: tf.Tensor4D[1, 224, 224, 3] (RGB, floats range [0, 255])
      */
     let input = await tf.browser.fromPixelsAsync(image);
-    input = input
-        .resizeBilinear([224, 224])
-        .cast('float32')
-        .reshape([1, 224, 224, 3]);
     
-    return imagePreprocessor == null ? input: imagePreprocessor(input);
+    return tf.tidy(() => {
+        let result = input
+            .resizeBilinear([224, 224])
+            .cast('float32')
+            .reshape([1, 224, 224, 3]);
+        tf.dispose(input);
+        return imagePreprocessor == null ? result: imagePreprocessor(result);
+    });
 }
 
-const constructGradCamModels = (model) => {
+const constructGradCamModels = (model) => tf.tidy(() => {
     let input1 = tf.input({ shape: [224,224,3] });
     let output1 = model.layers[1].apply(input1);
     
@@ -26,14 +29,15 @@ const constructGradCamModels = (model) => {
         tf.model({inputs: input1, outputs: output1}),
         tf.model({inputs: input2, outputs: output2}),
     ];
-}
+});
 
 const loadModel = async (modelJsonPath, imagePreprocessor) => {
     console.log("Load model");
     const model = await tf.loadLayersModel(modelJsonPath);
     console.log("Model loaded");
 
-    const [model_prefix, model_suffix] = constructGradCamModels(model);
+    const [model_prefix, model_suffix] = tf.tidy(() => constructGradCamModels(model));
+    window.tf = tf;
 
     return {
         predict: async (image) => {
@@ -42,7 +46,10 @@ const loadModel = async (modelJsonPath, imagePreprocessor) => {
              * Output: Array[6] of floats
              */
             let input = await imageToTensor(image, imagePreprocessor);
-            return model.predict(input).array();
+            let result = model.predict(input);
+            let arr = result.array();
+            tf.dispose([input, result]);
+            return arr;
         },
         grad: async (image, overlayFactor = 2.0) => {
             /**
@@ -87,7 +94,7 @@ const loadModel = async (modelJsonPath, imagePreprocessor) => {
                     return heatMap.div(heatMap.max()).mul(255);
                 });
             }
-
+            tf.dispose(input);
             return res;
         }
     }
