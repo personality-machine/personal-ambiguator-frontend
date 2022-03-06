@@ -183,7 +183,7 @@ const App = () => {
         <Grid item xs={1}/>
         <Grid item xs={4}>
         {liveUpdateFlag ?
-          <Recorder setImgSrc={setImgSrc} oriOcean={oriOcean} setOriOcean={setOriOcean} liveUpdateFlag={liveUpdateFlag} setLiveUpdateFlag={setLiveUpdateFlag} model={model} />
+          <Recorder setImgSrc={setImgSrc} setOriOcean={setOriOcean} liveUpdateFlag={liveUpdateFlag} model={model} />
           : <Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} saliencySrc={saliencySrc} />}
         </Grid>
         <Grid item xs='auto'/>
