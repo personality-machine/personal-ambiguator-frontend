@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 
 import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 
 import Webcam from 'react-webcam';
 
@@ -14,33 +12,13 @@ import './Recorder.css';
 const SUCCESS_DELAY_MS = 50;
 const FAILURE_DELAY_MS = 500;
 
-const Recorder = ({ setImgSrc, oriOcean, setOriOcean, liveUpdateFlag, setLiveUpdateFlag, model }) => {
+const Recorder = ({ setImgSrc, setOriOcean, liveUpdateFlag, model }) => {
 
-  const webcamRef = React.useRef(null); // persistent reference cause no rerendering
+  const webcamRef = React.useRef(null);
   const [time, setTime] = React.useState(null);
 
   const videoConstraints = {
-    // width: 224,
-    // height: 224,
     aspectRatio: { exact: 1 },
-  }
-
-  const style = {
-    recordButton: {
-      width: '100%', height: '100%',
-      //padding: 0,
-    },
-    recordIcon: {
-      width: '100%', height: '100%',
-      color: '#000000'
-    },
-    normalButton: {
-      color: '#ffffff',
-      backgroundColor: '#000000',
-      fontFamily: 'courier new',
-      marginTop: 10,
-      marginBottom: 10,
-    }
   }
 
 
