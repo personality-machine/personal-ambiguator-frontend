@@ -11,20 +11,20 @@ const imageToTensor = async (image, imagePreprocessor = null) => {
         .resizeBilinear([224, 224])
         .cast('float32')
         .reshape([1, 224, 224, 3]);
-    
-    return imagePreprocessor == null ? input: imagePreprocessor(input);
+
+    return imagePreprocessor == null ? input : imagePreprocessor(input);
 }
 
 const constructGradCamModels = (model) => {
-    let input1 = tf.input({ shape: [224,224,3] });
+    let input1 = tf.input({ shape: [224, 224, 3] });
     let output1 = model.layers[1].apply(input1);
-    
+
     let input2 = tf.input({ shape: output1.shape.slice(1) });
     let output2 = model.layers[2].apply(input2);
 
     return [
-        tf.model({inputs: input1, outputs: output1}),
-        tf.model({inputs: input2, outputs: output2}),
+        tf.model({ inputs: input1, outputs: output1 }),
+        tf.model({ inputs: input2, outputs: output2 }),
     ];
 }
 
@@ -44,16 +44,16 @@ const loadModel = async (modelJsonPath, imagePreprocessor) => {
             let input = await imageToTensor(image, imagePreprocessor);
             return model.predict(input).array();
         },
-        grad: async (image, overlayFactor = 2.0) => {
+        grad: async (image) => {
             /**
              * Input: HTMLImageElement of dimensions 224x224
              * Output: Array[6] of 224x224 canvas elements rendering saliency maps
              */
             let input = await imageToTensor(image);
             let res = new Array(6);
-            
+
             for (let i = 0; i < 6; i++) {
-                res[i] = tf.tidy(() => {
+                let resTensor = tf.tidy(() => {
                     let last_conv_layer_output = model_prefix.apply(input);
                     let grads = tf.grad((x) => model_suffix.apply(x).gather([i], 1))(last_conv_layer_output);
 
@@ -76,18 +76,19 @@ const loadModel = async (modelJsonPath, imagePreprocessor) => {
                     // Up-sample the heat map to the size of the input image.
                     heatMap = tf.image.resizeBilinear(heatMap, [input.shape[1], input.shape[2]]);
 
-                    // Apply an RGB colormap on the heatMap. This step is necessary because
-                    // the heatMap is a 1-channel (grayscale) image. It needs to be converted
-                    // into a color (RGB) one through this function call.
-                    heatMap = applyColorMap(heatMap);
+                    // Apply an RGB colormap on the heatMap. 
+                    heatMap = applyColorMap(heatMap).reshape([224, 224, 3]);
 
-                    // To form the final output, overlay the color heat map on the input image.
-                    heatMap = heatMap.mul(overlayFactor).add(input.div(255));
-                    console.log(heatMap);
-                    return heatMap.div(heatMap.max()).mul(255);
+                    return heatMap;
                 });
+                // convert tensor to image
+                const canvas = document.createElement('canvas');
+                canvas.width = resTensor.width
+                canvas.height = resTensor.height
+                await tf.browser.toPixels(resTensor, canvas);
+                res[i] = canvas.toDataURL();
+                tf.dispose(resTensor);
             }
-
             return res;
         }
     }
