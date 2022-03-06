@@ -14,12 +14,10 @@ const FAILURE_DELAY_MS = 500;
 
 const Recorder = ({ setImgSrc, setOriOcean, liveUpdateFlag, model }) => {
 
-  const webcamRef = React.useRef(null); // persistent reference cause no rerendering
+  const webcamRef = React.useRef(null);
   const [time, setTime] = React.useState(null);
 
   const videoConstraints = {
-    // width: 224,
-    // height: 224,
     aspectRatio: { exact: 1 },
   }
 
