@@ -11,7 +11,7 @@ const Display = ({contrast, brightness, saturate, imgSrc, saliencySrc}) => {
     return (
       <Grid container>
         {imgSrc &&
-        (<div id="image-node">
+        (<div>
           <img
             id="ori-image"
             src={imgSrc}

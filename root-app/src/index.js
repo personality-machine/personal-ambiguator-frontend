@@ -121,7 +121,7 @@ const App = () => {
   const convertToJpeg = () => {
     setEvaluating(true);
     setSaliencySrc(null);
-    let node = document.getElementById('image-node');
+    let node = document.getElementById('ori-image');
     domtoimage.toJpeg(node).then(async function (cssImgSrc) {
       setCssImgSrc(cssImgSrc);
       let image = await loadImage(cssImgSrc);
