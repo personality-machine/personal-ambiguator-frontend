@@ -22,7 +22,8 @@ import { resnetPreprocessor } from './apr/preprocessors';
 
 import './index.css';
 
-const MODEL_JSON_PATH = 'no_randomcrop/model.json';
+const MODEL_JSON_PATH = 'mobilenet/model.json';
+//const MODEL_JSON_PATH = 'no_randomcrop/model.json';
 const MODEL_PREPROCESSOR = resnetPreprocessor;
 
 const App = () => {
@@ -43,58 +44,9 @@ const App = () => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState({});
 
-  const oriListPattern = [
-    {
-      id: 1,
-      url: ""
-    },
-    {
-      id: 2,
-      url: ""
-    },
-    {
-      id: 3,
-      url: ""
-    },
-    {
-      id: 4,
-      url: ""
-    },
-    {
-      id: 5,
-      url: ""
-    },
-    {
-      id: 6,
-      url: ""
-    }
-  ]
-  const afterListPattern = [
-    {
-      id: 7,
-      url: ""
-    },
-    {
-      id: 8,
-      url: ""
-    },
-    {
-      id: 9,
-      url: ""
-    },
-    {
-      id: 10,
-      url: ""
-    },
-    {
-      id: 11,
-      url: ""
-    },
-    {
-      id: 12,
-      url: ""
-    }
-  ]
+  const oriListPattern = [...Array(6).keys()].map(x => {return {id: x+1, url: ""}});
+  const afterListPattern = [...Array(6).keys()].map(x => {return {id: x+7, url: ""}});
+
   // original saliency url, [oriUrlO, oriUrlC, oriUrlE, oriUrlA, oriUrlN]
   const [oriArr, setOriArr] = React.useState(oriListPattern);
   // after saliency url, [aftUrlO, aftUrlC, aftUrlE, aftUrlA, aftUrlN]
@@ -121,7 +73,7 @@ const App = () => {
   const convertToJpeg = () => {
     setEvaluating(true);
     setSaliencySrc(null);
-    let node = document.getElementById('image-node');
+    let node = document.getElementById('ori-image');
     domtoimage.toJpeg(node).then(async function (cssImgSrc) {
       setCssImgSrc(cssImgSrc);
       let image = await loadImage(cssImgSrc);
@@ -155,35 +107,43 @@ const App = () => {
   };
 
   const style = {
+    topButton: {
+      color: '#ffffff',
+      backgroundColor: '#000000',
+      fontFamily: 'monospace',
+      marginTop: 30,
+      marginBottom: 10
+    },
     normalButton: {
       color: '#ffffff',
       backgroundColor: '#000000',
       fontFamily: 'monospace',
-      marginTop: 5
+      marginTop: 5,
+      marginBottom: 10
     },
     typography: {
       color: '#000000',
       fontFamily: 'monospace'
     },
     grid: {
-      marginTop: 10,
+      marginTop: 5,
     }
   }
 
   // initialise model
   useEffect(() => {
-    loadModel(MODEL_JSON_PATH, MODEL_PREPROCESSOR).then(setModel);
+		  loadModel(MODEL_JSON_PATH, MODEL_PREPROCESSOR).then(setModel);
   }, []);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Navigation/>
-      <Grid container spacing={3} style={style.grid}>
+      <Grid container spacing={1} style={style.grid}>
         {/* recorder and chart*/}
         <Grid item xs={1}/>
         <Grid item xs={4}>
         {liveUpdateFlag ?
-          <Recorder setImgSrc={setImgSrc} oriOcean={oriOcean} setOriOcean={setOriOcean} liveUpdateFlag={liveUpdateFlag} setLiveUpdateFlag={setLiveUpdateFlag} model={model} />
+          <Recorder setImgSrc={setImgSrc} setOriOcean={setOriOcean} liveUpdateFlag={liveUpdateFlag} model={model} />
           : <Display contrast={contrast} brightness={brightness} saturate={saturate} imgSrc={imgSrc} saliencySrc={saliencySrc} />}
         </Grid>
         <Grid item xs='auto'/>
@@ -194,8 +154,8 @@ const App = () => {
         <Grid item xs={1} />
         <Grid item xs={4} >
         {liveUpdateFlag ?
-          <Button onClick={() => { setLiveUpdateFlag(false); setActiveStep(1); handleComplete(0)}} style={style.normalButton}>Pause</Button>
-          : (<div><Button style={style.normalButton} onClick={handleRecordAgain}>Live Mode</Button>
+          <Button onClick={() => { setLiveUpdateFlag(false); setActiveStep(1); handleComplete(0)}} style={style.topButton}>Pause</Button>
+          : (<div><Button style={style.topButton} onClick={handleRecordAgain}>Live Mode</Button>
             <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate} evaluating={evaluating} contrast={contrast} brightness={brightness} saturate={saturate} setSaliencySrc={setSaliencySrc} setDatasetIndex={setDatasetIndex} setIndex={setIndex} />
             <Stack spacing={2} direction="row" justifyContent="center">
               <Button style={style.normalButton} onClick={() => {convertToJpeg();setActiveStep(2); handleComplete(1)}}>Evaluate</Button>

@@ -1,22 +1,44 @@
 import * as tf from '@tensorflow/tfjs';
+import { applyColorMap } from './utils';
 
-const imageToTensor = async (image, imagePreprocessor) => {
+const imageToTensor = async (image, imagePreprocessor = null) => {
     /**
      * Input: HTMLImageElement (ideally square dims)
      * Output: tf.Tensor4D[1, 224, 224, 3] (RGB, floats range [0, 255])
      */
     let input = await tf.browser.fromPixelsAsync(image);
-    input = input
-        .resizeBilinear([224, 224])
-        .cast('float32')
-        .reshape([1, 224, 224, 3]);
-    return imagePreprocessor(input);
+    
+    return tf.tidy(() => {
+        let result = input
+            .resizeBilinear([224, 224])
+            .cast('float32')
+            .reshape([1, 224, 224, 3]);
+        tf.dispose(input);
+        return imagePreprocessor == null ? result: imagePreprocessor(result);
+    });
 }
+
+const constructGradCamModels = (model) => tf.tidy(() => {
+    let input1 = tf.input({ shape: [224,224,3] });
+    let output1 = model.layers[1].apply(input1);
+
+    let input2 = tf.input({ shape: output1.shape.slice(1) });
+    let output2 = model.layers[2].apply(input2);
+
+    return [
+        tf.model({ inputs: input1, outputs: output1 }),
+        tf.model({ inputs: input2, outputs: output2 }),
+    ];
+});
 
 const loadModel = async (modelJsonPath, imagePreprocessor) => {
     console.log("Load model");
     const model = await tf.loadLayersModel(modelJsonPath);
     console.log("Model loaded");
+
+    const [model_prefix, model_suffix] = tf.tidy(() => constructGradCamModels(model));
+    window.tf = tf;
+
     return {
         predict: async (image) => {
             /**
@@ -24,7 +46,10 @@ const loadModel = async (modelJsonPath, imagePreprocessor) => {
              * Output: Array[6] of floats
              */
             let input = await imageToTensor(image, imagePreprocessor);
-            return model.predict(input).array();
+            let result = model.predict(input);
+            let arr = result.array();
+            tf.dispose([input, result]);
+            return arr;
         },
         grad: async (image) => {
             /**
@@ -35,24 +60,44 @@ const loadModel = async (modelJsonPath, imagePreprocessor) => {
             let res = new Array(6);
 
             for (let i = 0; i < 6; i++) {
-                // calculate gradient
-                let grad_wrt_i = tf.grad(x => model.predict(x).slice([0, i], [1, 1]));
-                var result = grad_wrt_i(input);
+                let resTensor = tf.tidy(() => {
+                    let last_conv_layer_output = model_prefix.apply(input);
+                    let grads = tf.grad((x) => model_suffix.apply(x).gather([i], 1))(last_conv_layer_output);
 
-                // normalise data
-                const max = result.max();
-                const min = result.min();
-                result = result.sub(min).div(max.sub(min));
+                    // Pool the gradient values within each filter of the last convolutional
+                    // layer, resulting in a tensor of shape [numFilters].
+                    const pooledGradValues = tf.mean(grads, [0, 1, 2]);
+                    
+                    // Scale the convolutional layer's output by the pooled gradients, using
+                    // broadcasting.
+                    const scaledConvOutputValues =
+                        last_conv_layer_output.mul(pooledGradValues);
 
+                    // Create heat map by averaging and collapsing over all filters.
+                    let heatMap = scaledConvOutputValues.mean(-1);
+
+                    // Discard negative values from the heat map and normalize it to the [0, 1]
+                    // interval.
+                    heatMap = heatMap.relu();
+                    heatMap = heatMap.div(heatMap.max()).expandDims(-1);
+
+                    // Up-sample the heat map to the size of the input image.
+                    heatMap = tf.image.resizeBilinear(heatMap, [input.shape[1], input.shape[2]]);
+
+                    // Apply an RGB colormap on the heatMap. 
+                    heatMap = applyColorMap(heatMap).reshape([224, 224, 3]);
+
+                    return heatMap;
+                });
                 // convert tensor to image
-                const resTensor = tf.tensor(result.arraySync()[0]);
                 const canvas = document.createElement('canvas');
                 canvas.width = resTensor.width
                 canvas.height = resTensor.height
                 await tf.browser.toPixels(resTensor, canvas);
-                const dataUrl = canvas.toDataURL();
-                res[i] = dataUrl;
+                res[i] = canvas.toDataURL();
+                tf.dispose(resTensor);
             }
+            tf.dispose(input);
             return res;
         }
     }
