@@ -21,7 +21,7 @@ const steps = ['Stop live updating',
                'Re-adjust parameters'];
 const content = ['The machine is updating the scores live from the webcam! Click `PAUSE` to stop.', 
                  'See how the filters affect the image and then click `EVALUATE` to see how they affect the scores given by the Personality Machine.', 
-                 'The personality machine is evaluating your scores! Click and wait until saliency map appears', 
+                 'The personality machine is evaluating your scores! Click on graph data points and wait until the saliency map for that score appears', 
                  'If you want to go back to adjusting parameters, click the `ADJUST PARAMS` button. If you want to go back to live mode, click `LIVE MODE`.'];
 
 const HorizontalNonLinearStepper = ({activeStep, setActiveStep, completed, setCompleted}) => {
