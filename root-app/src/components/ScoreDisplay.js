@@ -29,6 +29,21 @@ ChartJS.defaults.font.family = 'monospace';
 ChartJS.defaults.font.weight = 'bold';
 
 const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriArr, setOriArr, afterArr, setAfterArr, datasetIndex, setDatasetIndex, index, setIndex, model, liveUpdateFlag}) => {
+  const plugins = [{
+    beforeDraw: function(chart) {
+      const ctx = chart.ctx;
+      const canvas = chart.canvas;
+      const chartArea = chart.chartArea;
+  
+      // Chart background
+      var gradientBack = canvas.getContext("2d").createLinearGradient(255, 255, 255, 1);
+      gradientBack.addColorStop(0, "rgba(255,255,255,1)");
+  
+      ctx.fillStyle = gradientBack;
+      ctx.fillRect(chartArea.left, chartArea.bottom,
+      chartArea.right - chartArea.left, chartArea.top - chartArea.bottom);
+    }
+  }];
   const options = {
     responsive: true,
     color: '#000000',
@@ -135,7 +150,7 @@ const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriAr
   })
   
   return(
-    <Line ref={chartRef} options={options} data={data} onClick={onClickChart}/>
+    <Line ref={chartRef} options={options} plugins={plugins} data={data} onClick={onClickChart}/>
   );
 
 };
