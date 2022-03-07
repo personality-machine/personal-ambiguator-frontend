@@ -18,7 +18,7 @@ const steps = ['Stop live updating',
                'Re-adjust parameters'];
 const content = ['The machine is updating the scores live from the webcam! Click `PAUSE` to stop.', 
                  'See how the filters affect the image and then click `EVALUATE` to see how they affect the scores.', 
-                 'Click on a data point and wait until the saliency map appears.', 
+                 'Click on a data point and wait until the saliency map for that score appears.', 
                  'Click `ADJUST PARAMS` to go back to adjusting parameters. Click `LIVE MODE` to go back to live mode.'];
 
 const useStyles = makeStyles((theme) => ({

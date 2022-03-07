@@ -72,10 +72,16 @@ const ToolBlock = () => {
       <p>
 
         But using our tool, you can see for yourself how your personality score
-        changes when you alter the lighting, put on a pair of glasses and add a
-        bookshelf to your background. You can see which parts of your face the
-        AI thinks are most revealing of your personality. And you can decide
-        for yourself if you think it works.
+        changes when you alter the lighting, put on a pair of glasses or apply
+        artificial filters to your image. You can see which parts of your face
+        the AI thinks are most revealing of your personality. And you can
+        decide for yourself if you think it works.
+
+      </p>
+
+      <p align='center'>
+
+        <i>! All data is processed locally and deleted once you exit the tab !</i>
 
       </p>
 
