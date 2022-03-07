@@ -16,32 +16,33 @@ import {
     BiasesBlock
   } from './TextBlocks';
 
+const useStyles = makeStyles((theme) => ({
+  toolbar: {
+    backgroundColor: "#194f9c"
+  },
+  navlinks: {
+    marginRight: theme.spacing(10),
+    display: "flex",
+  },
+  logo: {
+    marginLeft: theme.spacing(5),
+    fontFamily: "monospace",
+  },
+  link: {
+    textDecoration: "none",
+    color: "white",
+    fontSize: "1.3rem",
+    fontFamily: "monospace",
+    cursor: "pointer",
+    marginLeft: theme.spacing(5),
+    "&:hover": {
+      color: "#a8f7cc",
+      borderBottom: "1px solid #57c287",
+    },
+  },
+}));
+
 const Navigation = () => {
-  const useStyles = makeStyles((theme) => ({
-    toolbar: {
-      backgroundColor: "#194f9c"
-    },
-    navlinks: {
-      marginRight: theme.spacing(10),
-      display: "flex",
-    },
-    logo: {
-      marginLeft: theme.spacing(5),
-      fontFamily: "monospace",
-    },
-    link: {
-      textDecoration: "none",
-      color: "white",
-      fontSize: "1.3rem",
-      fontFamily: "monospace",
-      cursor: "pointer",
-      marginLeft: theme.spacing(5),
-      "&:hover": {
-        color: "#a8f7cc",
-        borderBottom: "1px solid #57c287",
-      },
-    },
-  }));
   const classes = useStyles();
 
   const [introductionOpen, setIntroductionOpen] = React.useState(false);
