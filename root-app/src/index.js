@@ -22,7 +22,7 @@ import { resnetPreprocessor } from './apr/preprocessors';
 
 import './index.css';
 
-const MODEL_JSON_PATH = 'mobilenet/model.json';
+const MODEL_JSON_PATH = 'no_randomcrop/model.json';
 const MODEL_PREPROCESSOR = resnetPreprocessor;
 
 const App = () => {
