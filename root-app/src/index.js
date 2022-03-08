@@ -127,7 +127,7 @@ const App = () => {
       fontFamily: 'monospace'
     },
     grid: {
-      marginTop: 5,
+      marginTop: 30,
     }
   }
 
