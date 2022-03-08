@@ -21,94 +21,78 @@ const content = ['The machine is updating the scores live from the webcam! Click
                  'Click on a data point and wait until the saliency map for that score appears.', 
                  'Click `ADJUST PARAMS` to go back to adjusting parameters. Click `LIVE MODE` to go back to live mode.'];
 
-const HorizontalNonLinearStepper = ({activeStep, setActiveStep, completed, setCompleted}) => {
-  const useStyles = makeStyles((theme) => ({
-    step: {
-      backgroundColor: alpha('rgb(25, 79, 156)', 0.0),
-      marginLeft: 10,
-    },
-    steplabel: {
-      fontFamily: 'monospace',
-    },
-    steptext: {
-      color: '#f8f8f2',
-      backgroundColor: alpha('rgb(25, 79, 156)', 0.7),
-      fontFamily: 'monospace',
-      fontSize: '1.2rem',
-      border: '2px solid rgb(25, 79, 156)',
-      borderRadius: '5px',
-      padding: '5px',
-      marginLeft: 35,
-    },
-    button: {
-      color: '#f8f8f2',
+const useStyles = makeStyles((theme) => ({
+  step: {
+    backgroundColor: alpha('rgb(25, 79, 156)', 0.0),
+    marginLeft: 10,
+  },
+  steplabel: {
+    fontFamily: 'monospace',
+  },
+  steptext: {
+    color: '#f8f8f2',
+    backgroundColor: alpha('rgb(25, 79, 156)', 0.7),
+    fontFamily: 'monospace',
+    fontSize: '1.2rem',
+    border: '2px solid rgb(25, 79, 156)',
+    borderRadius: '5px',
+    padding: '5px',
+    marginLeft: 35,
+  },
+  button: {
+    color: '#f8f8f2',
+    backgroundColor: '#000000',
+    fontFamily: 'monospace',
+    "&:hover": {
       backgroundColor: '#000000',
-      fontFamily: 'monospace',
-      "&:hover": {
-        backgroundColor: '#000000',
-      },
-      "&:disabled": {
-        backgroundColor: '#888888',
-      },
-      marginBottom: 10,
-      marginLeft: 35
     },
-    feedback: {
-      color: '#000000',
-      fontFamily: 'monospace',
+    "&:disabled": {
+      backgroundColor: '#888888',
     },
-  }));
+    marginBottom: 10,
+    marginLeft: 35
+  },
+  feedback: {
+    color: '#000000',
+    fontFamily: 'monospace',
+  },
+}));
+
+const QontoStepIconRoot = styled('div')(({ theme, ownerState }) => ({
+  color: alpha('rgb(25, 79, 156)', 0.2),
+  display: 'flex',
+  height: 22,
+  alignItems: 'center',
+  ...(ownerState.active && {
+    color: '#194f9c',
+  }),
+  '& .QontoStepIcon-completedIcon': {
+    color: '#4f8467',
+    zIndex: 1,
+    fontSize: 25,
+  },
+  '& .QontoStepIcon-circle': {
+    width: 15,
+    height: 15,
+    borderRadius: '50%',
+    backgroundColor: 'currentColor',
+  },
+}));
+
+const QontoStepIcon = ({ active, completed, className }) => {
+  return (
+    <QontoStepIconRoot ownerState={{ active }} className={className}>
+      {completed ? (
+        <Check className="QontoStepIcon-completedIcon" />
+      ) : (
+        <div className="QontoStepIcon-circle" />
+      )}
+    </QontoStepIconRoot>
+  );
+};
+
+const HorizontalNonLinearStepper = ({activeStep, setActiveStep, completed, setCompleted}) => {
   const classes = useStyles();
-
-  const QontoStepIconRoot = styled('div')(({ theme, ownerState }) => ({
-    color: alpha('rgb(25, 79, 156)', 0.2),
-    display: 'flex',
-    height: 22,
-    alignItems: 'center',
-    ...(ownerState.active && {
-      color: '#194f9c',
-    }),
-    '& .QontoStepIcon-completedIcon': {
-      color: '#4f8467',
-      zIndex: 1,
-      fontSize: 25,
-    },
-    '& .QontoStepIcon-circle': {
-      width: 15,
-      height: 15,
-      borderRadius: '50%',
-      backgroundColor: 'currentColor',
-    },
-  }));
-  
-  function QontoStepIcon(props) {
-    const { active, completed, className } = props;
-  
-    return (
-      <QontoStepIconRoot ownerState={{ active }} className={className}>
-        {completed ? (
-          <Check className="QontoStepIcon-completedIcon" />
-        ) : (
-          <div className="QontoStepIcon-circle" />
-        )}
-      </QontoStepIconRoot>
-    );
-  }
-  
-  QontoStepIcon.propTypes = {
-    /**
-     * Whether this step is active.
-     * @default false
-     */
-    active: PropTypes.bool,
-    className: PropTypes.string,
-    /**
-     * Mark the step as completed. Is passed to child components.
-     * @default false
-     */
-    completed: PropTypes.bool,
-  };
-
 
   const totalSteps = () => {
     return steps.length;
