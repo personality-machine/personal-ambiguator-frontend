@@ -19,7 +19,8 @@ import {
 const Navigation = () => {
   const useStyles = makeStyles((theme) => ({
     toolbar: {
-      backgroundColor: "#194f9c"
+      backgroundColor: "#194f9c",
+      height:80
     },
     navlinks: {
       marginRight: theme.spacing(10),
