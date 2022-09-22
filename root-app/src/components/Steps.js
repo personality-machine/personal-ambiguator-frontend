@@ -16,10 +16,10 @@ const steps = ['Stop live updating',
                'Adjust parameters and evaluate', 
                'Saliency maps',
                'Re-adjust parameters'];
-const content = ['The machine is updating the scores live from the webcam! Click `PAUSE` to stop.', 
-                 'See how the filters affect the image and then click `EVALUATE` to see how they affect the scores.', 
+const content = ['The machine is updating the scores live from the webcam! Click `EDIT IMAGE` to stop.', 
+                 'See how the edits affect the image and then click `EVALUATE` to see how they affect the scores.', 
                  'Click on a data point and wait until the saliency map for that score appears.', 
-                 'Click `ADJUST PARAMS` to go back to adjusting parameters. Click `LIVE MODE` to go back to live mode.'];
+                 'Click `EDIT IMAGE` to go back to adjusting parameters or `LIVE MODE` to start again.'];
 
 const useStyles = makeStyles((theme) => ({
   step: {
@@ -135,11 +135,6 @@ const HorizontalNonLinearStepper = ({activeStep, setActiveStep, completed, setCo
     handleNext();
   };
 
-  const handleReset = () => {
-    setActiveStep(0);
-    setCompleted({});
-  };
-
   return (
     <Box sx={{ width: '100%' }}>
       <Stepper nonLinear activeStep={activeStep} className={classes.step}>
@@ -153,16 +148,24 @@ const HorizontalNonLinearStepper = ({activeStep, setActiveStep, completed, setCo
         ))}
       </Stepper>
       <div>
-        {allStepsCompleted() ? (
+        {activeStep === totalSteps() ? (
           <React.Fragment>
             <Typography className={classes.steptext} sx={{ mt: 2, mb: 1 }}>
-              You understand how the app works now! Feel free to play around or
-              click 'RESET' to review the instructions.
+              You understand how the app works now! Feel free to play around or navigate back to review the instructions.
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+              <Button
+                className={classes.button}
+                disabled={activeStep === 0}
+                onClick={handleBack}
+              >
+                Back
+              </Button>
+              {/*
               <Box sx={{ flex: '1 1 auto' }} />
               <Button className={classes.button} onClick={handleReset}>Reset</Button>
               <Box sx={{ flex: '1 1 auto' }} />
+              */}
             </Box>
           </React.Fragment>
         ) : (
@@ -185,16 +188,19 @@ const HorizontalNonLinearStepper = ({activeStep, setActiveStep, completed, setCo
                 ) : (
                   <Button
                     onClick={handleComplete}
-                    className={classes.button}>
+                    className={classes.button}
+                    disabled={activeStep === 0 || activeStep === 1}
+                  >
                     {completedSteps() === totalSteps() - 1
                       ? 'Finish'
-                      : 'complete'}
+                      : 'Complete'}
                   </Button>
                 ))}
               <Box sx={{ flex: '1 1 auto' }}/>
               <Button 
                 className={classes.button}
                 onClick={handleNext}
+                disabled={!completed[activeStep] || isLastStep()}
               >
                 Next
               </Button>

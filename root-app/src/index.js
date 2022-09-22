@@ -107,6 +107,11 @@ const App = () => {
     setCompleted(newCompleted);
   };
 
+  const handleReset = () => {
+    setActiveStep(0);
+    setCompleted({}); 
+  };
+
   const style = {
     topButton: {
       color: '#ffffff',
@@ -155,12 +160,14 @@ const App = () => {
         <Grid item xs={1} />
         <Grid item xs={4} >
         {liveUpdateFlag ?
-          <Button onClick={() => { setLiveUpdateFlag(false); setActiveStep(1); handleComplete(0)}} style={style.topButton}>Pause</Button>
-          : (<div><Button style={style.topButton} onClick={handleRecordAgain}>Live Mode</Button>
+          <Button onClick={() => { setLiveUpdateFlag(false); setActiveStep(1); handleComplete(0)}} style={style.topButton}>Edit Image</Button>
+          : (<div><Button style={style.topButton} onClick={() => {handleRecordAgain(); handleReset()}}>Live Mode</Button>
             <Sliders setContrast={setContrast} setBrightness={setBrightness} setSaturate={setSaturate} evaluating={evaluating} contrast={contrast} brightness={brightness} saturate={saturate} setSaliencySrc={setSaliencySrc} setDatasetIndex={setDatasetIndex} setIndex={setIndex} />
             <Stack spacing={2} direction="row" justifyContent="center">
-              <Button style={style.normalButton} onClick={() => {convertToJpeg();setActiveStep(2); handleComplete(1)}}>Evaluate</Button>
-              <Button style={style.normalButton} onClick={handleAdjustParams}>Adjust params</Button>
+              {!evaluating
+                ? <Button style={style.normalButton} onClick={() => {convertToJpeg(); setActiveStep(2); handleComplete(1)}}>Evaluate</Button>
+                : <Button style={style.normalButton} onClick={handleAdjustParams}>Edit Image</Button>
+              }
             </Stack></div>)}
         </Grid>
         <Grid item xs='auto' />

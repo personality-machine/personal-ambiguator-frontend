@@ -69,10 +69,10 @@ const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriAr
       },
       title: {
         display: true,
-        text: 'Big 5 chart',
+        text: 'Hiring Based on the "Big 5" 5-factor model of personality',
         color: '#000000',
         font: {
-          size: 30,
+          size: 16,
         }
       },
     },
@@ -98,7 +98,7 @@ const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriAr
       },
       {
         type:'line',
-        label: 'after params',
+        label: 'after image edits',
         data: ocean,
         borderColor: 'rgb(79, 132, 103)',
         backgroundColor: 'rgba(79, 132, 103, 0.5)',
@@ -136,7 +136,7 @@ const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriAr
           }
           setSaliencySrc(oriArr[index].url);
           break;
-        case 'after params':
+        case 'after image edits':
           if (afterArr[index].url === ""){
             ModelEvaluate(cssImgSrc, 'after params', oriArr, {setOriArr}, afterArr, {setAfterArr}, model);
           }
