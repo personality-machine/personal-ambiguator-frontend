@@ -6,12 +6,12 @@ const popupStyle = {
   position: 'relative',
   top: '50%',
   left: '50%',
-  width: '80%',
+  width: '90%',
   transform: 'translate(-50%, -50%)',
   backgroundColor: alpha('rgb(5, 32, 71)', 0.9),
   color: '#f8f8f2',
   fontFamily: 'monospace',
-  fontSize: '1.3rem',
+  fontSize: '1.2rem',
   textAlign: 'left',
   border: '2px solid rgb(25, 79, 156)',
   borderRadius: '15px',
@@ -70,13 +70,39 @@ const ToolBlock = () => {
       </h3>
 
       <p>
+        We want to give people a visceral demonstration of the sorts of judgements 
+        that are now, within the hiring pipelines of certain companies, 
+        being made about them automatically.
+      </p>
 
-        But using our tool, you can see for yourself how your personality score
-        changes when you alter the lighting, put on a pair of glasses or apply
-        artificial filters to your image. You can see which parts of your face
-        the AI thinks are most revealing of your personality. And you can
-        decide for yourself if you think it works.
+      <p>
+      This hiring tool is a working prototype designed to demonstrate 
+      how AI hiring companies are creating tools that claim to identify 
+      personality, but in reality are identifying unrelated visual cues 
+      which are then taken as evidence of Big Five personality schema. 
+      You can see for yourself how your personality score changes when 
+      you alter the lighting.
+      </p>
 
+      <p>
+      This model is the first generation version and will evolve over time 
+      to best reflect the hiring tools currently in use in the workforce 
+      right now. As these tools are proprietary and very resource-intensive, 
+      we're using a small personality recognition model that you can play 
+      with in your browser -- although it is less powerful than the models 
+      used in industry, it should behave in a similar way.
+      </p>
+
+      <p>
+      Note: from examining industry recruiting tools, it's unclear whether 
+      personality analysis is performed on the basis of video or of still 
+      images. Indeed, AI hiring company Retorio's whitepaper suggests that 
+      its model was assessed for fairness on the basis of the FairFace dataset 
+      (which consists of still images), and based on this we're using a model 
+      running on still images rather than video. However, we plan to eventually 
+      design and launch a version based on video recognition software, to better 
+      map against the kinds of cutting-edge tools on the market today. If you have 
+      any questions or feedback please direct these to ed575@cam.ac.uk or kam83@cam.ac.uk
       </p>
 
       <p align='center'>
