@@ -64,7 +64,7 @@ const Recorder = ({ setImgSrc, setOriOcean, liveUpdateFlag, model }) => {
             width="100%"
             videoConstraints={videoConstraints}
           />
-          <img src="./face_outline.png" className="overlay-container" />
+          <img src="./face_outline_large.png" className="overlay-container" />
         </Grid>
       </Grid>
   );
