@@ -79,7 +79,7 @@ const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriAr
   };
 
   const labels = ['Openness', 'Conscientiousness', 'Extroversion',
-                  'Agreeableness', 'Neuroticism', 'Invite to interview'];
+                  'Agreeableness', 'Neuroticism'];
 
   const data = {
     labels,
