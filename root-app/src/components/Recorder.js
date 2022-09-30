@@ -6,7 +6,6 @@ import Webcam from 'react-webcam';
 
 import {loadImage} from '../apr/utils';
 
-
 import './Recorder.css';
 
 const SUCCESS_DELAY_MS = 50;
@@ -20,8 +19,6 @@ const Recorder = ({ setImgSrc, setOriOcean, liveUpdateFlag, model }) => {
   const videoConstraints = {
     aspectRatio: { exact: 1 },
   }
-
-
   const update = async () => {
     const imgSrc = webcamRef.current.getScreenshot();
     if (imgSrc === null) return false; 
@@ -55,9 +52,8 @@ const Recorder = ({ setImgSrc, setOriOcean, liveUpdateFlag, model }) => {
     });
   }, [liveUpdateFlag, time, model]);
 
-
   return (
-      <Grid className="webcam-container" container spacing={2} alignItems="center" justifyContent="center">
+      <Grid className="webcam-container" container>
         <Grid item xs={12} justifyContent="center">
           <Webcam
             mirrored
@@ -68,6 +64,7 @@ const Recorder = ({ setImgSrc, setOriOcean, liveUpdateFlag, model }) => {
             width="100%"
             videoConstraints={videoConstraints}
           />
+          <img src="./face_outline.png" className="overlay-container" />
         </Grid>
       </Grid>
   );
