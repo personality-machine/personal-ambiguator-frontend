@@ -14,11 +14,9 @@ import Check from '@mui/icons-material/Check';
 
 const steps = ['Stop live updating', 
                'Adjust parameters and evaluate', 
-               'Saliency maps',
                'Re-adjust parameters'];
 const content = ['The machine is updating the scores live from the webcam! Click `EDIT IMAGE` to stop.', 
                  'See how the edits affect the image and then click `EVALUATE` to see how they affect the scores.', 
-                 'Click on a data point and wait until the saliency map for that score appears.', 
                  'Click `EDIT IMAGE` to go back to adjusting parameters or `LIVE MODE` to start again.'];
 
 const useStyles = makeStyles((theme) => ({

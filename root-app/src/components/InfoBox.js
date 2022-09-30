@@ -72,9 +72,8 @@ const InfoBox = ({evaluating, liveUpdateFlag}) => {
         <SnackbarContent
           message={
 
-            'The personality machine is evaluating your scores! Once \
-            responsive, click on the data points above to see the different \
-            saliency maps. If you want to go back to adjusting parameters, \
+            'The personality machine is evaluating your scores!  \
+            If you want to go back to adjusting parameters, \
             click the button under the sliders that lets you do so!'
           }
           style={greenInfoStyle}/>

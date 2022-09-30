@@ -12,93 +12,32 @@ const imageToTensor = async (image, imagePreprocessor = null) => {
         let result = input
             .resizeBilinear([224, 224])
             .cast('float32')
-            .reshape([1, 224, 224, 3]);
+            .reshape([1, 224, 224, 3]);   
         tf.dispose(input);
-        return imagePreprocessor == null ? result: imagePreprocessor(result);
+        let processed = imagePreprocessor == null ? result: imagePreprocessor(result);
+        return processed.transpose([0, 3, 1, 2]);
     });
 }
 
-const constructGradCamModels = (model) => tf.tidy(() => {
-    let input1 = tf.input({ shape: [224,224,3] });
-    let output1 = model.layers[1].apply(input1);
-
-    let input2 = tf.input({ shape: output1.shape.slice(1) });
-    let output2 = model.layers[2].apply(input2);
-
-    return [
-        tf.model({ inputs: input1, outputs: output1 }),
-        tf.model({ inputs: input2, outputs: output2 }),
-    ];
-});
 
 const loadModel = async (modelJsonPath, imagePreprocessor) => {
     console.log("Load model");
-    const model = await tf.loadLayersModel(modelJsonPath);
+    const model = await tf.loadGraphModel(modelJsonPath);
     console.log("Model loaded");
 
-    const [model_prefix, model_suffix] = tf.tidy(() => constructGradCamModels(model));
     window.tf = tf;
 
     return {
         predict: async (image) => {
             /**
              * Input: HTMLImageElement of dimensions 224x224
-             * Output: Array[6] of floats
+             * Output: Array[5] of floats
              */
             let input = await imageToTensor(image, imagePreprocessor);
             let result = model.predict(input);
             let arr = result.array();
             tf.dispose([input, result]);
             return arr;
-        },
-        grad: async (image) => {
-            /**
-             * Input: HTMLImageElement of dimensions 224x224
-             * Output: Array[6] of 224x224 canvas elements rendering saliency maps
-             */
-            let input = await imageToTensor(image, imagePreprocessor);
-            let res = new Array(6);
-
-            for (let i = 0; i < 6; i++) {
-                let resTensor = tf.tidy(() => {
-                    let last_conv_layer_output = model_prefix.apply(input);
-                    let grads = tf.grad((x) => model_suffix.apply(x).gather([i], 1))(last_conv_layer_output);
-
-                    // Pool the gradient values within each filter of the last convolutional
-                    // layer, resulting in a tensor of shape [numFilters].
-                    const pooledGradValues = tf.mean(grads, [0, 1, 2]);
-                    
-                    // Scale the convolutional layer's output by the pooled gradients, using
-                    // broadcasting.
-                    const scaledConvOutputValues =
-                        last_conv_layer_output.mul(pooledGradValues);
-
-                    // Create heat map by averaging and collapsing over all filters.
-                    let heatMap = scaledConvOutputValues.mean(-1);
-
-                    // Discard negative values from the heat map and normalize it to the [0, 1]
-                    // interval.
-                    heatMap = heatMap.relu();
-                    heatMap = heatMap.div(heatMap.max()).expandDims(-1);
-
-                    // Up-sample the heat map to the size of the input image.
-                    heatMap = tf.image.resizeBilinear(heatMap, [input.shape[1], input.shape[2]]);
-
-                    // Apply an RGB colormap on the heatMap. 
-                    heatMap = applyColorMap(heatMap).reshape([224, 224, 3]);
-
-                    return heatMap;
-                });
-                // convert tensor to image
-                const canvas = document.createElement('canvas');
-                canvas.width = resTensor.width
-                canvas.height = resTensor.height
-                await tf.browser.toPixels(resTensor, canvas);
-                res[i] = canvas.toDataURL();
-                tf.dispose(resTensor);
-            }
-            tf.dispose(input);
-            return res;
         }
     }
 }
