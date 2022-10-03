@@ -19,7 +19,7 @@ import {loadImage} from './apr/utils';
 import { loadModel } from './apr/model';
 import { resnetPreprocessor } from './apr/preprocessors';
 
-
+import NormalDistribution from 'normal-distribution';
 import './index.css';
 
 
@@ -70,6 +70,7 @@ const App = () => {
     setLiveUpdateFlag(true);
   }
 
+  const normDist = new NormalDistribution(0, 1);
 
   const convertToJpeg = () => {
     setEvaluating(true);
@@ -80,8 +81,18 @@ const App = () => {
       let image = await loadImage(cssImgSrc);
       model.predict(image).then((arr) => {
         arr = arr[0];
+        // 1. mean and std based on the arr
+        // let mean = arr.reduce((a, b) => a + b, 0) / arr.length;
+        // let std = Math.sqrt(arr.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / arr.length);
+        // 2. mean = 0.572, std = 0.141, calc from datasets
+        // let mean = 0.572;
+        // let std = 0.141;
+        // 3. mean = 0.5, std = 0.141
+        let mean = 0.5;
+        let std = 0.141;
         for (var i = 0; i < arr.length; i++) {
-          arr[i] *= 10;
+          arr[i] = ((arr[i] - mean) / std);
+          arr[i] = normDist.cdf(arr[i]) * 100;
         }
         setOcean(arr);
       });
