@@ -23,7 +23,7 @@ import { resnetPreprocessor } from './apr/preprocessors';
 import './index.css';
 
 
-const MODEL_JSON_PATH = 'intermediate/model.json';
+const MODEL_JSON_PATH = 'new_model/model.json';
 
 const MODEL_PREPROCESSOR = resnetPreprocessor;
 
