@@ -7167,6 +7167,11 @@ node-releases@^2.0.1:
   resolved "https://registry.npmjs.org/node-releases/-/node-releases-2.0.2.tgz"
   integrity sha512-XxYDdcQ6eKqp/YjI+tb2C5WM2LgjnZrfYg4vgQt49EK268b6gYCHsBLrK2qvJo4FmCtqmKezb0WZFK4fkrZNsg==
 
+normal-distribution@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/normal-distribution/-/normal-distribution-1.1.1.tgz#e8e2e79a5b3453d6e02f3786ff1f592051531249"
+  integrity sha512-lyz7LXBhjiEdAw234zTz05EohshNCORpC0duBQeaKzZIeTE6oDfpcBocEXbZTFv3GkoiMPz9mhgUuv5mMc64uA==
+
 normalize-package-data@^3.0.2:
   version "3.0.3"
   resolved "https://registry.npmjs.org/normalize-package-data/-/normalize-package-data-3.0.3.tgz"

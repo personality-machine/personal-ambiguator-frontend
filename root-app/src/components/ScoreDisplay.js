@@ -50,7 +50,7 @@ const ScoreDisplay = ({ocean, oriOcean, setSaliencySrc, imgSrc, cssImgSrc, oriAr
     aspectRatio: 1.5,
     scales:{
       y: {
-        max: 10.0,
+        max: 100.0,
         min: 0,
         ticks:{
           stepSize: 1,
